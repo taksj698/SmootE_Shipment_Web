@@ -1,0 +1,27 @@
+
+.facebook-color {
+    background-color: #1877F2;
+}
+
+    .facebook-color:hover {
+        background-color: #0B58C1;
+    }
+
+
+
+.line-color {
+    background-color: #03C755;
+}
+
+    .line-color:hover {
+        background-color: #02A647;
+    }
+
+
+.gmail-color {
+    background-color: #DE4F3B;
+}
+
+    .gmail-color:hover {
+        background-color: #CE3722;
+    }
