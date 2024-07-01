@@ -8,52 +8,26 @@
 		</li>
 
 		<li class="nav-item">
-			<a class="nav-link " data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-				<i class="bi bi-gem"></i><span>Icons</span><i class="bi bi-chevron-down ms-auto"></i>
+			<a class="nav-link " data-bs-target="#list-nav" data-bs-toggle="collapse" href="#">
+				<i class="bi bi-gem"></i><span>รายการ</span><i class="bi bi-chevron-down ms-auto"></i>
 			</a>
-			<ul id="icons-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+			<ul id="list-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
 				<li>
-					<a href="icons-bootstrap.html">
-						<i class="bi bi-circle"></i><span>Bootstrap Icons</span>
+					<a href="@Url.Action("", "CreateList")">
+						<i class="bi bi-circle"></i><span>สร้างรายการ</span>
 					</a>
 				</li>
 				<li>
-					<a href="icons-remix.html">
-						<i class="bi bi-circle"></i><span>Remix Icons</span>
+					<a href="@Url.Action("", "Order")">
+						<i class="bi bi-circle"></i><span>การขนส่งและพัสดุ</span>
 					</a>
 				</li>
 				<li>
-					<a href="icons-boxicons.html" class="active">
-						<i class="bi bi-circle"></i><span>Boxicons</span>
+					<a href="@Url.Action("", "Shipment")">
+						<i class="bi bi-circle"></i><span>การจัดส่ง</span>
 					</a>
 				</li>
 			</ul>
 		</li>
-		<li class="nav-item">
-			<a class="nav-link collapsed" href="@Url.Action("", "WorkList")">
-				<i class="bi bi-grid"></i>
-				<span>WorkList</span>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link collapsed" href="@Url.Action("", "EProposal")">
-				<i class="bi bi-grid"></i>
-				<span>E-Proposal</span>
-			</a>
-		</li>
-
-		<li class="nav-item">
-			<a class="nav-link collapsed" href="@Url.Action("", "Register")">
-				<i class="bi bi-grid"></i>
-				<span>Register Fortest</span>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link collapsed" href="@Url.Action("", "Login")">
-				<i class="bi bi-grid"></i>
-				<span>Login Fortest</span>
-			</a>
-		</li>
-
 	</ul>
 </aside>
