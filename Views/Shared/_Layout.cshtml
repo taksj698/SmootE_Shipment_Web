@@ -71,6 +71,122 @@
                 });
             });
         });
+
+        var services = {};
+        var controller = {};
+        $(document).ready(function () {
+
+
+
+            $('.datatable-search input').addClass('form-control');
+
+
+
+            services.AjaxPostData = function (api, data, callback) {
+                $.ajax({
+                    url: api,
+                    type: 'POST',
+                    data: data,
+                    async: false,
+                    success: callback,
+                });
+            }
+            services.AjaxPostForm = function (api, form, callback) {
+                $.ajax({
+                    url: api,
+                    type: 'POST',
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    async: false,
+                    success: callback,
+                });
+            }
+            services.CustomAlert1 = function (response) {
+                Swal.fire({
+                    icon: response.type,
+                    html: response.message,
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    allowOutsideClick: false,
+                    confirmButtonText: 'ตกลง',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (response.url != undefined || response.url != null) {
+                            if (response.url == "reload") {
+                                location.reload();
+                            } else {
+                                var redir = window.location.protocol + "//" + window.location.host + "/" + response.url;
+                                window.location.href = redir;
+                            }
+
+                        }
+                    }
+                })
+            }
+            services.CustomTableBinding = function (eleid) {
+                $("#" + eleid).DataTable().destroy();
+                $("#" + eleid).dataTable({
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "paging": true,
+                    "pageLength": 10,
+                    "searching": true,
+                    "oLanguage": {
+                        "sSearch": "ค้นหา"
+                    },
+                    "bAutoWidth": false,
+                    "dom": 'Bfrtip',
+                    "buttons": [
+                        'copy', 'csv', 'excel', 'print'
+                    ]
+                });
+            }
+            services.CustomBinding = function (response, eleid) {
+                var val = $($.parseHTML(response)).find('#' + eleid).html();
+                $("#" + eleid).html(val);
+            }
+            services.ConfirmAlert = function (html, cfbtn, cfcolorbtn, clbtn, clcolorbtn, callback) {
+                if (html == undefined || html === "") {
+                    html = 'ยืนยันทำรายการ';
+                }
+                if (cfbtn == undefined || cfbtn === "") {
+                    cfbtn = 'ยืนยัน';
+                }
+                if (cfcolorbtn == undefined || cfcolorbtn === "") {
+                    cfcolorbtn = '#28B779';
+                }
+                if (clbtn == undefined || clbtn === "") {
+                    clbtn = 'ยกเลิก';
+                }
+                if (clcolorbtn == undefined || clcolorbtn === "") {
+                    clcolorbtn = '#DA542E';
+                }
+                Swal.fire({
+                    html: html,
+                    showConfirmButton: true,
+                    confirmButtonText: cfbtn,
+                    confirmButtonColor: cfcolorbtn,
+                    showCancelButton: true,
+                    cancelButtonText: clbtn,
+                    cancelButtonColor: clcolorbtn,
+                    allowOutsideClick: false,
+                }).then((callback))
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
     </script>
 </body>
 
