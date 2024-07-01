@@ -16,13 +16,13 @@
 
 				<a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
 					<img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" class="rounded-circle">
-					<span class="d-none d-md-block dropdown-toggle ps-2">@Model?.name</span>
+					<span class="d-none d-md-block dropdown-toggle ps-2">@* @Model?.name *@ประยุทธ์ จันทร์นะจ๊ะ</span>
 				</a>
 
 				<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 					<li class="dropdown-header">
-						<h6>@Model?.name</h6>
-						<span>@Model?.positionName</span>
+						<h6>@* @Model?.name *@ ประยุทธ์ จันทร์นะจ๊ะ</h6>
+						<span>@* @Model?.positionName *@นรกรัฐมนตรี</span>
 					</li>
 					<li>
 						<hr class="dropdown-divider">
@@ -58,7 +58,7 @@
 					<li>
 						<a class="dropdown-item d-flex align-items-center" href="@Url.Action("Logout", "Login")">
 							<i class="bi bi-box-arrow-right"></i>
-							<span>Sign Out</span>
+							<span>ออกจากระบบ</span>
 						</a>
 					</li>
 				</ul>
