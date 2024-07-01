@@ -2,29 +2,29 @@
 	<ul class="sidebar-nav" id="sidebar-nav">
 		<li class="nav-item">
 			<a class="nav-link collapsed" href="@Url.Action("", "Home")">
-				<i class="bi bi-grid"></i>
-				<span>Dashboard</span>
+				<i class="ri-home-2-fill icon-size"></i>
+				<span>รายงาน</span>
 			</a>
 		</li>
 
 		<li class="nav-item">
 			<a class="nav-link " data-bs-target="#list-nav" data-bs-toggle="collapse" href="#">
-				<i class="bi bi-gem"></i><span>รายการ</span><i class="bi bi-chevron-down ms-auto"></i>
+				<i class="ri-file-list-3-fill icon-size"></i><span>รายการ</span><i class="bi bi-chevron-down ms-auto"></i>
 			</a>
 			<ul id="list-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
 				<li>
 					<a href="@Url.Action("", "CreateList")">
-						<i class="bi bi-circle"></i><span>สร้างรายการ</span>
+						<i class="ri-dropbox-fill icon-size"></i><span>สร้างรายการ</span>
 					</a>
 				</li>
 				<li>
 					<a href="@Url.Action("", "Order")">
-						<i class="bi bi-circle"></i><span>การขนส่งและพัสดุ</span>
+						<i class="ri-inbox-archive-fill icon-size"></i><span>การขนส่งและพัสดุ</span>
 					</a>
 				</li>
 				<li>
 					<a href="@Url.Action("", "Shipment")">
-						<i class="bi bi-circle"></i><span>การจัดส่ง</span>
+						<i class="ri-rocket-fill icon-size"></i><span>การจัดส่ง</span>
 					</a>
 				</li>
 			</ul>
