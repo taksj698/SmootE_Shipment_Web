@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace SpeedTime.ControllerComponent
+namespace Document_Control.ControllerComponent
 {
 
 

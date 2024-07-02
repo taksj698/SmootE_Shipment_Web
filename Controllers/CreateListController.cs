@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace SpeedTime.Controllers
+namespace Document_Control.Controllers
 {
 	public class CreateListController : Controller
 	{

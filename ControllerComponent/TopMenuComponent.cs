@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace SpeedTime.ControllerComponent
+namespace Document_Control.ControllerComponent
 {
     public class TopMenuComponent : ViewComponent
     {

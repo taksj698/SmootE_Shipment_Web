@@ -1,8 +1,8 @@
+using Document_Control.Models;
 using Microsoft.AspNetCore.Mvc;
-using SpeedTime.Models;
 using System.Diagnostics;
 
-namespace SpeedTime.Controllers
+namespace Document_Control.Controllers
 {
     public class HomeController : Controller
     {

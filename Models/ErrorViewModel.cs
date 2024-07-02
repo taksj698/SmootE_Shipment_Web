@@ -1,4 +1,4 @@
-namespace SpeedTime.Models
+namespace Document_Control.Models
 {
     public class ErrorViewModel
     {
