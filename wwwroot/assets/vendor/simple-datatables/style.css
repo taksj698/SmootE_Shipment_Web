@@ -120,7 +120,7 @@
 .datatable-table > tfoot > tr > th,
 .datatable-table > thead > tr > td,
 .datatable-table > thead > tr > th {
-	vertical-align: top;
+	vertical-align: middle !important;
 	padding: 8px 10px;
 }
 
