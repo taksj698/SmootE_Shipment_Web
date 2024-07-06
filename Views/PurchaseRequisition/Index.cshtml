@@ -2,6 +2,14 @@
 	ViewData["Title"] = "แจ้งชำระเงิน";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
+<style>
+	.dashboard .activity .activity-item .activite-label {
+		min-width:0px;
+	}
+</style>
+
 <main id="main" class="main">
 	@* 	<div class="pagetitle">
 	<h1>ใบขอซื้อ</h1>
@@ -22,7 +30,7 @@
 											</div>
 											<div class="col-10">
 												<div class="row">
-													<div class="col col-12 ga-text-grey ga-text-font-size-1rem ">Date Request : </div>
+													<div class="col col-12 ga-text-grey ga-text-font-size-1rem ">วันที่สร้าง : </div>
 													<div class="col col-12 ga-text-lh-10">07/04/2024 00:29:02 </div>
 												</div>
 
@@ -37,10 +45,22 @@
 											</div>
 											<div class="col-10">
 												<div class="row">
-													<div class="col col-12 ga-text-grey ga-text-font-size-1rem ">Date Request : </div>
+													<div class="col col-12 ga-text-grey ga-text-font-size-1rem ">เลขที่เอกสาร : </div>
+													<div class="col col-12 ga-text-lh-10">#11050</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-6 mb-1">
+										<div class="row">
+											<div class="col-2">
+												<img class="pt-2 position-absolute" src="/asset/images/ga_icon_calendar32x32.png">
+											</div>
+											<div class="col-10">
+												<div class="row">
+													<div class="col col-12 ga-text-grey ga-text-font-size-1rem ">ชื่อ-ok,ld6] : </div>
 													<div class="col col-12 ga-text-lh-10">07/04/2024 00:29:02 </div>
 												</div>
-
 											</div>
 										</div>
 									</div>
@@ -62,7 +82,7 @@
 
 
 							<div class="card-body">
-								<h5 class="card-title">Reports <span>/Today</span></h5>
+								<h5 class="card-title">รายละเอียด <span>/Detail</span></h5>
 
 
 
@@ -70,114 +90,71 @@
 							</div>
 
 						</div>
-					</div><!-- End Reports -->
-					<!-- Recent Sales -->
+					</div>
 					<div class="col-12">
 						<div class="card recent-sales overflow-auto">
-
-							<div class="filter">
-								<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-								<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-									<li class="dropdown-header text-start">
-										<h6>Filter</h6>
-									</li>
-
-									<li><a class="dropdown-item" href="#">Today</a></li>
-									<li><a class="dropdown-item" href="#">This Month</a></li>
-									<li><a class="dropdown-item" href="#">This Year</a></li>
-								</ul>
-							</div>
-
 							<div class="card-body">
-								<h5 class="card-title">Recent Sales <span>| Today</span></h5>
-
-								<div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
-									<div class="datatable-top">
-										<div class="datatable-dropdown">
-											<label>
-												<select class="datatable-selector" name="per-page"><option value="5">5</option><option value="10" selected="">10</option><option value="15">15</option><option value="-1">All</option></select> entries per page
-											</label>
-										</div>
-										<div class="datatable-search">
-											<input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table">
-										</div>
-									</div>
-									<div class="datatable-container"><table class="table table-borderless datatable datatable-table"><thead><tr><th scope="col" data-sortable="true" style="width: 11.030741410488245%;"><button class="datatable-sorter">#</button></th><th scope="col" data-sortable="true" style="width: 23.508137432188065%;"><button class="datatable-sorter">Customer</button></th><th scope="col" data-sortable="true" style="width: 38.155515370705245%;"><button class="datatable-sorter">Product</button></th><th scope="col" data-sortable="true" style="width: 12.115732368896925%;"><button class="datatable-sorter">Price</button></th><th scope="col" data-sortable="true" class="red" style="width: 15.18987341772152%;"><button class="datatable-sorter">Status</button></th></tr></thead><tbody><tr data-index="0"><td scope="row"><a href="#">#2457</a></td><td>Brandon Jacob</td><td><a href="#" class="text-primary">At praesentium minu</a></td><td>$64</td><td class="green"><span class="badge bg-success">Approved</span></td></tr><tr data-index="1"><td scope="row"><a href="#">#2147</a></td><td>Bridie Kessler</td><td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td><td>$47</td><td class="green"><span class="badge bg-warning">Pending</span></td></tr><tr data-index="2"><td scope="row"><a href="#">#2049</a></td><td>Ashleigh Langosh</td><td><a href="#" class="text-primary">At recusandae consectetur</a></td><td>$147</td><td class="green"><span class="badge bg-success">Approved</span></td></tr><tr data-index="3"><td scope="row"><a href="#">#2644</a></td><td>Angus Grady</td><td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td><td>$67</td><td class="green"><span class="badge bg-danger">Rejected</span></td></tr><tr data-index="4"><td scope="row"><a href="#">#2644</a></td><td>Raheem Lehner</td><td><a href="#" class="text-primary">Sunt similique distinctio</a></td><td>$165</td><td class="green"><span class="badge bg-success">Approved</span></td></tr></tbody></table></div>
-									<div class="datatable-bottom">
-										<div class="datatable-info">Showing 1 to 5 of 5 entries</div>
-										<nav class="datatable-pagination"><ul class="datatable-pagination-list"></ul></nav>
-									</div>
-								</div>
-
-							</div>
-
-						</div>
-					</div><!-- End Recent Sales -->
-					<!-- Top Selling -->
-					<div class="col-12">
-						<div class="card top-selling overflow-auto">
-
-							<div class="filter">
-								<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-								<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-									<li class="dropdown-header text-start">
-										<h6>Filter</h6>
-									</li>
-
-									<li><a class="dropdown-item" href="#">Today</a></li>
-									<li><a class="dropdown-item" href="#">This Month</a></li>
-									<li><a class="dropdown-item" href="#">This Year</a></li>
-								</ul>
-							</div>
-
-							<div class="card-body pb-0">
-								<h5 class="card-title">Top Selling <span>| Today</span></h5>
-
+								<h5 class="card-title">ผู้อนุมัติ <span>| Approver</span></h5>
 								<table class="table table-borderless">
 									<thead>
 										<tr>
-											<th scope="col">Preview</th>
-											<th scope="col">Product</th>
-											<th scope="col">Price</th>
-											<th scope="col">Sold</th>
-											<th scope="col">Revenue</th>
+
+										
+											<th scope="col">ชื่อ-นามสกุล</th>
+											<th scope="col">ตำแหน่ง</th>
+										
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
-											<td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-											<td>$64</td>
-											<td class="fw-bold">124</td>
-											<td>$5,828</td>
+								
+											<td>ชาติ เลิศคุณวงส์</td>
+											<td>เจ้าหน้าที่</td>
+										
 										</tr>
 										<tr>
-											<th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
-											<td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
-											<td>$46</td>
-											<td class="fw-bold">98</td>
-											<td>$4,508</td>
+								
+											<td>ประยุทธ์ จันทร์นะจ๊ะ</td>
+											<td>นายกรัฐมนตรี</td>
+										
+										</tr>
+									</tbody>
+								</table>
+
+							</div>
+
+						</div>
+					</div>
+					
+					<div class="col-12">
+						<div class="card top-selling overflow-auto">
+
+
+							<div class="card-body pb-0">
+								<h5 class="card-title">ประวัติ <span>| History</span></h5>
+
+								<table class="table table-borderless">
+									<thead>
+										<tr>
+									
+											<th scope="col">วันที่</th>
+											<th scope="col">ชื่อ-นามสกุล</th>
+											<th scope="col">ตำแหน่ง</th>
+											<th scope="col">หมายเหตุ</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>									
+											<td>1/7/2024 12:14:00</td>
+											<td>ชาติ เลิศคุณวงส์</td>
+											<td>เจ้าหน้าที่</td>
+											<td>ขออนุมัติเรือดำน้ำ</td>
 										</tr>
 										<tr>
-											<th scope="row"><a href="#"><img src="assets/img/product-3.jpg" alt=""></a></th>
-											<td><a href="#" class="text-primary fw-bold">Doloribus nisi exercitationem</a></td>
-											<td>$59</td>
-											<td class="fw-bold">74</td>
-											<td>$4,366</td>
-										</tr>
-										<tr>
-											<th scope="row"><a href="#"><img src="assets/img/product-4.jpg" alt=""></a></th>
-											<td><a href="#" class="text-primary fw-bold">Officiis quaerat sint rerum error</a></td>
-											<td>$32</td>
-											<td class="fw-bold">63</td>
-											<td>$2,016</td>
-										</tr>
-										<tr>
-											<th scope="row"><a href="#"><img src="assets/img/product-5.jpg" alt=""></a></th>
-											<td><a href="#" class="text-primary fw-bold">Sit unde debitis delectus repellendus</a></td>
-											<td>$79</td>
-											<td class="fw-bold">41</td>
-											<td>$3,239</td>
+											<td>2/7/2024 15:30:00</td>
+											<td>ประยุทธ์ จันทร์นะจ๊ะ</td>
+											<td>นายกรัฐมนตรี</td>
+											<td>ok อนุมัติ</td>
 										</tr>
 									</tbody>
 								</table>
@@ -208,57 +185,31 @@
 					</div>
 
 					<div class="card-body">
-						<h5 class="card-title">Recent Activity <span>| Today</span></h5>
+						<h5 class="card-title">สถานะ <span>| Status</span></h5>
 
 						<div class="activity">
-
 							<div class="activity-item d-flex">
-								<div class="activite-label">32 min</div>
+								<div class="activite-label"></div>
 								<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
 								<div class="activity-content">
-									Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+									<b>สร้างเอกสาร</b><br />ชาติ เลิศคุณวงส์
 								</div>
-							</div><!-- End activity item-->
+							</div>
 
 							<div class="activity-item d-flex">
-								<div class="activite-label">56 min</div>
-								<i class="bi bi-circle-fill activity-badge text-danger align-self-start"></i>
+								<div class="activite-label"></div>
+								<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
 								<div class="activity-content">
-									Voluptatem blanditiis blanditiis eveniet
+									<b>อนุมัติ</b><br />ประยุทธ์ จันทร์นะจ๊ะ
 								</div>
-							</div><!-- End activity item-->
-
+							</div>
 							<div class="activity-item d-flex">
-								<div class="activite-label">2 hrs</div>
-								<i class="bi bi-circle-fill activity-badge text-primary align-self-start"></i>
+								<div class="activite-label"></div>
+								<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
 								<div class="activity-content">
-									Voluptates corrupti molestias voluptatem
+									ดำเนินการเสร็จสิ้น
 								</div>
-							</div><!-- End activity item-->
-
-							<div class="activity-item d-flex">
-								<div class="activite-label">1 day</div>
-								<i class="bi bi-circle-fill activity-badge text-info align-self-start"></i>
-								<div class="activity-content">
-									Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-								</div>
-							</div><!-- End activity item-->
-
-							<div class="activity-item d-flex">
-								<div class="activite-label">2 days</div>
-								<i class="bi bi-circle-fill activity-badge text-warning align-self-start"></i>
-								<div class="activity-content">
-									Est sit eum reiciendis exercitationem
-								</div>
-							</div><!-- End activity item-->
-
-							<div class="activity-item d-flex">
-								<div class="activite-label">4 weeks</div>
-								<i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
-								<div class="activity-content">
-									Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-								</div>
-							</div><!-- End activity item-->
+							</div>
 
 						</div>
 
