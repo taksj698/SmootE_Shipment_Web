@@ -91,13 +91,38 @@
 					</div>
 					<div class="col-12">
 						<div class="card">
-
-
-
 							<div class="card-body">
 								<h5 class="card-title">รายละเอียด <span>/Detail</span></h5>
-
-
+								<div class="row g-3">
+									<div class="col-12">
+										<label class="form-label"><b class="text-danger me-1">*</b><b>หัวเรื่อง</b></label>
+										<input type="text" class="form-control">
+									</div>
+									<div class="col-12">
+										<label class="form-label"><b class="text-danger me-1">*</b><b>งบประมาน</b></label>
+										<input type="text" class="form-control">
+									</div>
+									<div class="col-6">
+										<label class="form-label"><b class="text-danger me-1">*</b><b>บริษัท</b></label>
+										<input type="text" class="form-control">
+									</div>
+									<div class="col-6">
+										<label class="form-label"><b class="text-danger me-1">*</b><b>แผนก</b></label>
+										<input type="text" class="form-control">
+									</div>
+									<div class="col-6">
+										<label class="form-label"><b>พนักงาน</b></label>
+										<input type="text" class="form-control">
+									</div>
+									<div class="col-6">
+										<label class="form-label"><b class="text-danger me-1">*</b><b>ซัพพลายเออร์</b></label>
+										<input type="text" class="form-control">
+									</div>
+									<div class="col-12">
+										<label class="form-label"><b class="text-danger me-1">*</b><b>รายละเอียดเพิ่มเติม</b></label>
+										<textarea class="form-control" rows="3"></textarea>
+									</div>
+								</div>
 
 
 							</div>
@@ -107,10 +132,28 @@
 					<div class="col-12">
 						<div class="card recent-sales overflow-auto">
 							<div class="card-body">
+								<h5 class="card-title">ไฟล์แนบ <span>| Attach Files</span></h5>
+								<table class="table table-bordered">
+									<tr>
+										<th scope="col">ชื่อไฟล์</th>
+									</tr>
+									<tbody>
+										<tr>
+											<td><span class="badge bg-danger me-1" onclick="$('#positionApprove').modal('show');">ลบ</span>รายละเอียดขอจัดซื้อเรือดำน้ำ 15 ลำ</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-12">
+						<div class="card recent-sales overflow-auto">
+							<div class="card-body">
 								<h5 class="card-title">ผู้อนุมัติ <span>| Approver</span></h5>
 								<table class="table table-bordered">
 									<tr>
-										<th scope="col">ชื่อ-นามสกุล</th>									
+										<th scope="col">ตำแหน่ง</th>
 										<th scope="col">วงเงิน</th>
 									</tr>
 									<tbody>
@@ -125,15 +168,27 @@
 									</tbody>
 								</table>
 							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="card recent-sales overflow-auto">
+							<div class="card-body">
+								<h5 class="card-title">หมายเหตุ <span>| Reason</span></h5>
+								<div class="row g-3">
+									<div class="col-12">
+										<textarea class="form-control" rows="3"></textarea>
+									</div>
+									<div class="col-12">
+										<button type="button" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
+										<button type="button" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
+										<button type="button" class="btn btn-danger"><i class="ri-arrow-go-back-fill me-1"></i>ส่งกลับ</button>
+									</div>
+								</div>
 
+							</div>
 						</div>
 					</div>
 
-					<div class="col-12">
-						<button type="button" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
-						<button type="button" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
-						<button type="button" class="btn btn-danger"><i class="ri-arrow-go-back-fill me-1"></i>ส่งกลับ</button>
-					</div>
 
 					<div class="col-12 mt-4">
 						<div class="card top-selling overflow-auto">
@@ -255,7 +310,7 @@
 			</div>
 		</div>
 
-<!-- #endregion -->
+		<!-- #endregion -->
 
 	</section>
 
