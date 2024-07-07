@@ -1,5 +1,4 @@
-﻿
-
+﻿@model Document_Control.Core.comModels.TopMenuModel
 <header id="header" class="header fixed-top d-flex align-items-center">
 
 	<div class="d-flex align-items-center justify-content-between">
@@ -16,13 +15,13 @@
 
 				<a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
 					<img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" class="rounded-circle">
-					<span class="d-none d-md-block dropdown-toggle ps-2">@* @Model?.name *@ประยุทธ์ จันทร์นะจ๊ะ</span>
+					<span class="d-none d-md-block dropdown-toggle ps-2">@Model?.name</span>
 				</a>
 
 				<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 					<li class="dropdown-header">
-						<h6>@* @Model?.name *@ ประยุทธ์ จันทร์นะจ๊ะ</h6>
-						<span>@* @Model?.positionName *@นรกรัฐมนตรี</span>
+						<h6>@Model?.name </h6>
+						<span>@Model?.positionName</span>
 					</li>
 					<li>
 						<hr class="dropdown-divider">
