@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Document_Control.Core.pageModels.PagePR
+@{
 	ViewData["Title"] = "แจ้งชำระเงิน";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -11,9 +12,14 @@
 </style>
 
 <main id="main" class="main">
-	@* 	<div class="pagetitle">
-	<h1>ใบขอซื้อ</h1>
-	</div> *@
+
+	@Html.HiddenFor(x => x.Id)
+	@Html.HiddenFor(x => x.OrderDate)
+	@Html.HiddenFor(x => x.DocumentCode)
+	@Html.HiddenFor(x => x.CreateBy)
+	@Html.HiddenFor(x => x.CreateName)
+	@Html.HiddenFor(x => x.PositionId)
+	@Html.HiddenFor(x => x.PositionName)
 	<section class="section dashboard">
 		<div class="row">
 			<div class="col-lg-8">
@@ -31,7 +37,7 @@
 											<div class="col-10">
 												<div class="row">
 													<div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>วันที่สร้าง :</b> </div>
-													<div class="col col-12 ga-text-lh-10">07/04/2024 00:29:02 </div>
+													<div class="col col-12 ga-text-lh-10">@Model?.OrderDate?.ToString("dd/MM/yyyy")</div>
 												</div>
 
 											</div>
@@ -46,7 +52,7 @@
 											<div class="col-10">
 												<div class="row">
 													<div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>เลขที่เอกสาร :</b> </div>
-													<div class="col col-12 ga-text-lh-10">#11050</div>
+													<div class="col col-12 ga-text-lh-10">@Model?.DocumentCode</div>
 												</div>
 											</div>
 										</div>
@@ -59,7 +65,7 @@
 											<div class="col-10">
 												<div class="row">
 													<div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>ชื่อ-นามสกุล :</b> </div>
-													<div class="col col-12 ga-text-lh-10">ประยุทธ์ จันทร์นะจ๊ะ</div>
+													<div class="col col-12 ga-text-lh-10">@Model?.CreateName</div>
 												</div>
 											</div>
 										</div>
@@ -72,7 +78,7 @@
 											<div class="col-10">
 												<div class="row">
 													<div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>ตำแหน่ง :</b> </div>
-													<div class="col col-12 ga-text-lh-10">นายกรัฐมนตรี</div>
+													<div class="col col-12 ga-text-lh-10">@Model?.PositionName</div>
 												</div>
 											</div>
 										</div>
@@ -256,14 +262,14 @@
 								<div class="activite-label"></div>
 								<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
 								<div class="activity-content">
-									<b>อนุมัติ</b><br />ประยุทธ์ จันทร์นะจ๊ะ
+									<b>รออนุมัติ</b><br />ประยุทธ์ จันทร์นะจ๊ะ
 								</div>
 							</div>
 							<div class="activity-item d-flex">
 								<div class="activite-label"></div>
 								<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
 								<div class="activity-content">
-									ดำเนินการเสร็จสิ้น
+									<b>ดำเนินการเสร็จสิ้น</b>
 								</div>
 							</div>
 

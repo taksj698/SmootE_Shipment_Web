@@ -14,8 +14,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0-preview.5.24306.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\BusinessUnit\" />
-  </ItemGroup>
-
 </Project>

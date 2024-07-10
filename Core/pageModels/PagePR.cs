@@ -1,4 +1,4 @@
-﻿namespace Document_Control.Core.comModels
+﻿namespace Document_Control.Core.pageModels
 {
 	public class PagePR
 	{
@@ -17,5 +17,8 @@
 		public string? Description { get; set; }
 		public DateTime? CreateDate { get; set; }
 		public int? CreateBy { get; set; }
+		//
+		public string? CreateName { get; set; }
+		public string? PositionName { get; set; }
 	}
 }

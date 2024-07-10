@@ -1,4 +1,5 @@
 ﻿using Document_Control.Core.dbModels;
+using Document_Control.Core.dbStored;
 using Microsoft.Ajax.Utilities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -12,6 +13,11 @@ namespace Document_Control.Data.Repository.SQLServer
 
 		}
 
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<PRResult>().HasNoKey();
+		}
+
 
 
 		public DbSet<TbApprovalMatrix> TbApprovalMatrix { get; set; }
@@ -22,5 +28,9 @@ namespace Document_Control.Data.Repository.SQLServer
 		public DbSet<TbPosition> TbPosition { get; set; }
 		public DbSet<TbPriority> TbPriority { get; set; }
 		public DbSet<TbUser> TbUser { get; set; }
+
+
+		public DbSet<PRResult> PRResult { get; set; }
+		
 	}
 }
