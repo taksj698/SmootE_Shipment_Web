@@ -8,6 +8,7 @@ namespace Document_Control.ControllerComponent
 	{
 		private List<Claim>? UserProfile;
 		private string? name;
+		private string? position;
 		public TopMenuComponent(IHttpContextAccessor haccess)
 		{
 			var identity = (ClaimsIdentity)haccess.HttpContext.User.Identity;
@@ -17,11 +18,17 @@ namespace Document_Control.ControllerComponent
 			{
 				name = fineName.Value;
 			}
+			var finePosition = UserProfile.FirstOrDefault(x => x.Type == "PositionName");
+			if (finePosition != null)
+			{
+				position = finePosition.Value;
+			}			
 		}
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
 			TopMenuModel obj = new TopMenuModel();
 			obj.name = name;
+			obj.positionName = position;
 			return View("~/ViewComponents/TopMenuComponent.cshtml", obj);
 		}
 	}

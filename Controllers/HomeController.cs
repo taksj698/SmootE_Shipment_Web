@@ -5,8 +5,8 @@ using System.Diagnostics;
 
 namespace Document_Control.Controllers
 {
-    [Authorize]
-    public class HomeController : Controller
+	[Authorize]
+	public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 

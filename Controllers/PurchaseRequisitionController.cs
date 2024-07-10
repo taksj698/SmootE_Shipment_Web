@@ -1,12 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Document_Control.Core.comModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Document_Control.Controllers
 {
-    public class PurchaseRequisitionController : Controller
+	[Authorize]
+	public class PurchaseRequisitionController : Controller
     {
-        public IActionResult Index()
+		[HttpGet("PurchaseRequisition/{Id:int?}")]
+		public IActionResult Index(int? Id)
         {
-            return View();
+			PagePR obj = new PagePR();
+
+			return View();
         }
-    }
+
+
+
+
+		private PagePR GetData() 
+		{
+			PagePR obj = new PagePR();
+			return obj;
+		}
+	}
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Document_Control.Core.pageModels;
 using Document_Control.Data.Repository.SQLServer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Document_Control.Controllers
 {
@@ -43,11 +44,18 @@ namespace Document_Control.Controllers
 				find.LastLogDate = DateTime.Now;
 				_dbContext.TbUser.Update(find);
 				_dbContext.SaveChanges();
+
+
+				var findPosition = _wrapperRepository._dbContext.TbPosition.FirstOrDefault(x => x.Id == find.PositionId);
+
+
+
+
 				var claims = new List<Claim> {
 					new Claim(ClaimTypes.Sid, find.Id.ToString()),
 					new Claim(ClaimTypes.Name, find.Name),
-					new Claim("PositionId",find.PositionId.ToString()),
-					new Claim("PositionName",find.PositionId.ToString()),
+					new Claim("PositionId",(findPosition != null) ?findPosition.Id.ToString() : string.Empty),
+					new Claim("PositionName",(findPosition != null) ?findPosition.PositionName : string.Empty),
 					new Claim(ClaimTypes.Role, "user"),
 				};
 
@@ -60,6 +68,13 @@ namespace Document_Control.Controllers
 
 			}
 
+		}
+
+
+		public async Task<IActionResult> Logout()
+		{
+			await HttpContext.SignOutAsync();
+			return RedirectToAction("", "Login");
 		}
 	}
 }
