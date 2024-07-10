@@ -17,6 +17,8 @@ namespace Document_Control.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.CurrentController = "Home";
+            ViewBag.CurrentAction = "Index";
             return View();
         }
 

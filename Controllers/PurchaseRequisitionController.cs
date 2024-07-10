@@ -20,7 +20,9 @@ namespace Document_Control.Controllers
 		[HttpGet("PurchaseRequisition/{Id:int?}")]
 		public IActionResult Index(int? Id)
 		{
-			return View(_prBusiness.GetData(Id));
+            ViewBag.CurrentController = "PurchaseRequisition";
+            ViewBag.CurrentAction = "Index";
+            return View(_prBusiness.GetData(Id));
 		}
 
 

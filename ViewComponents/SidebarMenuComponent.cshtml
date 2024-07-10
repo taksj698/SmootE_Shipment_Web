@@ -1,23 +1,26 @@
 ﻿<aside id="sidebar" class="sidebar">
-	<ul class="sidebar-nav" id="sidebar-nav">
-		<li class="nav-item">
-			<a class="nav-link collapsed" href="@Url.Action("", "Home")">
-				<i class="ri-home-2-fill icon-size"></i>
-				<span class="menu-head">รายงาน</span>
-			</a>
-		</li>
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link @((ViewBag.CurrentController == "Home" && ViewBag.CurrentAction == "Index") ? "active" : "collapsed")" href="@Url.Action("Index", "Home")">
+                <i class="ri-home-2-fill icon-size"></i>
+                <span class="menu-head">รายงาน</span>
+            </a>
+        </li>
 
-		<li class="nav-item">
-			<a class="nav-link " data-bs-target="#list-nav" data-bs-toggle="collapse" href="#">
-				<i class="ri-file-list-3-fill icon-size"></i><span class="menu-head">รายการ</span><i class="bi bi-chevron-down ms-auto"></i>
-			</a>
-			<ul id="list-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
-				<li>
-					<a href="@Url.Action("", "PurchaseRequisition")">
-						<i class="ri-dropbox-fill icon-size"></i><span class="menu-item">สร้างใบขอซื้อ</span>
-					</a>
-				</li>
-			</ul>
-		</li>
-	</ul>
+        <li class="nav-item">
+            <a class="nav-link @((ViewBag.CurrentController == "PurchaseRequisition") ? "" : "collapsed")" data-bs-target="#list-nav" data-bs-toggle="collapse" href="#">
+                <i class="ri-file-list-3-fill icon-size"></i>
+                <span class="menu-head">รายการ</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="list-nav" class="nav-content collapse @((ViewBag.CurrentController == "PurchaseRequisition") ? "show" : "")" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a class="@((ViewBag.CurrentController == "PurchaseRequisition" && ViewBag.CurrentAction == "Index") ? "active" : "")" href="@Url.Action("Index", "PurchaseRequisition")">
+                        <i class="ri-dropbox-fill icon-size"></i>
+                        <span class="menu-item">สร้างใบขอซื้อ</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
 </aside>
