@@ -102,36 +102,36 @@
 								<div class="row g-3">
 									<div class="col-12">
 										<label class="form-label"><b class="text-danger me-1">*</b><b>ความสำคัญ</b></label>
-										<input type="text" class="form-control">
+										@Html.DropDownListFor(x => x.PriorityId, Model?.lPriority, "เลือก", new { @class = "form-control" })
 									</div>
 									<div class="col-12">
 										<label class="form-label"><b class="text-danger me-1">*</b><b>หัวเรื่อง</b></label>
-										<input type="text" class="form-control">
+										@Html.TextBoxFor(x => x.Subject, new { @class = "form-control" })
 									</div>
 									<div class="col-12">
 										<label class="form-label"><b class="text-danger me-1">*</b><b>งบประมาน</b></label>
-										<input type="text" class="form-control">
+										@Html.TextBoxFor(x => x.Budget, new { @class = "form-control" })
 									</div>
 
 									<div class="col-6">
 										<label class="form-label"><b class="text-danger me-1">*</b><b>บริษัท</b></label>
-										<input type="text" class="form-control">
+										@Html.DropDownListFor(x => x.CompanyId, Model?.lCompany, "เลือก", new { @class = "form-control" })
 									</div>
 									<div class="col-6">
 										<label class="form-label"><b class="text-danger me-1">*</b><b>แผนก</b></label>
-										<input type="text" class="form-control">
+										@Html.DropDownListFor(x => x.DivisionId, Model?.lDivision, "เลือก", new { @class = "form-control" })
 									</div>
 									<div class="col-6">
 										<label class="form-label"><b>พนักงาน</b></label>
-										<input type="text" class="form-control">
+										@Html.DropDownListFor(x => x.UserId, Model?.lUser, "เลือก", new { @class = "form-control" })
 									</div>
 									<div class="col-6">
 										<label class="form-label"><b class="text-danger me-1">*</b><b>ซัพพลายเออร์</b></label>
-										<input type="text" class="form-control">
+										@Html.TextBoxFor(x => x.SupplierName, new { @class = "form-control" })
 									</div>
 									<div class="col-12">
 										<label class="form-label"><b class="text-danger me-1">*</b><b>รายละเอียดเพิ่มเติม</b></label>
-										<textarea class="form-control" rows="3"></textarea>
+										@Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = 3 })
 									</div>
 								</div>
 
@@ -187,12 +187,12 @@
 								<h5 class="card-title">หมายเหตุ <span>| Reason</span></h5>
 								<div class="row g-3">
 									<div class="col-12">
-										<textarea class="form-control" rows="3"></textarea>
+										@Html.TextAreaFor(x => x.Reason, new { @class = "form-control", rows = 3 })
 									</div>
 									<div class="col-12">
-										<button type="button" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
-										<button type="button" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
-										<button type="button" class="btn btn-danger"><i class="ri-arrow-go-back-fill me-1"></i>ส่งกลับ</button>
+										<button type="button" onclick="controller.save();" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
+										<button type="button" onclick="controller.save();" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
+										<button type="button" onclick="controller.reject();" class="btn btn-danger"><i class="ri-arrow-go-back-fill me-1"></i>ส่งกลับ</button>
 									</div>
 								</div>
 
@@ -329,7 +329,28 @@
 @section Scripts {
 	<script>
 		$(document).ready(function () {
+			controller.save = function () {
+				services.ConfirmAlert("", "", "", "", "", function (result) {
+					if (result.isConfirmed) {
+						services.AjaxPostData("@Url.Action("Save", "PurchaseRequisition")", { key1: key }, function (response) {
+							services.CustomAlert1(response);
+						});
+					}
+				});
 
+
+
+				// var data = new FormData($('#form').get(0));
+				// services.AjaxPostForm("@Url.Action("Search", "FuelIn")", data, function (response) {
+				// 	services.CustomBinding(response, 'table_box');
+				// 	services.CustomTableBinding('box_data');
+				// 	$('#SearchModal').modal('hide');
+				// });
+			}
+
+
+			controller.reject = function () {
+			}
 		});
 	</script>
 }

@@ -1,4 +1,6 @@
-﻿namespace Document_Control.Core.pageModels
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Document_Control.Core.pageModels
 {
 	public class PagePR
 	{
@@ -20,5 +22,13 @@
 		//
 		public string? CreateName { get; set; }
 		public string? PositionName { get; set; }
-	}
+		public string? Reason { get; set; }
+
+
+
+		public List<SelectListItem>? lPriority { get; set; }
+        public List<SelectListItem>? lCompany { get; set; }
+        public List<SelectListItem>? lDivision { get; set; }
+        public List<SelectListItem>? lUser { get; set; }
+    }
 }
