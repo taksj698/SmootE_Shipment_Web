@@ -8,4 +8,5 @@ any
 administrator
 
 1 368 499 080/tns-server/administrator
-Sase^0101				
+Sase^0101		
+SASE^0101
