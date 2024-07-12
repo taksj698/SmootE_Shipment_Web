@@ -28,17 +28,14 @@ namespace Document_Control.Controllers
 
 
 
-		private PagePR GetData()
+		public PartialViewResult LoadComponentApproval( int? id, decimal? budget)
 		{
-			PagePR obj = new PagePR();
-
-
-
-
-
-
-
-			return obj;
+			return PartialView("_Approval", _prBusiness.GetLineApprove(id, budget));
 		}
+
+
+
+
+		
 	}
 }

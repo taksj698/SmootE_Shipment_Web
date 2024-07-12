@@ -1,6 +1,6 @@
-﻿@model Document_Control.Core.pageModels.PagePR
+﻿@model Document_Control.Core.pageModels.PurchaseRequisition.PagePR
 @{
-	ViewData["Title"] = "แจ้งชำระเงิน";
+	ViewData["Title"] = "PurchaseRequisition";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -110,7 +110,7 @@
 									</div>
 									<div class="col-12">
 										<label class="form-label"><b class="text-danger me-1">*</b><b>งบประมาน</b></label>
-										@Html.TextBoxFor(x => x.Budget, new { @class = "form-control" })
+										@Html.TextBoxFor(x => x.Budget, new { @class = "form-control", @id = "budgetInput", onchange = "controller.handleBudgetChange()" })
 									</div>
 
 									<div class="col-6">
@@ -158,29 +158,17 @@
 						</div>
 					</div>
 
-					<div class="col-12">
-						<div class="card recent-sales overflow-auto">
-							<div class="card-body">
-								<h5 class="card-title">ผู้อนุมัติ <span>| Approver</span></h5>
-								<table class="table table-bordered">
-									<tr>
-										<th scope="col">ตำแหน่ง</th>
-										<th scope="col">วงเงิน</th>
-									</tr>
-									<tbody>
-										<tr>
-											<td><span class="badge bg-info me-1" onclick="$('#positionApprove').modal('show');">แสดง</span>เจ้าหน้าที่</td>
-											<td>#100,000</td>
-										</tr>
-										<tr>
-											<td><span class="badge bg-info me-1" onclick="$('#positionApprove').modal('show');">แสดง</span>นายกรัฐมนตรี</td>
-											<td>#500,000</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
+
+
+					<div class="col-12" id="componentApproval">
 					</div>
+
+
+
+
+
+
+
 					<div class="col-12">
 						<div class="card recent-sales overflow-auto">
 							<div class="card-body">
@@ -276,12 +264,8 @@
 						</div>
 
 					</div>
-				</div><!-- End Recent Activity -->
-
-
-
-
-			</div><!-- End Right side columns -->
+				</div>
+			</div>
 
 		</div>
 
@@ -329,6 +313,21 @@
 @section Scripts {
 	<script>
 		$(document).ready(function () {
+
+			loadComponent();
+
+
+
+			controller.handleBudgetChange = function () {
+				const budgetInput = document.getElementById('budgetInput');
+				let value = parseFloat(budgetInput.value).toFixed(2);
+				if (!isNaN(value)) {
+					budgetInput.value = value;
+				} else {
+					budgetInput.value = '';
+				}
+				loadComponent();
+			}
 			controller.save = function () {
 				services.ConfirmAlert("", "", "", "", "", function (result) {
 					if (result.isConfirmed) {
@@ -337,20 +336,20 @@
 						});
 					}
 				});
-
-
-
-				// var data = new FormData($('#form').get(0));
-				// services.AjaxPostForm("@Url.Action("Search", "FuelIn")", data, function (response) {
-				// 	services.CustomBinding(response, 'table_box');
-				// 	services.CustomTableBinding('box_data');
-				// 	$('#SearchModal').modal('hide');
-				// });
 			}
-
-
 			controller.reject = function () {
 			}
 		});
+		function loadComponent() {
+			var budgetValue = document.getElementById('budgetInput').value;
+			$.ajax({
+				url: '@Url.Action("LoadComponentApproval", "PurchaseRequisition")',
+				type: 'GET',
+				data: { id: @Model?.Id, budget: budgetValue },
+				success: function (data) {
+					$('#componentApproval').html(data);
+				}
+			});
+		}
 	</script>
 }

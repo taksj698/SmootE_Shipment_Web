@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using Document_Control.Core.comModels;
-using Document_Control.Core.pageModels;
+using Document_Control.Core.pageModels.PurchaseRequisition;
 using Document_Control.Data.Repository;
 using Document_Control.Data.Repository.SQLServer;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -53,7 +53,16 @@ namespace Document_Control.Data.BusinessUnit
 
 
 
-        public PagePR GetData(int? Id)
+
+
+        public ApprovalPR GetLineApprove(int? id, decimal? budget) 
+        {
+            return null;
+        }
+
+
+
+		public PagePR GetData(int? Id)
         {
             PagePR obj = new PagePR();
             //GeneratePRAsync
