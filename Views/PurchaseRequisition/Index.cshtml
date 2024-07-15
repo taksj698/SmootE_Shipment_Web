@@ -1,8 +1,10 @@
-﻿@model Document_Control.Core.pageModels.PurchaseRequisition.PagePR
+﻿@using Document_Control.Core.pageModels.PurchaseRequisition
+@model Document_Control.Core.pageModels.PurchaseRequisition.PagePR
 @{
 	ViewData["Title"] = "PurchaseRequisition";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 
 <style>
@@ -157,18 +159,7 @@
 							</div>
 						</div>
 					</div>
-
-
-
-					<div class="col-12" id="componentApproval">
-					</div>
-
-
-
-
-
-
-
+					@await Html.PartialAsync("_Approval", Model?.ApprovalPR)
 					<div class="col-12">
 						<div class="card recent-sales overflow-auto">
 							<div class="card-body">
@@ -187,8 +178,6 @@
 							</div>
 						</div>
 					</div>
-
-
 					<div class="col-12 mt-4">
 						<div class="card top-selling overflow-auto">
 
@@ -260,9 +249,7 @@
 									<b>ดำเนินการเสร็จสิ้น</b>
 								</div>
 							</div>
-
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -270,54 +257,16 @@
 		</div>
 
 		<!-- #region name -->
-
-		<div class="modal fade" id="positionApprove" tabindex="-1" aria-modal="true" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">ผู้อนุมัติ</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<table class="table table-bordered">
-							<tbody>
-								<tr>
-									<th scope="col">ชื่อ-นามสกุล</th>
-									<th scope="col">ติดต่อ</th>
-								</tr>
-							</tbody>
-							<tbody>
-								<tr>
-									<td>ชาติ เลิศคุณวงส์</td>
-									<td>099-2978004</td>
-								</tr>
-								<tr>
-									<td>ประยุทธ์ จันทร์นะจ๊ะ</td>
-									<td>099-2978006</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-					</div>
-				</div>
-			</div>
+		<div id="modalContainer">
+			@await Html.PartialAsync("_ModalShowAproval",Model?.ModalShowApproval)
 		</div>
-
 		<!-- #endregion -->
-
 	</section>
 
 </main>
 @section Scripts {
 	<script>
 		$(document).ready(function () {
-
-			loadComponent();
-
-
-
 			controller.handleBudgetChange = function () {
 				const budgetInput = document.getElementById('budgetInput');
 				let value = parseFloat(budgetInput.value).toFixed(2);
@@ -348,6 +297,17 @@
 				data: { id: @Model?.Id, budget: budgetValue },
 				success: function (data) {
 					$('#componentApproval').html(data);
+				}
+			});
+		}
+		function showListApproval(positionId) {
+			$.ajax({
+				url: '@Url.Action("LoadPositionApproval", "PurchaseRequisition")',
+				type: 'GET',
+				data: { id: positionId },
+				success: function (result) {
+					$('#modalContainer').html(result);
+					$('#positionApprove').modal('show');
 				}
 			});
 		}

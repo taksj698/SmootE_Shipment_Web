@@ -11,9 +11,11 @@ namespace Document_Control.Core.dbModels
 		public string? UserName { get; set; }
 		public string? Password { get; set; }
 		public string Name { get; set; }
+
+		public string TelNo { get; set; }
 		public int PositionId { get; set; }
 		public bool IsApprove { get; set; }
-		public DateTime? LastLogDate { get; set; }	
+		public DateTime? LastLogDate { get; set; }
 		public DateTime? CreateDate { get; set; }
 		public DateTime? ModifyDate { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿
 using Document_Control.Core.pageModels;
+using Document_Control.Core.pageModels.PurchaseRequisition;
 using Document_Control.Data.BusinessUnit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,10 +33,13 @@ namespace Document_Control.Controllers
 		{
 			return PartialView("_Approval", _prBusiness.GetLineApprove(id, budget));
 		}
+		public PartialViewResult LoadPositionApproval(int? id)
+		{
+
+			return PartialView("_ModalShowAproval", _prBusiness.GetPositionApproval(id));
+		}
 
 
 
-
-		
 	}
 }

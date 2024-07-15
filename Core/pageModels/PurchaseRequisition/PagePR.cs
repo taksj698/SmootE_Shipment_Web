@@ -30,5 +30,10 @@ namespace Document_Control.Core.pageModels.PurchaseRequisition
         public List<SelectListItem>? lCompany { get; set; }
         public List<SelectListItem>? lDivision { get; set; }
         public List<SelectListItem>? lUser { get; set; }
-    }
+
+
+
+        public ApprovalPR? ApprovalPR { get; set; }
+        public ModalShowApproval? ModalShowApproval { get; set; }
+	}
 }
