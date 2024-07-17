@@ -1,10 +1,14 @@
 ﻿using System.Security.Claims;
+using AutoMapper;
 using Document_Control.Core.comModels;
+using Document_Control.Core.dbModels;
 using Document_Control.Core.pageModels.PurchaseRequisition;
 using Document_Control.Data.Repository;
 using Document_Control.Data.Repository.SQLServer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Document_Control.Data.BusinessUnit
 {
@@ -14,14 +18,13 @@ namespace Document_Control.Data.BusinessUnit
 		private SqlServerDbContext _dbContext;
 
 		private List<Claim>? UserProfile;
-		private int? userId;
+		private int userId;
 		private string? name;
-		private int? positionId;
+		private int positionId;
 		private string? position;
 		public PurchaseRequisitionBusiness(IHttpContextAccessor haccess, WrapperRepository wrapper)
 		{
 			_wrapper = wrapper;
-
 			_dbContext = _wrapper._dbContext;
 
 			var identity = (ClaimsIdentity)haccess.HttpContext.User.Identity;
@@ -46,9 +49,68 @@ namespace Document_Control.Data.BusinessUnit
 			{
 				positionId = Convert.ToInt32(finePositionId.Value);
 			}
+		}
+
+		public dynamic AddorUpdate(PagePR obj, string action)
+		{
+			int DocId = 0;
+			if (obj.Id != null && obj.Id != 0)
+			{
+				var find = _dbContext.TbDocumentTransaction.FirstOrDefault(x => x.Id == obj.Id);
+				if (find != null)
+				{
+					var config = new MapperConfiguration(cfg => cfg.CreateMap<PagePR, TbDocumentTransaction>());
+					var mapper = new Mapper(config);
+					mapper.Map(obj, find);
+					_dbContext.TbDocumentTransaction.Update(find);
+					_dbContext.SaveChanges();
+					DocId = find.Id;
+				}
+			}
+			else
+			{
+				var date  = DateTime.Now;
+				TbDocumentTransaction data = new TbDocumentTransaction();
+				var config = new MapperConfiguration(cfg => cfg.CreateMap<PagePR, TbDocumentTransaction>());
+				var mapper = new Mapper(config);
+				mapper.Map(obj, data);
+
+				data.DocumentCode = _wrapper._storedProcedureRepository.GenarateCode();
+				data.CreateBy = userId;
+				data.CreateDate = date;
+				data.OrderDate = date;
+				_dbContext.TbDocumentTransaction.Add(data);
+				_dbContext.SaveChanges();
+				DocId = data.Id;
+			}
+
+			GetLineApprove(DocId, obj.Budget);
 
 
 
+			StampHistory(DocId,action, obj.Reason);
+			//flow
+			//file
+			//approval
+			//history
+
+			return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ" };
+		}
+
+
+		public void StampHistory(int DocId,string action,string Reason) 
+		{
+			_dbContext.TbHistoryTransaction.Add(new TbHistoryTransaction()
+			{
+				DocId = DocId,
+				UserId = userId,
+				PositionId = positionId,
+				StatusId = 0,
+				Action = action,
+				Reason = Reason,
+				StampDate = DateTime.Now
+			});
+			_dbContext.SaveChanges();
 		}
 
 
@@ -87,7 +149,6 @@ namespace Document_Control.Data.BusinessUnit
 			}
 			return obj;
 		}
-
 		public ModalShowApproval GetPositionApproval(int? id)
 		{
 			ModalShowApproval obj = new ModalShowApproval();
@@ -100,14 +161,9 @@ namespace Document_Control.Data.BusinessUnit
 			}
 			return obj;
 		}
-
 		public PagePR GetData(int? Id)
 		{
 			PagePR obj = new PagePR();
-			//GeneratePRAsync
-			//var asd =  _wrapper._storedProcedureRepository.GenarateCode();
-
-
 			obj.lPriority = _dbContext.TbPriority
 			.OrderBy(o => o.Seq)
 			.Select(s => new SelectListItem()
@@ -133,28 +189,31 @@ namespace Document_Control.Data.BusinessUnit
 				Text = s.Name,
 				Value = s.Id.ToString()
 			}).ToList();
-
-
-
-
-
-
-
-
 			if (Id == null)
 			{
 				obj.OrderDate = DateTime.Now;
 				obj.DocumentCode = "Auto Generate";
 				obj.CreateBy = userId;
 				obj.PositionId = positionId;
+				//
 				obj.CreateName = name;
 				obj.PositionName = position;
 			}
 			else
 			{
+				var find = _dbContext.TbDocumentTransaction.FirstOrDefault(x => x.Id == Id);
+				if (find != null)
+				{
+					var config = new MapperConfiguration(cfg => cfg.CreateMap<TbDocumentTransaction, PagePR>());
+					var mapper = new Mapper(config);
+					mapper.Map(find, obj);
+
+					var user = _dbContext.TbUser.FirstOrDefault(x => x.Id == find.CreateBy);
+					var position = _dbContext.TbPosition.FirstOrDefault(x => x.Id == positionId);
+					obj.CreateName = user?.Name;
+					obj.PositionName = position?.PositionName;
+				}
 			}
-
-
 			return obj;
 		}
 	}

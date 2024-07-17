@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Document_Control.Core.pageModels.PurchaseRequisition
 {
@@ -9,7 +10,8 @@ namespace Document_Control.Core.pageModels.PurchaseRequisition
         public string? DocumentCode { get; set; }
         public int? PositionId { get; set; }
         public int? StatusId { get; set; }
-        public int? PriorityId { get; set; }
+		[Required(ErrorMessage = "ระบุ ความสำคัญ")]
+		public int? PriorityId { get; set; }
         public string? Subject { get; set; }
         public decimal? Budget { get; set; }
         public int? CompanyId { get; set; }

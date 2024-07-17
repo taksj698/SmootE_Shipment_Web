@@ -9,7 +9,7 @@ namespace Document_Control.Configs.Configurations
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/Login";
+                    options.LoginPath = "/Login/Index";
                 });
 
         }

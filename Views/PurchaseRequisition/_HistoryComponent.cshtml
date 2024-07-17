@@ -1,0 +1,36 @@
+﻿@model Document_Control.Core.pageModels.PurchaseRequisition.HistoryCom
+<style>
+	.nowrapp {
+		white-space: nowrap !important;
+	}
+</style>
+<table class="table table-bordered">
+	<tr>
+		<th class="nowrapp" scope="col">วันที่</th>
+		<th class="nowrapp" scope="col">ชื่อ-นามสกุล</th>
+		<th class="nowrapp" scope="col">ตำแหน่ง</th>
+		<th class="nowrapp" scope="col">ตัวเลือก</th>
+		<th class="nowrapp" scope="col">หมายเหตุ</th>
+	</tr>
+	<tbody>
+		@if (Model != null && Model.data != null && Model.data.Count > 0)
+		{
+			foreach (var item in Model.data)
+			{
+				<tr>
+					<td class="nowrapp">@item.StampDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+					<td class="nowrapp">@item.Name</td>
+					<td class="nowrapp">@item.Position</td>
+					<td class="nowrapp">@item.Action</td>
+					<td class="nowrapp">@item.Reason</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="5" class="text-center">ไม่พบข้อมูล</td>
+			</tr>
+		}
+	</tbody>
+</table>

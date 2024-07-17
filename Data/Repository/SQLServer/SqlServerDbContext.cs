@@ -28,6 +28,10 @@ namespace Document_Control.Data.Repository.SQLServer
 		public DbSet<TbPosition> TbPosition { get; set; }
 		public DbSet<TbPriority> TbPriority { get; set; }
 		public DbSet<TbUser> TbUser { get; set; }
+		public DbSet<TbApprovalTransaction> TbApprovalTransaction { get; set; }
+		public DbSet<TbHistoryTransaction> TbHistoryTransaction { get; set; }
+		public DbSet<TbStatus> TbStatus { get; set; }
+
 
 
 		public DbSet<PRResult> PRResult { get; set; }

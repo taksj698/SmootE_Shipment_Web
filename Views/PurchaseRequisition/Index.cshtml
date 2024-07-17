@@ -4,28 +4,24 @@
 	ViewData["Title"] = "PurchaseRequisition";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
-
 <style>
 	.dashboard .activity .activity-item .activite-label {
 		min-width: 0px;
 	}
 </style>
-
 <main id="main" class="main">
+	<form id="formdata">
+		@Html.HiddenFor(x => x.Id)
+		@Html.HiddenFor(x => x.OrderDate)
+		@Html.HiddenFor(x => x.DocumentCode)
+		@Html.HiddenFor(x => x.CreateBy)
+		@Html.HiddenFor(x => x.CreateName)
+		@Html.HiddenFor(x => x.PositionId)
+		@Html.HiddenFor(x => x.PositionName)
+		<section class="section dashboard">
+			<div class="row">
+				<div class="col-lg-8">
 
-	@Html.HiddenFor(x => x.Id)
-	@Html.HiddenFor(x => x.OrderDate)
-	@Html.HiddenFor(x => x.DocumentCode)
-	@Html.HiddenFor(x => x.CreateBy)
-	@Html.HiddenFor(x => x.CreateName)
-	@Html.HiddenFor(x => x.PositionId)
-	@Html.HiddenFor(x => x.PositionName)
-	<section class="section dashboard">
-		<div class="row">
-			<div class="col-lg-8">
-				<div class="row">
 					<div class="col-12">
 						<div class="card">
 							<div class="card-body">
@@ -41,11 +37,9 @@
 													<div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>วันที่สร้าง :</b> </div>
 													<div class="col col-12 ga-text-lh-10">@Model?.OrderDate?.ToString("dd/MM/yyyy")</div>
 												</div>
-
 											</div>
 										</div>
 									</div>
-
 									<div class="col-6 mb-1">
 										<div class="row">
 											<div class="col-2">
@@ -86,16 +80,8 @@
 										</div>
 									</div>
 								</div>
-
-
-								@* 							<div class="col-md-6">
-								<label for="inputName5" class="form-label">Your Name</label>
-								<input type="text" class="form-control" >
-								</div>
-								*@
 							</div>
 						</div>
-
 					</div>
 					<div class="col-12">
 						<div class="card">
@@ -136,10 +122,7 @@
 										@Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = 3 })
 									</div>
 								</div>
-
-
 							</div>
-
 						</div>
 					</div>
 					<div class="col-12">
@@ -169,100 +152,37 @@
 										@Html.TextAreaFor(x => x.Reason, new { @class = "form-control", rows = 3 })
 									</div>
 									<div class="col-12">
-										<button type="button" onclick="controller.save();" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
+										<button type="button" onclick="controller.draft();" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
 										<button type="button" onclick="controller.save();" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
 										<button type="button" onclick="controller.reject();" class="btn btn-danger"><i class="ri-arrow-go-back-fill me-1"></i>ส่งกลับ</button>
 									</div>
 								</div>
-
 							</div>
 						</div>
 					</div>
 					<div class="col-12 mt-4">
 						<div class="card top-selling overflow-auto">
-
-
 							<div class="card-body pb-0">
 								<h5 class="card-title">ประวัติ <span>| History</span></h5>
-
-								<table class="table table-borderless">
-									<thead>
-										<tr>
-
-											<th scope="col">วันที่</th>
-											<th scope="col">ชื่อ-นามสกุล</th>
-											<th scope="col">ตำแหน่ง</th>
-											<th scope="col">หมายเหตุ</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>1/7/2024 12:14:00</td>
-											<td>ชาติ เลิศคุณวงส์</td>
-											<td>เจ้าหน้าที่</td>
-											<td>ขออนุมัติเรือดำน้ำ</td>
-										</tr>
-										<tr>
-											<td>2/7/2024 15:30:00</td>
-											<td>ประยุทธ์ จันทร์นะจ๊ะ</td>
-											<td>นายกรัฐมนตรี</td>
-											<td>ok อนุมัติ</td>
-										</tr>
-									</tbody>
-								</table>
-
-							</div>
-
-						</div>
-					</div><!-- End Top Selling -->
-
-				</div>
-			</div><!-- End Left side columns -->
-			<!-- Right side columns -->
-			<div class="col-lg-4">
-
-				<!-- Recent Activity -->
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title">สถานะ <span>| Status</span></h5>
-
-						<div class="activity">
-							<div class="activity-item d-flex">
-								<div class="activite-label"></div>
-								<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
-								<div class="activity-content">
-									<b>สร้างเอกสาร</b><br />ชาติ เลิศคุณวงส์
-								</div>
-							</div>
-
-							<div class="activity-item d-flex">
-								<div class="activite-label"></div>
-								<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
-								<div class="activity-content">
-									<b>รออนุมัติ</b><br />ประยุทธ์ จันทร์นะจ๊ะ
-								</div>
-							</div>
-							<div class="activity-item d-flex">
-								<div class="activite-label"></div>
-								<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
-								<div class="activity-content">
-									<b>ดำเนินการเสร็จสิ้น</b>
-								</div>
+								@await Component.InvokeAsync("HistoryComponent",Model?.Id)
 							</div>
 						</div>
 					</div>
 				</div>
+				<div class="col-lg-4">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">สถานะ <span>| Status</span></h5>
+							@await Component.InvokeAsync("TabStatusComponent")
+						</div>
+					</div>
+				</div>
+				<div id="modalContainer">
+					@await Html.PartialAsync("_ModalShowAproval", Model?.ModalShowApproval)
+				</div>
 			</div>
-
-		</div>
-
-		<!-- #region name -->
-		<div id="modalContainer">
-			@await Html.PartialAsync("_ModalShowAproval",Model?.ModalShowApproval)
-		</div>
-		<!-- #endregion -->
-	</section>
-
+		</section>
+	</form>
 </main>
 @section Scripts {
 	<script>
@@ -277,10 +197,26 @@
 				}
 				loadComponent();
 			}
+
+
+
+
+
 			controller.save = function () {
 				services.ConfirmAlert("", "", "", "", "", function (result) {
 					if (result.isConfirmed) {
-						services.AjaxPostData("@Url.Action("Save", "PurchaseRequisition")", { key1: key }, function (response) {
+						var data = new FormData($('#formdata').get(0));
+						services.AjaxPostForm("@Url.Action("save", "PurchaseRequisition")", data, function (response) {
+							services.CustomAlert1(response);
+						});
+					}
+				});
+			}
+			controller.draft = function () {
+				services.ConfirmAlert("", "", "", "", "", function (result) {
+					if (result.isConfirmed) {
+						var data = new FormData($('#formdata').get(0));
+						services.AjaxPostForm("@Url.Action("draft", "PurchaseRequisition")", data, function (response) {
 							services.CustomAlert1(response);
 						});
 					}
