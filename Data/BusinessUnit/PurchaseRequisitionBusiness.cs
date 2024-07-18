@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using AutoMapper;
 using Document_Control.Core.comModels;
 using Document_Control.Core.dbModels;
@@ -70,7 +71,7 @@ namespace Document_Control.Data.BusinessUnit
 			}
 			else
 			{
-				var date  = DateTime.Now;
+				var date = DateTime.Now;
 				TbDocumentTransaction data = new TbDocumentTransaction();
 				var config = new MapperConfiguration(cfg => cfg.CreateMap<PagePR, TbDocumentTransaction>());
 				var mapper = new Mapper(config);
@@ -90,17 +91,17 @@ namespace Document_Control.Data.BusinessUnit
 
 
 
-			StampHistory(DocId,action, obj.Reason);
+			StampHistory(DocId, action, obj.Reason);
 			//flow
 			//file
 			//approval
 			//history
 
-			return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ" };
+			return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ", url = "Home/MyTask" };
 		}
 
 
-		public void StampHistory(int DocId,string action,string Reason) 
+		public void StampHistory(int DocId, string action, string Reason)
 		{
 			_dbContext.TbHistoryTransaction.Add(new TbHistoryTransaction()
 			{
