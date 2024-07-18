@@ -58,7 +58,7 @@ namespace Document_Control.Data.BusinessUnit
 						{
 							DocumentId = doc.Id,
 							DocumentCode = doc.DocumentCode,
-							DocumentDate = doc.CreateDate.Value,
+							DocumentDate = doc.OrderDate,
 							Name = user.Name,
 							Subject = doc.Subject,
 							Priority = pi.PriorityName,
@@ -83,7 +83,7 @@ namespace Document_Control.Data.BusinessUnit
 						{
 							DocumentId = doc.Id,
 							DocumentCode = doc.DocumentCode,
-							DocumentDate = doc.CreateDate.Value,
+							DocumentDate = doc.OrderDate,
 							Name = user.Name,
 							Subject = doc.Subject,
 							Priority = pi.PriorityName,

@@ -62,6 +62,7 @@ namespace Document_Control.Data.BusinessUnit
 					var config = new MapperConfiguration(cfg => cfg.CreateMap<PagePR, TbDocumentTransaction>());
 					var mapper = new Mapper(config);
 					mapper.Map(obj, find);
+					find.StatusId = 1;
 					_dbContext.TbDocumentTransaction.Update(find);
 					_dbContext.SaveChanges();
 					DocId = find.Id;
@@ -79,12 +80,13 @@ namespace Document_Control.Data.BusinessUnit
 				data.CreateBy = userId;
 				data.CreateDate = date;
 				data.OrderDate = date;
+				data.StatusId = 1;
 				_dbContext.TbDocumentTransaction.Add(data);
 				_dbContext.SaveChanges();
 				DocId = data.Id;
 			}
 
-			GetLineApprove(DocId, obj.Budget);
+			//GetLineApprove(DocId, obj.Budget);
 
 
 
