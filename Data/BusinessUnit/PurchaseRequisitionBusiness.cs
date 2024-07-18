@@ -55,6 +55,26 @@ namespace Document_Control.Data.BusinessUnit
 		public dynamic AddorUpdate(PagePR obj, string action)
 		{
 			int DocId = 0;
+			int StatusId = 0;
+
+			if (action == "บันทึกร่าง")
+			{
+				StatusId = 2;
+			}
+			else if (action == "บันทึก")
+			{
+				StatusId = 4;
+			}
+			else if (action == "ส่งกลับ")
+			{
+				StatusId = 3;
+			}
+			//5
+			//6
+
+
+
+
 			if (obj.Id != null && obj.Id != 0)
 			{
 				var find = _dbContext.TbDocumentTransaction.FirstOrDefault(x => x.Id == obj.Id);
@@ -63,7 +83,7 @@ namespace Document_Control.Data.BusinessUnit
 					var config = new MapperConfiguration(cfg => cfg.CreateMap<PagePR, TbDocumentTransaction>());
 					var mapper = new Mapper(config);
 					mapper.Map(obj, find);
-					find.StatusId = 1;
+					find.StatusId = StatusId;
 					_dbContext.TbDocumentTransaction.Update(find);
 					_dbContext.SaveChanges();
 					DocId = find.Id;
@@ -81,14 +101,14 @@ namespace Document_Control.Data.BusinessUnit
 				data.CreateBy = userId;
 				data.CreateDate = date;
 				data.OrderDate = date;
-				data.StatusId = 1;
+				data.StatusId = StatusId;
 				_dbContext.TbDocumentTransaction.Add(data);
 				_dbContext.SaveChanges();
 				DocId = data.Id;
 			}
 
 			StampApproval(DocId, obj.Budget.Value, action);
-			StampHistory(DocId, action, obj.Reason);
+			StampHistory(DocId, action, obj.Reason, 0);
 			//flow
 			//file
 			//approval
@@ -131,14 +151,14 @@ namespace Document_Control.Data.BusinessUnit
 				}
 			}
 		}
-		public void StampHistory(int DocId, string action, string Reason)
+		public void StampHistory(int DocId, string action, string Reason, int StatusId)
 		{
 			_dbContext.TbHistoryTransaction.Add(new TbHistoryTransaction()
 			{
 				DocId = DocId,
 				UserId = userId,
 				PositionId = positionId,
-				StatusId = 0,
+				StatusId = StatusId,
 				Action = action,
 				Reason = Reason,
 				StampDate = DateTime.Now
