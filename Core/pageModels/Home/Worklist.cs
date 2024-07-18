@@ -12,6 +12,7 @@
 		public string Name { get; set; }
 		public string Subject { get; set; }
 		public string Priority { get; set; }
+		public int PriorityId { get; set; }
 		public string Status { get; set; }
 		public int ApproveByPositionId { get; set; }
 		public string ApproveByPositionName { get; set; }

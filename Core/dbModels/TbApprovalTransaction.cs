@@ -10,6 +10,7 @@ namespace Document_Control.Core.dbModels
 		public int Id { get; set; }
 		public int DocId { get; set; }
 		public int PositionId { get; set; }
+		public int? ApproveBy { get; set; }
 		public decimal Budget { get; set; }
 		public bool IsApprove { get; set; }
 	}

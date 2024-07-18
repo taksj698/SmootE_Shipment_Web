@@ -87,10 +87,7 @@ namespace Document_Control.Data.BusinessUnit
 				DocId = data.Id;
 			}
 
-			//GetLineApprove(DocId, obj.Budget);
-
-
-
+			StampApproval(DocId, obj.Budget.Value, action);
 			StampHistory(DocId, action, obj.Reason);
 			//flow
 			//file
@@ -100,7 +97,40 @@ namespace Document_Control.Data.BusinessUnit
 			return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ", url = "Home/MyTask" };
 		}
 
+		public void StampApproval(int DocId, decimal Budget, string action)
+		{
+			List<string> status = new List<string>() { "บันทึก", "บันทึกร่าง" };
+			if (status.Contains(action))
+			{
+				var lineApprove = GetLineApprove(null, Budget);
+				var find = _dbContext.TbApprovalTransaction.Where(x => x.DocId == DocId).ToList();
+				if (find != null && find.Count > 0)
+				{
+					_dbContext.TbApprovalTransaction.RemoveRange(find);
+					_dbContext.SaveChanges();
+				}
+				if (lineApprove != null && lineApprove.approvalLists != null && lineApprove.approvalLists.Count > 0)
+				{
+					List<TbApprovalTransaction> list = new List<TbApprovalTransaction>();
 
+					foreach (var item in lineApprove.approvalLists)
+					{
+						list.Add(new TbApprovalTransaction()
+						{
+							DocId = DocId,
+							Budget = Convert.ToDecimal(item.Budget),
+							PositionId = item.PositionId.Value,
+							IsApprove = false,
+						});
+					}
+					if (list != null && list.Count > 0)
+					{
+						_dbContext.TbApprovalTransaction.AddRange(list);
+						_dbContext.SaveChanges();
+					}
+				}
+			}
+		}
 		public void StampHistory(int DocId, string action, string Reason)
 		{
 			_dbContext.TbHistoryTransaction.Add(new TbHistoryTransaction()
@@ -127,7 +157,29 @@ namespace Document_Control.Data.BusinessUnit
 			var asd = _dbContext.TbApprovalMatrix.ToList();
 			if (id != null && id != 0)
 			{
-
+				var find = (from ap in _dbContext.TbApprovalTransaction
+							join po in _dbContext.TbPosition on ap.PositionId equals po.Id
+							select new
+							{
+								Budget = ap.Budget,
+								PositionId = ap.PositionId,
+								PositionName = po.PositionName,
+								IsApprove = ap.IsApprove,
+							})
+							.ToList();
+				if (find != null && find.Count > 0)
+				{
+					foreach (var item in find)
+					{
+						obj.approvalLists.Add(new ApprovalList()
+						{
+							Budget = item.Budget.ToString("N2"),
+							PositionId = item.PositionId,
+							PositionName = item.PositionName,
+							IsApproved = false
+						});
+					}
+				}
 			}
 			else if (budget != null && budget != 0)
 			{
@@ -215,6 +267,11 @@ namespace Document_Control.Data.BusinessUnit
 					var position = _dbContext.TbPosition.FirstOrDefault(x => x.Id == positionId);
 					obj.CreateName = user?.Name;
 					obj.PositionName = position?.PositionName;
+
+					obj.ApprovalPR = GetLineApprove(find.Id, null);
+
+
+
 				}
 			}
 			return obj;

@@ -62,6 +62,7 @@ namespace Document_Control.Data.BusinessUnit
 							Name = user.Name,
 							Subject = doc.Subject,
 							Priority = pi.PriorityName,
+							PriorityId = pi.Id,
 							Status = sta.StatusName,
 							ApproveByPositionId = 1,
 							ApproveByPositionName = "0"
@@ -87,6 +88,7 @@ namespace Document_Control.Data.BusinessUnit
 							Name = user.Name,
 							Subject = doc.Subject,
 							Priority = pi.PriorityName,
+							PriorityId = pi.Id,
 							Status = sta.StatusName,
 							ApproveByPositionId = 1,
 							ApproveByPositionName = "0"

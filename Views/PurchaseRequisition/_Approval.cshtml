@@ -6,7 +6,8 @@
 		<table class="table table-bordered">
 			<tr>
 				<th scope="col">ตำแหน่ง</th>
-				<th scope="col">วงเงิน</th>
+				<th class="text-end" scope="col">วงเงิน</th>
+				<th class="text-center" scope="col">สถานะ</th>
 			</tr>
 			<tbody>
 				@if (Model != null && Model.approvalLists != null && Model.approvalLists.Count > 0)
@@ -15,14 +16,26 @@
 					{
 						<tr>
 							<td><span class="badge bg-info me-1" onclick="showListApproval('@item.PositionId')">แสดง</span>@item.PositionName</td>
-							<td>@item.Budget</td>
+							<td class="text-end">@item.Budget</td>
+							@if (item.IsApproved)
+							{
+								<td class="text-center">
+									<span class="badge bg-success me-1">อนุมัติแล้ว</span>
+								</td>
+							}
+							else
+							{
+								<td class="text-center">
+									<span class="badge bg-warning me-1">รออนุมัติ</span>
+								</td>
+							}
 						</tr>
 					}
 				}
 				else
 				{
 					<tr>
-						<td colspan="2" class="text-center">ไม่พบข้อมูล</td>
+						<td colspan="3" class="text-center">ไม่พบข้อมูล</td>
 					</tr>
 				}
 			</tbody>

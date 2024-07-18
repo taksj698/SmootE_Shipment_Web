@@ -9,5 +9,6 @@
 		public int? PositionId { get; set; }
 		public string? PositionName { get; set; }
 		public string? Budget { get; set; }
+		public bool IsApproved { get; set; }
 	}
 }
