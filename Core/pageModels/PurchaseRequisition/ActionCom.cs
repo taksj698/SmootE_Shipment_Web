@@ -3,5 +3,6 @@
 	public class ActionCom
 	{
 		public int StatusId { get; set; }
+		public bool IsShow { get; set; }
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using AutoMapper;
 using Document_Control.Core.comModels;
@@ -57,6 +58,9 @@ namespace Document_Control.Data.BusinessUnit
 			int DocId = 0;
 			int StatusId = 0;
 
+
+
+
 			if (action == "บันทึกร่าง")
 			{
 				StatusId = 2;
@@ -69,10 +73,15 @@ namespace Document_Control.Data.BusinessUnit
 			{
 				StatusId = 3;
 			}
-			//5
-			//6
-
-
+			else if (action == "ยกเลิก")
+			{
+				StatusId = 6;
+			}
+			else if (action == "อนุมัติ")
+			{
+				StatusId = 4;
+			}
+			//หลัง บันทึก จะเป็นรออนุติ
 
 
 			if (obj.Id != null && obj.Id != 0)
@@ -80,12 +89,17 @@ namespace Document_Control.Data.BusinessUnit
 				var find = _dbContext.TbDocumentTransaction.FirstOrDefault(x => x.Id == obj.Id);
 				if (find != null)
 				{
-					var config = new MapperConfiguration(cfg => cfg.CreateMap<PagePR, TbDocumentTransaction>());
-					var mapper = new Mapper(config);
-					mapper.Map(obj, find);
-					find.StatusId = StatusId;
-					_dbContext.TbDocumentTransaction.Update(find);
-					_dbContext.SaveChanges();
+					//Update All only 
+					List<int> StatusActionForCreator = new List<int>() { 1, 2, 3,4 };
+					if (StatusActionForCreator.Contains(find.StatusId))
+					{
+						var config = new MapperConfiguration(cfg => cfg.CreateMap<PagePR, TbDocumentTransaction>());
+						var mapper = new Mapper(config);
+						mapper.Map(obj, find);
+						find.StatusId = StatusId;
+						_dbContext.TbDocumentTransaction.Update(find);
+						_dbContext.SaveChanges();
+					}
 					DocId = find.Id;
 				}
 			}
@@ -106,9 +120,9 @@ namespace Document_Control.Data.BusinessUnit
 				_dbContext.SaveChanges();
 				DocId = data.Id;
 			}
-
 			StampApproval(DocId, obj.Budget.Value, action);
 			StampHistory(DocId, action, obj.Reason, 0);
+
 			//flow
 			//file
 			//approval
@@ -119,7 +133,7 @@ namespace Document_Control.Data.BusinessUnit
 
 		public void StampApproval(int DocId, decimal Budget, string action)
 		{
-			List<string> status = new List<string>() { "บันทึก", "บันทึกร่าง" };
+			List<string> status = new List<string>() { "บันทึก", "บันทึกร่าง","ส่งกลับ" };
 			if (status.Contains(action))
 			{
 				var lineApprove = GetLineApprove(null, Budget);
@@ -150,6 +164,46 @@ namespace Document_Control.Data.BusinessUnit
 					}
 				}
 			}
+			else
+			{
+				var FindNowApprover = _dbContext.TbApprovalTransaction.Where(x => x.DocId == DocId && !x.IsApprove).OrderBy(o => o.Budget).ToList();
+				if (FindNowApprover != null && FindNowApprover.Count > 0)
+				{
+					var NowApprover = FindNowApprover.FirstOrDefault();
+					if (NowApprover.PositionId == positionId)
+					{
+						NowApprover.IsApprove = true;
+						NowApprover.ApproveBy = userId;
+						_dbContext.TbApprovalTransaction.Update(NowApprover);
+						_dbContext.SaveChanges();
+					}				
+				}
+
+
+				var find = _dbContext.TbDocumentTransaction.FirstOrDefault(x => x.Id == DocId);
+				if (find != null)
+				{
+					//Update All only 
+					List<int> StatusActionForApprover = new List<int>() { 4 };
+					if (StatusActionForApprover.Contains(find.StatusId))
+					{
+						int StatusId = 0;
+						var checklastapp = _dbContext.TbApprovalTransaction.Where(x => x.DocId == DocId && !x.IsApprove).ToList();
+						if (checklastapp.Count == 0)
+						{
+							StatusId = 5;
+						}
+						else
+						{
+							StatusId = 4;
+						}
+						//update status only
+						find.StatusId = StatusId;
+						_dbContext.TbDocumentTransaction.Update(find);
+						_dbContext.SaveChanges();
+					}
+				}
+			}
 		}
 		public void StampHistory(int DocId, string action, string Reason, int StatusId)
 		{
@@ -174,11 +228,11 @@ namespace Document_Control.Data.BusinessUnit
 		{
 			ApprovalPR obj = new ApprovalPR();
 			obj.approvalLists = new List<ApprovalList>();
-			var asd = _dbContext.TbApprovalMatrix.ToList();
 			if (id != null && id != 0)
 			{
 				var find = (from ap in _dbContext.TbApprovalTransaction
 							join po in _dbContext.TbPosition on ap.PositionId equals po.Id
+							where ap.DocId == id
 							select new
 							{
 								Budget = ap.Budget,
@@ -196,7 +250,7 @@ namespace Document_Control.Data.BusinessUnit
 							Budget = item.Budget.ToString("N2"),
 							PositionId = item.PositionId,
 							PositionName = item.PositionName,
-							IsApproved = false
+							IsApproved = item.IsApprove
 						});
 					}
 				}
@@ -287,11 +341,16 @@ namespace Document_Control.Data.BusinessUnit
 					var position = _dbContext.TbPosition.FirstOrDefault(x => x.Id == positionId);
 					obj.CreateName = user?.Name;
 					obj.PositionName = position?.PositionName;
-
-					obj.ApprovalPR = GetLineApprove(find.Id, null);
-
-
-
+					// ถ้าเป็น New,Draft,Reject จะต้อง Fetch Line Approve ใหม่เสมอ ยกเว้น Flow นั้น บันทึกไปแล้วเพิ่มรออนุมัติ
+					List<int> StatusActionForCreator = new List<int>() { 1, 2, 3 };
+					if (StatusActionForCreator.Contains(find.StatusId))
+					{
+						obj.ApprovalPR = GetLineApprove(null, find.Budget);
+					}
+					else
+					{
+						obj.ApprovalPR = GetLineApprove(find.Id, null);
+					}
 				}
 			}
 			return obj;

@@ -5,21 +5,24 @@
 
 	@if (Model != null)
 	{
-		@if (Model.StatusId == 1)
+		if (Model.IsShow)
 		{
-			<button type="button" onclick="controller.draft();" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
-			<button type="button" onclick="controller.save();" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
-		}
-		else if (Model.StatusId == 2 || Model.StatusId == 3)
-		{
-			<button type="button" onclick="controller.draft();" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
-			<button type="button" onclick="controller.save();" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
-			<button type="button" onclick="controller.cancel();" class="btn btn-danger"><i class="ri-save-3-fill me-1"></i>ยกเลิก</button>
-		}
-		else if (Model.StatusId == 4)
-		{
-			<button type="button" onclick="controller.approve();" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>อนุมัติ</button>
-			<button type="button" onclick="controller.reject();" class="btn btn-danger"><i class="ri-save-3-fill me-1"></i>ส่งกลับ</button>
+			@if (Model.StatusId == 1)
+			{
+				<button type="button" onclick="controller.draft();" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
+				<button type="button" onclick="controller.save();" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
+			}
+			else if (Model.StatusId == 2 || Model.StatusId == 3)
+			{
+				<button type="button" onclick="controller.draft();" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
+				<button type="button" onclick="controller.save();" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
+				<button type="button" onclick="controller.cancel();" class="btn btn-danger"><i class="ri-save-3-fill me-1"></i>ยกเลิก</button>
+			}
+			else if (Model.StatusId == 4)
+			{
+				<button type="button" onclick="controller.approve();" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>อนุมัติ</button>
+				<button type="button" onclick="controller.reject();" class="btn btn-danger"><i class="ri-save-3-fill me-1"></i>ส่งกลับ</button>
+			}
 		}
 	}
 </div>

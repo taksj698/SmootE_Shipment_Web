@@ -47,6 +47,20 @@ namespace Document_Control.Controllers
 			return _prBusiness.AddorUpdate(obj, "บันทึกร่าง");
 		}
 
+		public dynamic approve(PagePR obj)
+		{
+			return _prBusiness.AddorUpdate(obj, "อนุมัติ");
+		}
+		public dynamic reject(PagePR obj)
+		{
+			return _prBusiness.AddorUpdate(obj, "ส่งกลับ");
+		}
+		public dynamic cancel(PagePR obj)
+		{
+			return _prBusiness.AddorUpdate(obj, "ยกเลิก");
+		}
+		
+
 
 		#region Component
 		public PartialViewResult LoadComponentApproval(int? id, decimal? budget)

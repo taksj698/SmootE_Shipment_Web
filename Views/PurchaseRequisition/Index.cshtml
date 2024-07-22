@@ -218,7 +218,35 @@
 					}
 				});
 			}
+			controller.approve = function () {
+				services.ConfirmAlert("", "", "", "", "", function (result) {
+					if (result.isConfirmed) {
+						var data = new FormData($('#formdata').get(0));
+						services.AjaxPostForm("@Url.Action("approve", "PurchaseRequisition")", data, function (response) {
+							services.CustomAlert1(response);
+						});
+					}
+				});
+			}
 			controller.reject = function () {
+				services.ConfirmAlert("", "", "", "", "", function (result) {
+					if (result.isConfirmed) {
+						var data = new FormData($('#formdata').get(0));
+						services.AjaxPostForm("@Url.Action("reject", "PurchaseRequisition")", data, function (response) {
+							services.CustomAlert1(response);
+						});
+					}
+				});
+			}
+			controller.cancel = function () {
+				services.ConfirmAlert("", "", "", "", "", function (result) {
+					if (result.isConfirmed) {
+						var data = new FormData($('#formdata').get(0));
+						services.AjaxPostForm("@Url.Action("cancel", "PurchaseRequisition")", data, function (response) {
+							services.CustomAlert1(response);
+						});
+					}
+				});
 			}
 		});
 		function loadComponent() {
