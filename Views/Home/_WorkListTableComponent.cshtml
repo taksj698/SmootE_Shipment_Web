@@ -20,8 +20,15 @@
 					<td class="text-center"><a href="@Url.Action("Index", "PurchaseRequisition")/@item.DocumentId"><span class="badge bg-info me-1">@item.DocumentCode</span></a></td>
 					<td class="text-center">@item.DocumentDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
 					<td>@item.Name</td>
-					<td>@item.Subject</td>
-					<td>**</td>
+					<td>@item.Subject</td>			
+					@if (item.Approver != null)
+					{
+						<td><span class="badge bg-info me-1">แสดง</span>@item.Approver.PositionName</td>
+					}
+					else
+					{
+						<td>-</td>
+					}
 					<td class="text-center">
 						@if (item.PriorityId == 1)
 						{

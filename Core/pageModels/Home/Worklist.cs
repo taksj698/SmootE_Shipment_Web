@@ -14,7 +14,12 @@
 		public string Priority { get; set; }
 		public int PriorityId { get; set; }
 		public string Status { get; set; }
-		public int ApproveByPositionId { get; set; }
-		public string ApproveByPositionName { get; set; }
+		public WorklistDataApprover? Approver { get; set; }
+	}
+	public class WorklistDataApprover
+	{
+		public decimal Budget { get; set; }
+		public int PositionId { get; set; }
+		public string PositionName { get; set; }
 	}
 }

@@ -47,13 +47,16 @@ namespace Document_Control.Data.BusinessUnit
 		}
 		public Worklist MyTask()
 		{
-			List<int> status = new List<int>() { 6,7 };
+			List<int> status = new List<int>() { 5, 6 };
+			List<int> statusCreator = new List<int>() { 1, 2, 3 };
 			Worklist obj = new Worklist();
 			obj.data = (from doc in _dbContext.TbDocumentTransaction
 						join user in _dbContext.TbUser on doc.CreateBy equals user.Id
 						join sta in _dbContext.TbStatus on doc.StatusId equals sta.Id
 						join pi in _dbContext.TbPriority on doc.PriorityId equals pi.Id
-						where doc.CreateBy == userId && !status.Contains(doc.StatusId)
+						let appNext = _dbContext.TbApprovalTransaction.Where(x => x.DocId == doc.Id && !x.IsApprove).OrderBy(o => o.Budget).FirstOrDefault()
+						let appPass = _dbContext.TbApprovalTransaction.Where(x => x.DocId == doc.Id && x.IsApprove && x.PositionId == positionId).FirstOrDefault()
+						where (doc.CreateBy == userId || (appNext != null && appNext.PositionId == positionId) || appPass != null) && !status.Contains(doc.StatusId)
 						select new WorklistData
 						{
 							DocumentId = doc.Id,
@@ -64,8 +67,15 @@ namespace Document_Control.Data.BusinessUnit
 							Priority = pi.PriorityName,
 							PriorityId = pi.Id,
 							Status = sta.StatusName,
-							ApproveByPositionId = 1,
-							ApproveByPositionName = "0"
+							Approver = (from app in _dbContext.TbApprovalTransaction
+										join po in _dbContext.TbPosition on app.PositionId equals po.Id
+										where app.DocId == doc.Id && !app.IsApprove && !statusCreator.Contains(doc.StatusId)
+										select new WorklistDataApprover
+										{
+											Budget = app.Budget,
+											PositionId = po.Id,
+											PositionName = po.PositionName
+										}).OrderBy(o => o.Budget).FirstOrDefault()
 						})
 						  .OrderByDescending(o => o.DocumentDate)
 						  .ToList();
@@ -73,13 +83,14 @@ namespace Document_Control.Data.BusinessUnit
 		}
 		public Worklist Complete()
 		{
-			List<int> status = new List<int>() { 6, 7 };
+			List<int> status = new List<int>() { 5, 6 };
 			Worklist obj = new Worklist();
 			obj.data = (from doc in _dbContext.TbDocumentTransaction
 						join user in _dbContext.TbUser on doc.CreateBy equals user.Id
 						join sta in _dbContext.TbStatus on doc.StatusId equals sta.Id
 						join pi in _dbContext.TbPriority on doc.PriorityId equals pi.Id
-						where doc.CreateBy == userId && status.Contains(doc.StatusId)
+						let apper = _dbContext.TbApprovalTransaction.Where(x => x.DocId == doc.Id && x.IsApprove && x.PositionId == positionId).FirstOrDefault()
+						where (doc.CreateBy == userId || (apper != null)) && status.Contains(doc.StatusId)
 						select new WorklistData
 						{
 							DocumentId = doc.Id,
@@ -89,9 +100,7 @@ namespace Document_Control.Data.BusinessUnit
 							Subject = doc.Subject,
 							Priority = pi.PriorityName,
 							PriorityId = pi.Id,
-							Status = sta.StatusName,
-							ApproveByPositionId = 1,
-							ApproveByPositionName = "0"
+							Status = sta.StatusName
 						})
 						  .OrderByDescending(o => o.DocumentDate)
 						  .ToList();
