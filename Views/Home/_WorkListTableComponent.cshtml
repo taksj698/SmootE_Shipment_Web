@@ -23,7 +23,7 @@
 					<td>@item.Subject</td>			
 					@if (item.Approver != null)
 					{
-						<td><span class="badge bg-info me-1">แสดง</span>@item.Approver.PositionName</td>
+						<td><span class="badge bg-info me-1" onclick="showListApproval('@item.Approver.PositionId')">แสดง</span>@item.Approver.PositionName</td>
 					}
 					else
 					{

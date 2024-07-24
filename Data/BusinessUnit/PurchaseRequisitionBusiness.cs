@@ -143,7 +143,7 @@ namespace Document_Control.Data.BusinessUnit
 					_dbContext.TbApprovalTransaction.RemoveRange(find);
 					_dbContext.SaveChanges();
 				}
-				if (lineApprove != null && lineApprove.approvalLists != null && lineApprove.approvalLists.Count > 0)
+				if (lineApprove != null && lineApprove.approvalLists != null && lineApprove.approvalLists.Count > 0 && action != "ส่งกลับ")
 				{
 					List<TbApprovalTransaction> list = new List<TbApprovalTransaction>();
 
