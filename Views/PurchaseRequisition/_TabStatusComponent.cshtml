@@ -1,24 +1,27 @@
-﻿<div class="activity">
-	<div class="activity-item d-flex">
-		<div class="activite-label"></div>
-		<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
-		<div class="activity-content">
-			<b>สร้างเอกสาร</b><br />ชาติ เลิศคุณวงส์
-		</div>
-	</div>
+﻿@model Document_Control.Core.pageModels.PurchaseRequisition.TabStatusBar
 
-	<div class="activity-item d-flex">
-		<div class="activite-label"></div>
-		<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
-		<div class="activity-content">
-			<b>รออนุมัติ</b><br />ประยุทธ์ จันทร์นะจ๊ะ
-		</div>
-	</div>
-	<div class="activity-item d-flex">
-		<div class="activite-label"></div>
-		<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
-		<div class="activity-content">
-			<b>ดำเนินการเสร็จสิ้น</b>
-		</div>
-	</div>
+
+<h5 class="card-title">สถานะ | <span class="text-primary" style="font-weight:bold;font-size:20px;"> @Model?.StatusName</span></h5>
+<div class="activity">
+	@if (Model != null && Model?.lStatus?.Count > 0)
+	{
+		foreach (var item in Model.lStatus)
+		{
+			<div class="activity-item d-flex">
+				<div class="activite-label"></div>
+
+				@if (item.Flag == 0)
+				{
+					<i class="bi bi-circle-fill activity-badge text-secondary align-self-start"></i>
+				}
+				else if (item.Flag == 1)
+				{
+					<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
+				}	
+				<div class="activity-content">
+					<b>@item.StatusName</b><br />
+				</div>
+			</div>
+		}
+	}
 </div>

@@ -168,8 +168,8 @@
 				<div class="col-lg-4">
 					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title">สถานะ <span>| Status</span></h5>
-							@await Component.InvokeAsync("TabStatusComponent")
+							
+							@await Component.InvokeAsync("TabStatusComponent", Model?.Id)
 						</div>
 					</div>
 				</div>
