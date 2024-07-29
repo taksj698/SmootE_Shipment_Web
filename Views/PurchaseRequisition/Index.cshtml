@@ -8,6 +8,10 @@
 	.dashboard .activity .activity-item .activite-label {
 		min-width: 0px;
 	}
+
+	.custom-file-input {
+		display: none;
+	}
 </style>
 <main id="main" class="main">
 	<form id="formdata">
@@ -129,13 +133,21 @@
 						<div class="card recent-sales overflow-auto">
 							<div class="card-body">
 								<h5 class="card-title">ไฟล์แนบ <span>| Attach Files</span></h5>
-								<table class="table table-bordered">
+
+								<div class="form-group">
+									<label class="btn btn-sm btn-primary" for="fileInput"><i class="ri-file-upload-fill me-1"></i>อัพโหลด</label>
+									<input type="file" class="custom-file-input" id="fileInput">
+								</div>
+								<table class="table table-bordered mt-2">
 									<tr>
 										<th scope="col">ชื่อไฟล์</th>
 									</tr>
 									<tbody>
+										@* 							<tr>
+										<td><span class="badge bg-danger me-1" onclick="$('#positionApprove').modal('show');">ลบ</span>รายละเอียดขอจัดซื้อเรือดำน้ำ 15 ลำ</td>
+										</tr> *@
 										<tr>
-											<td><span class="badge bg-danger me-1" onclick="$('#positionApprove').modal('show');">ลบ</span>รายละเอียดขอจัดซื้อเรือดำน้ำ 15 ลำ</td>
+											<td class="text-center">ไม่พบข้อมูล</td>
 										</tr>
 									</tbody>
 								</table>
@@ -160,7 +172,7 @@
 						<div class="card top-selling overflow-auto">
 							<div class="card-body pb-0">
 								<h5 class="card-title">ประวัติ <span>| History</span></h5>
-								@await Component.InvokeAsync("HistoryComponent",Model?.Id)
+								@await Component.InvokeAsync("HistoryComponent", Model?.Id)
 							</div>
 						</div>
 					</div>
@@ -168,7 +180,7 @@
 				<div class="col-lg-4">
 					<div class="card">
 						<div class="card-body">
-							
+
 							@await Component.InvokeAsync("TabStatusComponent", Model?.Id)
 						</div>
 					</div>
