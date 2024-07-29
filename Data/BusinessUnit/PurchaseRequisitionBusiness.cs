@@ -84,13 +84,24 @@ namespace Document_Control.Data.BusinessUnit
 			//หลัง บันทึก จะเป็นรออนุติ
 
 
+
+			if (action == "บันทึก")
+			{
+				var lineApprove = GetLineApprove(null, obj.Budget);
+				if (lineApprove == null || (lineApprove != null && lineApprove?.approvalLists?.Count() == 0))
+				{
+					return new { result = true, type = "error", message = "ไม่พบผู้อนุมัติ" };
+				}
+			}
+
+
 			if (obj.Id != null && obj.Id != 0)
 			{
 				var find = _dbContext.TbDocumentTransaction.FirstOrDefault(x => x.Id == obj.Id);
 				if (find != null)
 				{
 					//Update All only 
-					List<int> StatusActionForCreator = new List<int>() { 1, 2, 3,4 };
+					List<int> StatusActionForCreator = new List<int>() { 1, 2, 3, 4 };
 					if (StatusActionForCreator.Contains(find.StatusId))
 					{
 						var config = new MapperConfiguration(cfg => cfg.CreateMap<PagePR, TbDocumentTransaction>());
@@ -133,7 +144,7 @@ namespace Document_Control.Data.BusinessUnit
 
 		public void StampApproval(int DocId, decimal Budget, string action)
 		{
-			List<string> status = new List<string>() { "บันทึก", "บันทึกร่าง","ส่งกลับ" };
+			List<string> status = new List<string>() { "บันทึก", "บันทึกร่าง", "ส่งกลับ" };
 			if (status.Contains(action))
 			{
 				var lineApprove = GetLineApprove(null, Budget);
@@ -176,7 +187,7 @@ namespace Document_Control.Data.BusinessUnit
 						NowApprover.ApproveBy = userId;
 						_dbContext.TbApprovalTransaction.Update(NowApprover);
 						_dbContext.SaveChanges();
-					}				
+					}
 				}
 
 
