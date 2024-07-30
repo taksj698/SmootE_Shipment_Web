@@ -18,8 +18,6 @@ namespace Document_Control.Data.Repository.SQLServer
 			modelBuilder.Entity<PRResult>().HasNoKey();
 		}
 
-
-
 		public DbSet<TbApprovalMatrix> TbApprovalMatrix { get; set; }
 		public DbSet<TbCompany> TbCompany { get; set; }
 		public DbSet<TbConfigs> TbConfigs { get; set; }
@@ -31,9 +29,7 @@ namespace Document_Control.Data.Repository.SQLServer
 		public DbSet<TbApprovalTransaction> TbApprovalTransaction { get; set; }
 		public DbSet<TbHistoryTransaction> TbHistoryTransaction { get; set; }
 		public DbSet<TbStatus> TbStatus { get; set; }
-
-
-
+		public DbSet<TbDocumentFile> TbDocumentFile { get; set; }		
 		public DbSet<PRResult> PRResult { get; set; }
 		
 	}
