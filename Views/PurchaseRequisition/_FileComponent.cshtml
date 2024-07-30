@@ -10,7 +10,11 @@
 			foreach (var item in Model)
 			{
 				<tr>
-					<td><span class="badge bg-danger me-1" onclick="controller.deletefile('@item.id')">ลบ</span>@item.filename</td>
+					<td>
+						<span class="badge bg-danger me-1" onclick="controller.deletefile('@item.id')">ลบ</span>
+						<a href="@string.Format("data:{0};base64,{1}",item.ContentType,item.base64)" download="@item.filename">@item.filename</a>
+
+					</td>
 				</tr>
 			}
 		}
