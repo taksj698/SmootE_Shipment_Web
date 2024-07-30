@@ -59,13 +59,26 @@ namespace Document_Control.Controllers
 		{
 			return _prBusiness.AddorUpdate(obj, "ยกเลิก");
 		}
-		
+
+		public async Task<dynamic> upload(IFormFile file)
+		{
+			return await _prBusiness.UploadDoc(file);
+		}
+		public dynamic deletefile(string id)
+		{
+			return _prBusiness.deletefile(id);
+		}
+
 
 
 		#region Component
 		public PartialViewResult LoadComponentApproval(int? id, decimal? budget)
 		{
 			return PartialView("_Approval", _prBusiness.GetLineApprove(id, budget));
+		}
+		public PartialViewResult LoadComponentDocFile(int? id)
+		{
+			return PartialView("_FileComponent", _prBusiness.GetDocFile(id));
 		}
 		public PartialViewResult LoadPositionApproval(int? id)
 		{

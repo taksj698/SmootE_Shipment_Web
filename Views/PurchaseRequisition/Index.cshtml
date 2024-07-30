@@ -129,6 +129,10 @@
 							</div>
 						</div>
 					</div>
+
+					
+
+
 					<div class="col-12">
 						<div class="card recent-sales overflow-auto">
 							<div class="card-body">
@@ -136,24 +140,17 @@
 
 								<div class="form-group">
 									<label class="btn btn-sm btn-primary" for="fileInput"><i class="ri-file-upload-fill me-1"></i>อัพโหลด</label>
-									<input type="file" class="custom-file-input" id="fileInput">
+									<input type="file" class="custom-file-input" id="fileInput" onchange="controller.upload();">
 								</div>
-								<table class="table table-bordered mt-2">
-									<tr>
-										<th scope="col">ชื่อไฟล์</th>
-									</tr>
-									<tbody>
-										@* 							<tr>
-										<td><span class="badge bg-danger me-1" onclick="$('#positionApprove').modal('show');">ลบ</span>รายละเอียดขอจัดซื้อเรือดำน้ำ 15 ลำ</td>
-										</tr> *@
-										<tr>
-											<td class="text-center">ไม่พบข้อมูล</td>
-										</tr>
-									</tbody>
-								</table>
+
+								@await Html.PartialAsync("_FileComponent", Model?.ApprovalPR)
+
 							</div>
 						</div>
 					</div>
+
+
+
 					@await Html.PartialAsync("_Approval", Model?.ApprovalPR)
 					<div class="col-12">
 						<div class="card recent-sales overflow-auto">
@@ -195,6 +192,33 @@
 @section Scripts {
 	<script>
 		$(document).ready(function () {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			controller.handleBudgetChange = function () {
 				const budgetInput = document.getElementById('budgetInput');
 				let value = parseFloat(budgetInput.value).toFixed(2);
@@ -205,11 +229,6 @@
 				}
 				loadComponent();
 			}
-
-
-
-
-
 			controller.save = function () {
 				services.ConfirmAlert("", "", "", "", "", function (result) {
 					if (result.isConfirmed) {
@@ -260,15 +279,55 @@
 					}
 				});
 			}
+			controller.upload = function () {
+				var file = $("#fileInput")[0].files[0];
+				var formData = new FormData();
+				formData.append('file', file);
+				services.AjaxPostForm("@Url.Action("upload", "PurchaseRequisition")", formData, function (response) {
+					$("#fileInput").val('');
+					services.CustomAlert1(response);
+					loadComponentDocFile();
+				});
+			}
+			controller.deletefile = function (id) {
+				services.ConfirmAlert("", "", "", "", "", function (result) {
+					if (result.isConfirmed) {
+						$.ajax({
+							url: '@Url.Action("deletefile", "PurchaseRequisition")',
+							type: 'POST',
+							data: { id: id },
+							success: function (data) {
+								services.CustomAlert1(data);
+								loadComponentDocFile();
+							}
+						});
+					}
+				});
+			}			
 		});
+
+
+
+
 		function loadComponent() {
 			var budgetValue = document.getElementById('budgetInput').value;
 			$.ajax({
 				url: '@Url.Action("LoadComponentApproval", "PurchaseRequisition")',
 				type: 'GET',
-				data: { id: @Model?.Id, budget: budgetValue },
+				data: { id: @Model?.Id },
 				success: function (data) {
 					$('#componentApproval').html(data);
+				}
+			});
+		}
+		function loadComponentDocFile() {
+			var budgetValue = document.getElementById('budgetInput').value;
+			$.ajax({
+				url: '@Url.Action("LoadComponentDocFile", "PurchaseRequisition")',
+				type: 'GET',
+				data: { id: @Model?.Id },
+				success: function (data) {
+					$('#componentDocfile').html(data);
 				}
 			});
 		}

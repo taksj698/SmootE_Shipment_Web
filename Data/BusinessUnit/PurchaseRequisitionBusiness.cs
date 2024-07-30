@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using AutoMapper;
+using Document_Control.Configs.Extensions;
 using Document_Control.Core.comModels;
 using Document_Control.Core.dbModels;
 using Document_Control.Core.pageModels.PurchaseRequisition;
@@ -10,6 +12,9 @@ using Document_Control.Data.Repository.SQLServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using WebGrease.Activities;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Document_Control.Data.BusinessUnit
@@ -18,6 +23,7 @@ namespace Document_Control.Data.BusinessUnit
 	{
 		private readonly WrapperRepository _wrapper;
 		private SqlServerDbContext _dbContext;
+		private IHttpContextAccessor _haccess;
 
 		private List<Claim>? UserProfile;
 		private int userId;
@@ -28,6 +34,7 @@ namespace Document_Control.Data.BusinessUnit
 		{
 			_wrapper = wrapper;
 			_dbContext = _wrapper._dbContext;
+			_haccess = haccess;
 
 			var identity = (ClaimsIdentity)haccess.HttpContext.User.Identity;
 			UserProfile = identity.Claims.ToList();
@@ -231,6 +238,87 @@ namespace Document_Control.Data.BusinessUnit
 			_dbContext.SaveChanges();
 		}
 
+		public async Task<dynamic> UploadDoc(IFormFile file)
+		{
+			if (file == null || file.Length == 0)
+			{
+				return new { result = true, type = "error", message = "ไม่พบไฟล์" };
+			}
+			try
+			{
+				var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
+				var reqFile = string.IsNullOrEmpty(sessionFile)
+					? new List<DocUpload>()
+					: JsonConvert.DeserializeObject<List<DocUpload>>(sessionFile);
+
+				if (reqFile.Any(x => x.filename.Equals(file.FileName)))
+				{
+					return new { result = true, type = "error", message = "ไฟล์ซ้ำกัน" };
+				}
+
+				byte[] fileBytes;
+				using (var stream = new MemoryStream())
+				{
+					await file.CopyToAsync(stream);
+					fileBytes = stream.ToArray();
+				}
+				reqFile.Add(new DocUpload
+				{
+					id = Guid.NewGuid().ToString(),
+					filename = file.FileName,
+					extension = Path.GetExtension(file.FileName),
+					base64 = Convert.ToBase64String(fileBytes),
+					ContentType = file.ContentType
+				});
+
+				_haccess.HttpContext.Session.SetString("docfile", JsonConvert.SerializeObject(reqFile));
+
+				return new { result = true, type = "success", message = "อัพโหลดรายการสำเร็จ" };
+			}
+			catch (Exception ex)
+			{
+				return new { result = true, type = "error", message = ex.Message };
+			}
+		}
+
+
+		public dynamic deletefile(string id)
+		{
+			try
+			{
+				var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
+				var reqFile = string.IsNullOrEmpty(sessionFile)
+					? new List<DocUpload>()
+					: JsonConvert.DeserializeObject<List<DocUpload>>(sessionFile);
+
+				reqFile = reqFile.Where(x => x.id != id).ToList();
+				_haccess.HttpContext.Session.SetString("docfile", JsonConvert.SerializeObject(reqFile));
+				return new { result = true, type = "success", message = "ลบรายการสำเร็จ" };
+			}
+			catch (Exception ex)
+			{
+				return new
+				{
+					result = true,
+					type = "error",
+					message = ex.Message
+				};
+			}
+		}
+
+
+
+
+
+
+		public List<DocUpload> GetDocFile(int? id)
+		{
+			var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
+			var reqFile = string.IsNullOrEmpty(sessionFile)
+				? new List<DocUpload>()
+				: JsonConvert.DeserializeObject<List<DocUpload>>(sessionFile);
+			return reqFile;
+		}
 
 
 

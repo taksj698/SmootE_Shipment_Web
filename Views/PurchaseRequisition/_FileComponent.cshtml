@@ -1,0 +1,24 @@
+﻿@model List<Document_Control.Core.pageModels.PurchaseRequisition.DocUpload>
+
+<table class="table table-bordered mt-2" id="componentDocfile">
+	<tr>
+		<th scope="col">ชื่อไฟล์</th>
+	</tr>
+	<tbody>
+		@if (Model != null && Model != null && Model.Count > 0)
+		{
+			foreach (var item in Model)
+			{
+				<tr>
+					<td><span class="badge bg-danger me-1" onclick="controller.deletefile('@item.id')">ลบ</span>@item.filename</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td class="text-center">ไม่พบข้อมูล</td>
+			</tr>
+		}
+	</tbody>
+</table>
