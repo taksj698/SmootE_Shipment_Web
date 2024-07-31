@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
 using Document_Control.Configs.Extensions;
@@ -65,9 +67,6 @@ namespace Document_Control.Data.BusinessUnit
 			int DocId = 0;
 			int StatusId = 0;
 
-
-
-
 			if (action == "บันทึกร่าง")
 			{
 				StatusId = 2;
@@ -88,9 +87,6 @@ namespace Document_Control.Data.BusinessUnit
 			{
 				StatusId = 4;
 			}
-			//หลัง บันทึก จะเป็นรออนุติ
-
-
 
 			if (action == "บันทึก")
 			{
@@ -100,8 +96,6 @@ namespace Document_Control.Data.BusinessUnit
 					return new { result = true, type = "error", message = "ไม่พบผู้อนุมัติ" };
 				}
 			}
-
-
 			if (obj.Id != null && obj.Id != 0)
 			{
 				var find = _dbContext.TbDocumentTransaction.FirstOrDefault(x => x.Id == obj.Id);
@@ -116,6 +110,7 @@ namespace Document_Control.Data.BusinessUnit
 						mapper.Map(obj, find);
 						find.StatusId = StatusId;
 						_dbContext.TbDocumentTransaction.Update(find);
+						AddOrUpdateFile(find.Id, find.DocumentCode);
 						_dbContext.SaveChanges();
 					}
 					DocId = find.Id;
@@ -136,7 +131,10 @@ namespace Document_Control.Data.BusinessUnit
 				data.StatusId = StatusId;
 				_dbContext.TbDocumentTransaction.Add(data);
 				_dbContext.SaveChanges();
+				AddOrUpdateFile(data.Id, data.DocumentCode);
 				DocId = data.Id;
+
+
 			}
 			StampApproval(DocId, obj.Budget.Value, action);
 			StampHistory(DocId, action, obj.Reason, 0);
@@ -148,8 +146,66 @@ namespace Document_Control.Data.BusinessUnit
 
 			return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ", url = "Home/MyTask" };
 		}
+		public void AddOrUpdateFile(int DocId, string DocumentCode)
+		{
+			var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
+			var reqFile = string.IsNullOrEmpty(sessionFile)
+				? new List<DocUpload>()
+				: JsonConvert.DeserializeObject<List<DocUpload>>(sessionFile);
 
-		public void StampApproval(int DocId, decimal Budget, string action)
+			var config = _dbContext.TbConfigs.FirstOrDefault(x => x.Name == "PathFile");
+			var PathConfig = (config != null) ? config.Value : string.Empty;
+			var part = Path.Combine(string.Format(@"{0}\{1}", PathConfig, DocumentCode));
+			//remove
+			var find = _dbContext.TbDocumentFile.Where(x => x.DocId == DocId).ToList();
+			if (find != null)
+			{
+				foreach (var item in find)
+				{
+					var del = Path.Combine(string.Format(@"{0}\{1}", PathConfig, item.FileParth));
+
+					if (File.Exists(Path.Combine(del)))
+					{
+						File.Delete(Path.Combine(del));
+					}
+					_dbContext.TbDocumentFile.Remove(item);
+					_dbContext.SaveChanges();
+				}
+			}
+			//create
+			if (reqFile != null && reqFile.Count > 0)
+			{
+				bool exists = Directory.Exists(part);
+				if (!exists)
+					Directory.CreateDirectory(part);
+				foreach (var item in reqFile)
+				{
+					using (MemoryStream ms = new MemoryStream(Convert.FromBase64String(item.base64)))
+					{
+						Path.Combine(string.Format(@"{0}\{1}", part, item.filename));
+					}
+					byte[] fileBytes = Convert.FromBase64String(item.base64);
+					string fullPath = Path.Combine(part, item.filename);
+					Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+					File.WriteAllBytes(fullPath, fileBytes);
+
+					var subpart = fullPath.Replace(PathConfig, string.Empty);
+					_dbContext.TbDocumentFile.Add(new TbDocumentFile()
+					{
+						Extension = item.extension,
+						CreateBy = userId,
+						CreateDate = DateTime.Now,
+						ContentType = item.ContentType,
+						DocId = DocId,
+						FileName = item.filename,
+						FileParth = subpart
+					});
+					_dbContext.SaveChanges();
+				}
+			}
+		}
+
+		public void StampApproval(int DocId, decimal? Budget, string action)
 		{
 			List<string> status = new List<string>() { "บันทึก", "บันทึกร่าง", "ส่งกลับ" };
 			if (status.Contains(action))
@@ -305,12 +361,6 @@ namespace Document_Control.Data.BusinessUnit
 				};
 			}
 		}
-
-
-
-
-
-
 		public List<DocUpload> GetDocFile(int? id)
 		{
 			var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
@@ -450,9 +500,39 @@ namespace Document_Control.Data.BusinessUnit
 					{
 						obj.ApprovalPR = GetLineApprove(find.Id, null);
 					}
+					_haccess.HttpContext.Session.Remove("docfile");
+
+					//GetDocFile
+					var fildata = GetDocFile(Id);
+					var file = _dbContext.TbDocumentFile.Where(x => x.DocId == Id).OrderBy(o => o.CreateDate).ToList();
+					if (file != null)
+					{
+						var configp = _dbContext.TbConfigs.FirstOrDefault(x => x.Name == "PathFile");
+						var PathConfig = (configp != null) ? configp.Value : string.Empty;
+						foreach (var item in file)
+						{
+							var fullpart = Path.Combine(string.Format(@"{0}\{1}", PathConfig, item.FileParth));
+							MemoryStream destination = new MemoryStream();
+							using (FileStream source = File.Open(fullpart, FileMode.Open))
+							{
+								source.CopyTo(destination);
+								fildata.Add(new DocUpload()
+								{
+									base64 = Convert.ToBase64String(destination.ToArray()),
+									ContentType = item.ContentType,
+									filename = item.FileName,
+									extension = item.Extension,
+									id = Guid.NewGuid().ToString(),
+								});
+							}
+						}
+						_haccess.HttpContext.Session.SetString("docfile", JsonConvert.SerializeObject(fildata));
+					}
+					obj.DocUpload = fildata;
 				}
 			}
 			return obj;
 		}
 	}
 }
+

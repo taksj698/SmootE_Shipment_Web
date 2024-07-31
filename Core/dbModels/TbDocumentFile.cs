@@ -12,6 +12,7 @@ namespace Document_Control.Core.dbModels
 		public string FileName { get; set; }
 		public string FileParth { get; set; }
 		public string ContentType { get; set; }
+		public string Extension { get; set; }
 		public DateTime CreateDate { get; set; }
 		public int CreateBy { get; set; }
 	}

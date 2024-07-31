@@ -7,5 +7,6 @@
 		public string ContentType { get; set; }
 		public string filename { get; set; }
 		public string extension { get; set; }
+		public bool IsReadonly { get; set; } = false;
 	}
 }

@@ -14,8 +14,8 @@ namespace Document_Control.Core.pageModels.PurchaseRequisition
 		public int? PriorityId { get; set; }
 		[Required(ErrorMessage = "ระบุ หัวเรื่อง")]
 		public string? Subject { get; set; }
-		[Required(ErrorMessage = "ระบุ งบประมาน")]
-		public decimal? Budget { get; set; }
+        [Required(ErrorMessage = "ระบุ งบประมาน")]
+        public decimal? Budget { get; set; } = 0;
 		[Required(ErrorMessage = "ระบุ บริษัท")]
 		public int? CompanyId { get; set; }
 		[Required(ErrorMessage = "ระบุ แผนก")]
@@ -42,6 +42,8 @@ namespace Document_Control.Core.pageModels.PurchaseRequisition
 
 
         public ApprovalPR? ApprovalPR { get; set; }
-        public ModalShowApproval? ModalShowApproval { get; set; }
+        public List<DocUpload>? DocUpload { get; set; }
+
+		public ModalShowApproval? ModalShowApproval { get; set; }
 	}
 }
