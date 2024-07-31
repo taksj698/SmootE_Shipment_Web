@@ -138,7 +138,7 @@
 							<div class="card-body">
 								<h5 class="card-title">ไฟล์แนบ <span>| Attach Files</span></h5>
 
-								<div class="form-group">
+								<div class="form-group" id="groupupload">
 									<label class="btn btn-sm btn-primary" for="fileInput"><i class="ri-file-upload-fill me-1"></i>อัพโหลด</label>
 									<input type="file" class="custom-file-input" id="fileInput" onchange="controller.upload();">
 								</div>
@@ -193,31 +193,12 @@
 	<script>
 		$(document).ready(function () {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+			var isShow = $('#IsShow').val().toLowerCase() === 'true';
+			if (!isShow) {
+				$('input[type="text"], textarea, select').not('#Reason').attr('disabled', true).css('background-color', '#e9ecef');
+				$('#groupupload').hide();
+				$('.deltefile').hide();
+			}
 
 			controller.handleBudgetChange = function () {
 				const budgetInput = document.getElementById('budgetInput');
