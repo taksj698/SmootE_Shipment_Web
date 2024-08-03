@@ -18,5 +18,11 @@ namespace Document_Control.Controllers
 		{
 			return View(_userProfileBusiness.GetData());
 		}
+
+		[HttpGet("UserProfile/callback")]
+		public async Task<IActionResult> callback(string code,string state)
+		{
+			return View("Index",await _userProfileBusiness.UpdateNoto(code, state));
+		}
 	}
 }
