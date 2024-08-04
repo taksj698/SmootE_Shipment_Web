@@ -6,6 +6,7 @@ using Document_Control.Core.pageModels.UserProfile;
 using Document_Control.Data.Services;
 using Document_Control.Core.serviceModels;
 using Azure.Core;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Document_Control.Data.BusinessUnit
 {
@@ -55,6 +56,16 @@ namespace Document_Control.Data.BusinessUnit
 		public UserProfileModel GetData()
 		{
 			UserProfileModel obj = new UserProfileModel();
+			obj.profile = new Profileview();
+			var findUser = _dbContext.TbUser.FirstOrDefault(x => x.Id == userId);
+			if (findUser != null)
+			{
+				obj.profile.name = findUser.Name;
+				obj.profile.TelNo = findUser.TelNo;
+				obj.profile.positionName = position;
+			}
+
+
 			var noti = _wrapper._dbContext.TbConfigs.Where(x => x.Group == "LineNoti").ToList();
 			if (noti != null)
 			{
@@ -124,6 +135,67 @@ namespace Document_Control.Data.BusinessUnit
 			return data;
 		}
 
+		public dynamic updateProfile(Profileview obj)
+		{
+
+			var find = _dbContext.TbUser.FirstOrDefault(x => x.Id == userId);
+			if (find != null)
+			{
+				find.Name = obj.name;
+				find.TelNo = obj.TelNo;
+				_dbContext.TbUser.Update(find);
+				_dbContext.SaveChanges();
+			}
+			return new { result = true, type = "success", message = "ทำรายการสำเร็จ", url = "UserProfile" };
+		}
+
+
+		public dynamic ChangePass(ChangePass obj)
+		{
+			if (obj.newpass != obj.renewpass)
+			{
+				return new { result = true, type = "error", message = "รหัสผ่านใหม่ไม่ตรงกัน" };
+			}
+			var find = _dbContext.TbUser.FirstOrDefault(x => x.Id == userId && x.Password == obj.oldpass);
+			if (find != null)
+			{
+				find.Password = obj.newpass;
+				_dbContext.TbUser.Update(find);
+				_dbContext.SaveChanges();
+				return new { result = true, type = "success", message = "ทำรายการสำเร็จ", url = "UserProfile" };
+			}
+			else
+			{
+				return new { result = true, type = "error", message = "รหัสผ่านเดิมไม่ถูกต้อง" };
+			}
+		}
+
+
+		public async Task<dynamic> linetest()
+		{
+			var noti = _wrapper._dbContext.TbConfigs.Where(x => x.Group == "LineNoti").ToList();
+			if (noti != null)
+			{
+				var EndpointNoti = noti.FirstOrDefault(x => x.Name == "EndpointNoti")?.Value;
+				var ContentType = noti.FirstOrDefault(x => x.Name == "ContentType")?.Value;
+
+				var find = _dbContext.TbUser.FirstOrDefault(x => x.Id == userId);
+				if (find != null)
+				{
+					var getToken = await _restServices.PostAsync<dynamic>(new ParamsAPI
+					{
+						Url = EndpointNoti,
+						Header = new List<BasicObject>() { new BasicObject() { key = "Authorization", values = $"Bearer {find.NotifyToken}" } },
+						ContentType = ContentType,
+						Data2 = new Dictionary<string, string>
+					{
+						{ "message", "ทดสอบ" }
+					},
+					});
+				}
+			}
+			return new { result = true, type = "success", message = "ทดสอบ" };
+		}
 	}
 }
 
