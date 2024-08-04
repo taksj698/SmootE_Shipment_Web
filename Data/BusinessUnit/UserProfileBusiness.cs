@@ -196,6 +196,24 @@ namespace Document_Control.Data.BusinessUnit
 			}
 			return new { result = true, type = "success", message = "ทดสอบ" };
 		}
+
+
+		public dynamic delline()
+		{
+
+			var find = _dbContext.TbUser.FirstOrDefault(x => x.Id == userId);
+			if (find != null)
+			{
+				find.NotifyToken = null;
+				_dbContext.TbUser.Update(find);
+				_dbContext.SaveChanges();
+			}
+
+			return new { result = true, type = "success", message = "ยกเลิกสำเร็จ", url = "UserProfile" };
+		}
+
+
+
 	}
 }
 

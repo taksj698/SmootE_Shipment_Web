@@ -76,6 +76,7 @@
 										{
 											<input type="text" class="form-control text-center" value="@Model?.notiSetting?.token" disabled="disabled" />
 											<button onclick="controller.linetest();" class="btn btn-success btn-sm mt-2"><i class="ri-line-fill me-1 icon-size-btn"></i>ทดสอบ</button>
+											<button onclick="controller.delline();" class="btn btn-danger btn-sm mt-2"><i class="ri-line-fill me-1 icon-size-btn"></i>ยกเลิก</button>
 										}
 										else
 										{
@@ -174,9 +175,16 @@
 						services.CustomAlert1(response);
 					});
 			}
+			controller.delline = function () {
+				services.ConfirmAlert("", "", "", "", "", function (result) {
+					if (result.isConfirmed) {
+						services.AjaxPostData("@Url.Action("delline", "UserProfile")", null
+							, function (response) {
+								services.CustomAlert1(response);
+							});
+					}
+				});
+			}			
 		});
-
-
-
 	</script>
 }

@@ -21,13 +21,13 @@ namespace Document_Control.Controllers
 		}
 
 		[HttpGet("UserProfile/callback")]
-		public async Task<IActionResult> callback(string code,string state)
+		public async Task<IActionResult> callback(string code, string state)
 		{
-			return View("Index",await _userProfileBusiness.UpdateNoto(code, state));
+			return View("Index", await _userProfileBusiness.UpdateNoto(code, state));
 		}
 
 
-		 
+
 		public dynamic updateProfile(Profileview obj)
 		{
 			if (!ModelState.IsValid)
@@ -58,9 +58,14 @@ namespace Document_Control.Controllers
 			return await _userProfileBusiness.linetest();
 		}
 
+		public dynamic delline()
+		{
+			return _userProfileBusiness.delline();
+		}
 
 
 
-		
+
+
 	}
 }
