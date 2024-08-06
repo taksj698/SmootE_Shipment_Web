@@ -377,54 +377,64 @@ namespace Document_Control.Data.BusinessUnit
 		{
 			ApprovalPR obj = new ApprovalPR();
 			obj.approvalLists = new List<ApprovalList>();
-			if (id != null && id != 0)
-			{
-				var find = (from ap in _dbContext.TbApprovalTransaction
-							join po in _dbContext.TbPosition on ap.PositionId equals po.Id
-							where ap.DocId == id
-							select new
-							{
-								Budget = ap.Budget,
-								PositionId = ap.PositionId,
-								PositionName = po.PositionName,
-								IsApprove = ap.IsApprove,
-							})
-							.ToList();
-				if (find != null && find.Count > 0)
-				{
-					foreach (var item in find)
-					{
-						obj.approvalLists.Add(new ApprovalList()
-						{
-							Budget = item.Budget.ToString("N2"),
-							PositionId = item.PositionId,
-							PositionName = item.PositionName,
-							IsApproved = item.IsApprove
-						});
-					}
-				}
-			}
-			else if (budget != null && budget != 0)
-			{
-				var findApp = _dbContext.TbApprovalMatrix.Where(x => x.IsActive && x.Budget <= budget).ToList();
-				var findPo = _dbContext.TbPosition.ToList();
-				if (findApp != null)
-				{
-					foreach (var item in findApp)
-					{
-						var position = findPo.FirstOrDefault(x => x.Id == item.PositionId);
-						if (position != null)
-						{
-							obj.approvalLists.Add(new ApprovalList()
-							{
-								Budget = item.Budget.ToString("N2"),
-								PositionId = position.Id,
-								PositionName = position.PositionName
-							});
-						}
-					}
-				}
-			}
+
+
+			var sessionFile = _haccess.HttpContext.Session.GetString("ApprovalList");
+			var reqFile = string.IsNullOrEmpty(sessionFile)
+				? new List<ApprovalList>()
+				: JsonConvert.DeserializeObject<List<ApprovalList>>(sessionFile);
+
+			obj.approvalLists = reqFile;
+
+
+			//if (id != null && id != 0)
+			//{
+			//	var find = (from ap in _dbContext.TbApprovalTransaction
+			//				join po in _dbContext.TbPosition on ap.PositionId equals po.Id
+			//				where ap.DocId == id
+			//				select new
+			//				{
+			//					Budget = ap.Budget,
+			//					PositionId = ap.PositionId,
+			//					PositionName = po.PositionName,
+			//					IsApprove = ap.IsApprove,
+			//				})
+			//				.ToList();
+			//	if (find != null && find.Count > 0)
+			//	{
+			//		foreach (var item in find)
+			//		{
+			//			obj.approvalLists.Add(new ApprovalList()
+			//			{
+			//				Budget = item.Budget.ToString("N2"),
+			//				PositionId = item.PositionId,
+			//				PositionName = item.PositionName,
+			//				IsApproved = item.IsApprove
+			//			});
+			//		}
+			//	}
+			//}
+			//else if (budget != null && budget != 0)
+			//{
+			//	var findApp = _dbContext.TbApprovalMatrix.Where(x => x.IsActive && x.Budget <= budget).ToList();
+			//	var findPo = _dbContext.TbPosition.ToList();
+			//	if (findApp != null)
+			//	{
+			//		foreach (var item in findApp)
+			//		{
+			//			var position = findPo.FirstOrDefault(x => x.Id == item.PositionId);
+			//			if (position != null)
+			//			{
+			//				obj.approvalLists.Add(new ApprovalList()
+			//				{
+			//					Budget = item.Budget.ToString("N2"),
+			//					PositionId = position.Id,
+			//					PositionName = position.PositionName
+			//				});
+			//			}
+			//		}
+			//	}
+			//}
 			return obj;
 		}
 		public ModalShowApproval GetPositionApproval(int? id)
@@ -439,9 +449,79 @@ namespace Document_Control.Data.BusinessUnit
 			}
 			return obj;
 		}
+		public ModalSelectApproval GetApproval()
+		{
+			ModalSelectApproval obj = new ModalSelectApproval();
+
+
+			var sessionFile = _haccess.HttpContext.Session.GetString("ApprovalList");
+			var reqFile = string.IsNullOrEmpty(sessionFile)
+				? new List<ApprovalList>()
+				: JsonConvert.DeserializeObject<List<ApprovalList>>(sessionFile);
+
+			var userId = reqFile.Select(s => s.userId).ToList();
+
+			obj.approvalDetails = (from user in _dbContext.TbUser
+								   join position in _dbContext.TbPosition on user.PositionId equals position.Id
+								   where !userId.Contains(user.Id) && user.IsApprove
+								   select new ModalSelectApprovalApprovalDetail
+								   {
+									   id = user.Id,
+									   Name = user.Name,
+									   TelNo = user.TelNo,
+									   PositionName = position.PositionName
+								   }).ToList();
+			return obj;
+		}
+
+
+		public dynamic SelectRowApproval(int id)
+		{
+			var sessionFile = _haccess.HttpContext.Session.GetString("ApprovalList");
+			var reqFile = string.IsNullOrEmpty(sessionFile)
+				? new List<ApprovalList>()
+				: JsonConvert.DeserializeObject<List<ApprovalList>>(sessionFile);
+
+
+			var find = (from user in _dbContext.TbUser
+						join position in _dbContext.TbPosition on user.PositionId equals position.Id
+						where user.Id == id && user.IsApprove
+						select new ModalSelectApprovalApprovalDetail
+						{
+							id = user.Id,
+							Name = user.Name,
+							PositionId = position.Id,
+							PositionName = position.PositionName
+						}).FirstOrDefault();
+			if (find != null)
+			{
+				reqFile.Add(new ApprovalList()
+				{
+					userId = find.id,
+					userName = find.Name,
+					PositionId = find.PositionId,
+					PositionName = find.PositionName,
+				});
+
+			}
+			_haccess.HttpContext.Session.SetString("ApprovalList", JsonConvert.SerializeObject(reqFile));
+			return new { result = true, type = "success", message = "เพิ่มรายการสำเร็จ" };
+		}
+
+
+
+
+
+
+
+
+
+
 		public PagePR GetData(int? Id)
 		{
 			PagePR obj = new PagePR();
+			_haccess.HttpContext.Session.Remove("docfile");
+			_haccess.HttpContext.Session.Remove("ApprovalList");
 			obj.lPriority = _dbContext.TbPriority
 			.OrderBy(o => o.Seq)
 			.Select(s => new SelectListItem()
@@ -500,8 +580,6 @@ namespace Document_Control.Data.BusinessUnit
 					{
 						obj.ApprovalPR = GetLineApprove(find.Id, null);
 					}
-					_haccess.HttpContext.Session.Remove("docfile");
-
 					//GetDocFile
 					var fildata = GetDocFile(Id);
 					var file = _dbContext.TbDocumentFile.Where(x => x.DocId == Id).OrderBy(o => o.CreateDate).ToList();

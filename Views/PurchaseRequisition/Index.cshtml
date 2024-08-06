@@ -185,6 +185,17 @@
 				<div id="modalContainer">
 					@await Html.PartialAsync("_ModalShowAproval", Model?.ModalShowApproval)
 				</div>
+				<div id="modalSelectContainer">
+					@await Html.PartialAsync("_ModalSelectAproval", Model?.ModalSelectApproval)
+				</div>
+
+
+
+
+				
+
+
+
 			</div>
 		</section>
 	</form>
@@ -199,8 +210,8 @@
 				$('#groupupload').hide();
 				$('.deltefile').hide();
 			}
-
-			controller.handleBudgetChange = function () {
+			//อาจจะต้องปิดไปแล้ว cal ตอน submit เท่านั้น
+			controller.handleBudgetChange = function () { 
 				const budgetInput = document.getElementById('budgetInput');
 				let value = parseFloat(budgetInput.value).toFixed(2);
 				if (!isNaN(value)) {
@@ -295,14 +306,13 @@
 			$.ajax({
 				url: '@Url.Action("LoadComponentApproval", "PurchaseRequisition")',
 				type: 'GET',
-				data: { id: @Model?.Id },
+				data: { budget: budgetValue },
 				success: function (data) {
 					$('#componentApproval').html(data);
 				}
 			});
 		}
 		function loadComponentDocFile() {
-			var budgetValue = document.getElementById('budgetInput').value;
 			$.ajax({
 				url: '@Url.Action("LoadComponentDocFile", "PurchaseRequisition")',
 				type: 'GET',
@@ -323,5 +333,30 @@
 				}
 			});
 		}
+		function showSelectApproval() {
+			$.ajax({
+				url: '@Url.Action("LoadSelectApproval", "PurchaseRequisition")',
+				type: 'GET',
+				data: null,
+				success: function (result) {
+					$('#modalSelectContainer').html(result);
+					$('#SelectApprove').modal('show');
+				}
+			});
+		}
+
+		function selectrow(id) {
+			$.ajax({
+				url: '@Url.Action("SelectRowApproval", "PurchaseRequisition")',
+				type: 'POST',
+				data: { id : id },
+				success: function (result) {
+					services.CustomAlert1(result);
+					$('#SelectApprove').modal('hide');
+					loadComponent()
+				}
+			});
+		}
+
 	</script>
 }

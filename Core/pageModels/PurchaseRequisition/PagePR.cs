@@ -45,5 +45,7 @@ namespace Document_Control.Core.pageModels.PurchaseRequisition
         public List<DocUpload>? DocUpload { get; set; }
 
 		public ModalShowApproval? ModalShowApproval { get; set; }
+
+		public ModalSelectApproval? ModalSelectApproval { get; set; }
 	}
 }

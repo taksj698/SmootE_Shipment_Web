@@ -1,0 +1,44 @@
+﻿@model Document_Control.Core.pageModels.PurchaseRequisition.ModalSelectApproval
+<div class="modal fade" id="SelectApprove" tabindex="-1" aria-modal="true" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">เลือกผู้อนุมัติ</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<table class="table table-bordered table-hover">
+					<tbody>
+						<tr>
+							<th scope="col">ชื่อ-นามสกุล</th>
+							<th scope="col">ตำแหน่ง</th>
+							<th scope="col">ติดต่อ</th>
+						</tr>
+					</tbody>
+					<tbody>
+						@if (Model != null && Model.approvalDetails != null && Model.approvalDetails.Count > 0)
+						{
+							foreach (var item in Model.approvalDetails)
+							{
+								<tr onclick="selectrow('@item.id')">
+									<td>@item.Name</td>
+									<td>@item.PositionName</td>
+									<td>@item.TelNo</td>
+								</tr>
+							}
+						}
+						else
+						{
+							<tr>
+								<td colspan="2" class="text-center">ไม่พบข้อมูล</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+			</div>
+		</div>
+	</div>
+</div>

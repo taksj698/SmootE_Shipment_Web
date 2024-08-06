@@ -70,6 +70,16 @@ namespace Document_Control.Controllers
 		}
 
 
+		public dynamic SelectRowApproval(int id)
+		{
+			return _prBusiness.SelectRowApproval(id);
+
+		}
+
+
+		
+
+
 
 		#region Component
 		public PartialViewResult LoadComponentApproval(int? id, decimal? budget)
@@ -83,6 +93,10 @@ namespace Document_Control.Controllers
 		public PartialViewResult LoadPositionApproval(int? id)
 		{
 			return PartialView("_ModalShowAproval", _prBusiness.GetPositionApproval(id));
+		}
+		public PartialViewResult LoadSelectApproval()
+		{
+			return PartialView("_ModalSelectAproval", _prBusiness.GetApproval());
 		}
 		#endregion
 

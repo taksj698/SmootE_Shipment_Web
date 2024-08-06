@@ -72,7 +72,7 @@ namespace Document_Control.Data.BusinessUnit
 										where app.DocId == doc.Id && !app.IsApprove && !statusCreator.Contains(doc.StatusId)
 										select new WorklistDataApprover
 										{
-											Budget = app.Budget,
+											Budget = app.Budget.Value,
 											PositionId = po.Id,
 											PositionName = po.PositionName
 										}).OrderBy(o => o.Budget).FirstOrDefault()
