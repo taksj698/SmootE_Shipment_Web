@@ -5,13 +5,13 @@
 		<h5 class="card-title">ผู้อนุมัติ <span>| Approver</span></h5>
 
 		<div class="form-group" id="groupupload">
-			<input type="button" class="btn btn-sm btn-primary" value="เพิ่มผู้อนุมัติ" onclick="showSelectApproval();" />
+			<input type="button" class="btn btn-sm btn-primary" id="addApproval" value="เพิ่มผู้อนุมัติ" onclick="showSelectApproval();" />
 
 		</div>
 		<table class="table table-bordered mt-2">
 			<tr>
 				<th scope="col">ชื่อ/ตำแหน่ง</th>
-				<th class="text-end" scope="col">วงเงิน</th>
+@* 				<th class="text-end" scope="col">วงเงิน</th> *@
 				<th class="text-center" scope="col">สถานะ</th>
 			</tr>
 			<tbody>
@@ -24,8 +24,8 @@
 						@if (item.userId != null)
 						{
 							<tr>
-								<td><span class="badge bg-danger me-1" onclick="delListApproval('@item.userId')">ลบ</span>@($"{item.userName} ({item.PositionName})")</td>
-								<td class="text-end">@item.Budget</td>
+								<td><span class="badge bg-danger me-1 delListApproval" onclick="delListApproval('@item.userId')">ลบ</span>@($"{item.userName} ({item.PositionName})")</td>
+							@* 	<td class="text-end">@item.Budget</td> *@
 								@if (item.IsApproved)
 								{
 									<td class="text-center">
@@ -44,7 +44,7 @@
 						{
 							<tr>
 								<td><span class="badge bg-info me-1" onclick="showListApproval('@item.PositionId')">แสดง</span>@item.PositionName</td>
-								<td class="text-end">@item.Budget</td>
+							@* 	<td class="text-end">@item.Budget</td> *@
 								@if (item.IsApproved)
 								{
 									<td class="text-center">

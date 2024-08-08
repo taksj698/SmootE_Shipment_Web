@@ -23,7 +23,14 @@
 					<td>@item.Subject</td>			
 					@if (item.Approver != null)
 					{
-						<td><span class="badge bg-info me-1" onclick="showListApproval('@item.Approver.PositionId')">แสดง</span>@item.Approver.PositionName</td>
+						if (!string.IsNullOrEmpty(item.Approver.UserName))
+						{
+							<td>@item.Approver.UserName</td>
+						}else
+						{
+							<td><span class="badge bg-info me-1" onclick="showListApproval('@item.Approver.PositionId')">แสดง</span>@item.Approver.PositionName</td>
+						}
+						
 					}
 					else
 					{

@@ -21,5 +21,6 @@
 		public decimal Budget { get; set; }
 		public int PositionId { get; set; }
 		public string PositionName { get; set; }
+		public string? UserName { get; set; }
 	}
 }

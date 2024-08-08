@@ -4,5 +4,6 @@
 	{
 		public int StatusId { get; set; }
 		public bool IsShow { get; set; }
+		public bool IsReadonly { get; set; }
 	}
 }

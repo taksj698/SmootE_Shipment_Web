@@ -206,11 +206,15 @@
 		$(document).ready(function () {
 
 			var isShow = $('#IsShow').val().toLowerCase() === 'true';
-			if (!isShow) {
-				$('input[type="text"], textarea, select').not('#Reason').attr('disabled', true).css('background-color', '#e9ecef');
+			var IsReadonly = $('#IsReadonly').val().toLowerCase() === 'true';
+			if (!isShow || IsReadonly) {
+				$('input[type="text"], textarea, select').not('#Reason').attr('readonly', true).css('background-color', '#e9ecef');
 				$('#groupupload').hide();
+				$('#addApproval').hide();				
 				$('.deltefile').hide();
+				$('.delListApproval').hide();				
 			}
+
 			//อาจจะต้องปิดไปแล้ว cal ตอน submit เท่านั้น
 			// controller.handleBudgetChange = function () { 
 			// 	const budgetInput = document.getElementById('budgetInput');
@@ -346,6 +350,23 @@
 			});
 		}
 
+
+		function delListApproval(id) {
+			services.ConfirmAlert("", "", "", "", "", function (result) {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: '@Url.Action("deleteapproval", "PurchaseRequisition")',
+						type: 'POST',
+						data: { id: id },
+						success: function (data) {
+							services.CustomAlert1(data);
+							loadComponent();
+						}
+					});
+				}
+			});
+		}
+
 		function selectrow(id) {
 			$.ajax({
 				url: '@Url.Action("SelectRowApproval", "PurchaseRequisition")',
@@ -354,7 +375,7 @@
 				success: function (result) {
 					services.CustomAlert1(result);
 					$('#SelectApprove').modal('hide');
-					loadComponent()
+					loadComponent();
 				}
 			});
 		}

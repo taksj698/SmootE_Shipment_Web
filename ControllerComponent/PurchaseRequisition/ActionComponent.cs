@@ -60,7 +60,7 @@ namespace Document_Control.ControllerComponent.PurchaseRequisition
 			int StatusActionForApprover = 4;
 			ActionCom obj = new ActionCom();
 			obj.IsShow = false;
-
+			obj.IsReadonly = false;
 			if (Id == null || (Id != null && Id == 0))
 			{
 				obj.IsShow = true;
@@ -81,17 +81,31 @@ namespace Document_Control.ControllerComponent.PurchaseRequisition
 			if (find.CreateBy == userId && StatusActionForCreator.Contains(find.StatusId))
 			{
 				obj.IsShow = true;
+
+			}
+			else
+			{
+				obj.IsReadonly = true;
 			}
 
-			var FindNextApprover = _dbContext.TbApprovalTransaction.Where(x => x.DocId == Id && !x.IsApprove).OrderBy(o => o.Budget).ToList();
-			if (FindNextApprover != null && FindNextApprover.Count > 0)
+			var FindNextApprover = _dbContext.TbApprovalTransaction.Where(x => x.DocId == Id && !x.IsApprove).OrderBy(o => o.Id).ToList();
+			if (FindNextApprover != null && FindNextApprover.Count > 0 && !StatusActionForCreator.Contains(find.StatusId))
 			{
 				var lastRow = FindNextApprover.FirstOrDefault();
-				var FindUserInPosition = _dbContext.TbUser.FirstOrDefault(x => x.PositionId == lastRow.PositionId && x.Id == userId && x.IsApprove);
-				if (FindUserInPosition != null && !StatusActionForCreator.Contains(find.StatusId))
+				if (lastRow != null && lastRow.UserId != null && lastRow.UserId == userId)
 				{
 					obj.IsShow = true;
 				}
+				else if (lastRow != null && lastRow.UserId == null && lastRow.PositionId == positionId)
+				{
+					var FindUserInPosition = _dbContext.TbUser.FirstOrDefault(x => x.PositionId == lastRow.PositionId && x.Id == userId && x.IsApprove);
+					if (FindUserInPosition != null && !StatusActionForCreator.Contains(find.StatusId))
+					{
+						obj.IsShow = true;
+					}
+
+				}
+
 			}
 			return obj;
 		}

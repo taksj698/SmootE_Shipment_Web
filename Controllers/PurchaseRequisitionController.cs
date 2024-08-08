@@ -69,6 +69,11 @@ namespace Document_Control.Controllers
 			return _prBusiness.deletefile(id);
 		}
 
+		public dynamic deleteapproval(int id)
+		{
+			return _prBusiness.deleteapproval(id);
+		}
+
 
 		public dynamic SelectRowApproval(int id)
 		{
@@ -84,7 +89,7 @@ namespace Document_Control.Controllers
 		#region Component
 		public PartialViewResult LoadComponentApproval(int? id, decimal? budget)
 		{
-			return PartialView("_Approval", _prBusiness.GetLineApprove(id, budget));
+			return PartialView("_Approval", _prBusiness.GetLineApprove());
 		}
 		public PartialViewResult LoadComponentDocFile(int? id)
 		{

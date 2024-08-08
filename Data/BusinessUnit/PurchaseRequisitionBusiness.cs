@@ -91,7 +91,7 @@ namespace Document_Control.Data.BusinessUnit
 
 			if (action == "บันทึก")
 			{
-				var lineApprove = GetLineApprove(null, obj.Budget);
+				var lineApprove = GetLineApprove();
 				if (lineApprove == null || (lineApprove != null && lineApprove?.approvalLists?.Count() == 0))
 				{
 					return new { result = true, type = "error", message = "ไม่พบผู้อนุมัติ" };
@@ -139,11 +139,6 @@ namespace Document_Control.Data.BusinessUnit
 			}
 			StampApproval(DocId, obj.Budget.Value, action);
 			StampHistory(DocId, action, obj.Reason, 0);
-
-			//flow
-			//file
-			//approval
-			//history
 
 			return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ", url = "Home/MyTask" };
 		}
@@ -211,7 +206,6 @@ namespace Document_Control.Data.BusinessUnit
 			List<string> status = new List<string>() { "บันทึก", "บันทึกร่าง", "ส่งกลับ" };
 			if (status.Contains(action))
 			{
-				var lineApprove = GetLineApprove(null, Budget);
 				var find = _dbContext.TbApprovalTransaction.Where(x => x.DocId == DocId).ToList();
 				if (find != null && find.Count > 0)
 				{
@@ -249,16 +243,20 @@ namespace Document_Control.Data.BusinessUnit
 							foreach (var item in findApp)
 							{
 								var position = findPo.FirstOrDefault(x => x.Id == item.PositionId);
+
 								if (position != null)
 								{
-									list.Add(new TbApprovalTransaction()
+									var checkuser = _dbContext.TbUser.Any(x => x.PositionId == item.PositionId && x.IsApprove);
+									if (checkuser)
 									{
-										DocId = DocId,
-									
-										Budget = item.Budget,
-										PositionId = position.Id,
-										IsApprove = false,
-									});
+										list.Add(new TbApprovalTransaction()
+										{
+											DocId = DocId,
+											Budget = item.Budget,
+											PositionId = item.PositionId,
+											IsApprove = false,
+										});
+									}
 								}
 							}
 						}
@@ -270,7 +268,7 @@ namespace Document_Control.Data.BusinessUnit
 					}
 				}
 			}
-			else
+			else if(action == "อนุมัติ")
 			{
 				var FindNowApprover = _dbContext.TbApprovalTransaction.Where(x => x.DocId == DocId && !x.IsApprove).OrderBy(o => o.Budget).ToList();
 				if (FindNowApprover != null && FindNowApprover.Count > 0)
@@ -393,6 +391,31 @@ namespace Document_Control.Data.BusinessUnit
 				};
 			}
 		}
+		public dynamic deleteapproval(int id)
+		{
+			try
+			{
+				var sessionFile = _haccess.HttpContext.Session.GetString("ApprovalList");
+				var reqFile = string.IsNullOrEmpty(sessionFile)
+					? new List<ApprovalList>()
+					: JsonConvert.DeserializeObject<List<ApprovalList>>(sessionFile);
+
+				reqFile = reqFile.Where(x => x.userId != id).ToList();
+				_haccess.HttpContext.Session.SetString("ApprovalList", JsonConvert.SerializeObject(reqFile));
+				return new { result = true, type = "success", message = "ลบรายการสำเร็จ" };
+			}
+			catch (Exception ex)
+			{
+				return new
+				{
+					result = true,
+					type = "error",
+					message = ex.Message
+				};
+			}
+		}
+
+
 		public List<DocUpload> GetDocFile(int? id)
 		{
 			var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
@@ -405,68 +428,16 @@ namespace Document_Control.Data.BusinessUnit
 
 
 
-		public ApprovalPR GetLineApprove(int? id, decimal? budget)
+		public ApprovalPR GetLineApprove()
 		{
 			ApprovalPR obj = new ApprovalPR();
 			obj.approvalLists = new List<ApprovalList>();
-
-
 			var sessionFile = _haccess.HttpContext.Session.GetString("ApprovalList");
 			var reqFile = string.IsNullOrEmpty(sessionFile)
 				? new List<ApprovalList>()
 				: JsonConvert.DeserializeObject<List<ApprovalList>>(sessionFile);
 
 			obj.approvalLists = reqFile;
-
-
-			//if (id != null && id != 0)
-			//{
-			//	var find = (from ap in _dbContext.TbApprovalTransaction
-			//				join po in _dbContext.TbPosition on ap.PositionId equals po.Id
-			//				where ap.DocId == id
-			//				select new
-			//				{
-			//					Budget = ap.Budget,
-			//					PositionId = ap.PositionId,
-			//					PositionName = po.PositionName,
-			//					IsApprove = ap.IsApprove,
-			//				})
-			//				.ToList();
-			//	if (find != null && find.Count > 0)
-			//	{
-			//		foreach (var item in find)
-			//		{
-			//			obj.approvalLists.Add(new ApprovalList()
-			//			{
-			//				Budget = item.Budget.ToString("N2"),
-			//				PositionId = item.PositionId,
-			//				PositionName = item.PositionName,
-			//				IsApproved = item.IsApprove
-			//			});
-			//		}
-			//	}
-			//}
-			//else if (budget != null && budget != 0)
-			//{
-			//	var findApp = _dbContext.TbApprovalMatrix.Where(x => x.IsActive && x.Budget <= budget).ToList();
-			//	var findPo = _dbContext.TbPosition.ToList();
-			//	if (findApp != null)
-			//	{
-			//		foreach (var item in findApp)
-			//		{
-			//			var position = findPo.FirstOrDefault(x => x.Id == item.PositionId);
-			//			if (position != null)
-			//			{
-			//				obj.approvalLists.Add(new ApprovalList()
-			//				{
-			//					Budget = item.Budget.ToString("N2"),
-			//					PositionId = position.Id,
-			//					PositionName = position.PositionName
-			//				});
-			//			}
-			//		}
-			//	}
-			//}
 			return obj;
 		}
 		public ModalShowApproval GetPositionApproval(int? id)
@@ -617,14 +588,14 @@ namespace Document_Control.Data.BusinessUnit
 							foreach (var item in approval)
 							{
 								var findUserapp = (from fuser in _dbContext.TbUser
-												   join fposition in _dbContext.TbPosition on user.PositionId equals position.Id
+												   join fposition in _dbContext.TbPosition on fuser.PositionId equals fposition.Id
 												   where fuser.Id == item.UserId
 												   select new ModalSelectApprovalApprovalDetail
 												   {
-													   id = user.Id,
-													   Name = user.Name,
-													   TelNo = user.TelNo,
-													   PositionName = position.PositionName
+													   id = fuser.Id,
+													   Name = fuser.Name,
+													   TelNo = fuser.TelNo,
+													   PositionName = fposition.PositionName
 												   }).FirstOrDefault();
 								if (findUserapp != null)
 								{
@@ -632,7 +603,7 @@ namespace Document_Control.Data.BusinessUnit
 									{
 										Budget = item.Budget.ToString(),
 										IsApproved = item.IsApprove,
-										PositionId = item.Id,
+										PositionId = item.PositionId,
 										PositionName = findUserapp.PositionName,
 										userId = item.UserId,
 										userName = findUserapp.Name
@@ -649,14 +620,14 @@ namespace Document_Control.Data.BusinessUnit
 							foreach (var item in approval)
 							{
 								var findUserapp = (from fuser in _dbContext.TbUser
-												   join fposition in _dbContext.TbPosition on user.PositionId equals position.Id
+												   join fposition in _dbContext.TbPosition on fuser.PositionId equals fposition.Id
 												   where fuser.Id == item.UserId
 												   select new ModalSelectApprovalApprovalDetail
 												   {
-													   id = user.Id,
-													   Name = user.Name,
-													   TelNo = user.TelNo,
-													   PositionName = position.PositionName
+													   id = fuser.Id,
+													   Name = fuser.Name,
+													   TelNo = fuser.TelNo,
+													   PositionName = fposition.PositionName
 												   }).FirstOrDefault();
 								if (findUserapp != null)
 								{
@@ -664,7 +635,7 @@ namespace Document_Control.Data.BusinessUnit
 									{
 										Budget = item.Budget.ToString(),
 										IsApproved = item.IsApprove,
-										PositionId = item.Id,
+										PositionId = item.PositionId,
 										PositionName = findUserapp.PositionName,
 										userId = item.UserId,
 										userName = findUserapp.Name
@@ -679,7 +650,7 @@ namespace Document_Control.Data.BusinessUnit
 										{
 											Budget = item.Budget.ToString(),
 											IsApproved = item.IsApprove,
-											PositionId = item.Id,
+											PositionId = item.PositionId,
 											PositionName = findPo.PositionName,
 										});
 									}

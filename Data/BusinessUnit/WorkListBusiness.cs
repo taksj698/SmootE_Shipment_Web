@@ -55,8 +55,18 @@ namespace Document_Control.Data.BusinessUnit
 						join sta in _dbContext.TbStatus on doc.StatusId equals sta.Id
 						join pi in _dbContext.TbPriority on doc.PriorityId equals pi.Id
 						let appNext = _dbContext.TbApprovalTransaction.Where(x => x.DocId == doc.Id && !x.IsApprove).OrderBy(o => o.Budget).FirstOrDefault()
-						let appPass = _dbContext.TbApprovalTransaction.Where(x => x.DocId == doc.Id && x.IsApprove && x.PositionId == positionId).FirstOrDefault()
-						where (doc.CreateBy == userId || (appNext != null && appNext.PositionId == positionId) || appPass != null) && !status.Contains(doc.StatusId)
+						//let appPass = _dbContext.TbApprovalTransaction.Where(x => x.DocId == doc.Id && x.IsApprove).FirstOrDefault()
+						where (doc.CreateBy == userId) && !status.Contains(doc.StatusId) && doc.StatusId != 6 ||
+						//(
+						//(appPass != null && appPass.UserId != null && appPass.UserId == userId) ? true : false ||
+						//(appPass != null && appPass.UserId == null && appPass.PositionId != null && appPass.PositionId == positionId) ? true : false
+						//) ||
+						(
+						(appNext != null && appNext.UserId != null && appNext.UserId == userId) ? true : false ||
+						(appNext != null && appNext.UserId == null && appNext.PositionId != null && appNext.PositionId == positionId) ? true : false
+						)
+
+
 						select new WorklistData
 						{
 							DocumentId = doc.Id,
@@ -69,12 +79,14 @@ namespace Document_Control.Data.BusinessUnit
 							Status = sta.StatusName,
 							Approver = (from app in _dbContext.TbApprovalTransaction
 										join po in _dbContext.TbPosition on app.PositionId equals po.Id
+										let nextuser = _dbContext.TbUser.FirstOrDefault(x=>x.Id == app.UserId)
 										where app.DocId == doc.Id && !app.IsApprove && !statusCreator.Contains(doc.StatusId)
 										select new WorklistDataApprover
 										{
 											Budget = app.Budget.Value,
 											PositionId = po.Id,
-											PositionName = po.PositionName
+											PositionName = po.PositionName,
+											UserName = (nextuser != null) ? nextuser.Name : string.Empty,
 										}).OrderBy(o => o.Budget).FirstOrDefault()
 						})
 						  .OrderByDescending(o => o.DocumentDate)
@@ -89,8 +101,9 @@ namespace Document_Control.Data.BusinessUnit
 						join user in _dbContext.TbUser on doc.CreateBy equals user.Id
 						join sta in _dbContext.TbStatus on doc.StatusId equals sta.Id
 						join pi in _dbContext.TbPriority on doc.PriorityId equals pi.Id
-						let apper = _dbContext.TbApprovalTransaction.Where(x => x.DocId == doc.Id && x.IsApprove && x.PositionId == positionId).FirstOrDefault()
+						let apper = _dbContext.TbApprovalTransaction.Where(x => x.DocId == doc.Id && x.IsApprove && (x.PositionId == positionId || x.UserId == userId)).FirstOrDefault()
 						where (doc.CreateBy == userId || (apper != null)) && status.Contains(doc.StatusId)
+
 						select new WorklistData
 						{
 							DocumentId = doc.Id,

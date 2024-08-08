@@ -3,6 +3,7 @@
 
 <div class="col-12">
 	@Html.HiddenFor(x => x.IsShow, new { id = "IsShow" })
+	@Html.HiddenFor(x => x.IsReadonly, new { id = "IsReadonly" })
 	@if (Model != null)
 	{
 		if (Model.IsShow)
