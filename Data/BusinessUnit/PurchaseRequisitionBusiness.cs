@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
+using AutoMapper.Features;
 using Document_Control.Configs.Extensions;
 using Document_Control.Core.comModels;
 using Document_Control.Core.dbModels;
@@ -217,19 +218,50 @@ namespace Document_Control.Data.BusinessUnit
 					_dbContext.TbApprovalTransaction.RemoveRange(find);
 					_dbContext.SaveChanges();
 				}
-				if (lineApprove != null && lineApprove.approvalLists != null && lineApprove.approvalLists.Count > 0 && action != "ส่งกลับ")
+
+				var sessionFile = _haccess.HttpContext.Session.GetString("ApprovalList");
+				var reqFile = string.IsNullOrEmpty(sessionFile)
+					? new List<ApprovalList>()
+					: JsonConvert.DeserializeObject<List<ApprovalList>>(sessionFile);
+
+
+				if (reqFile != null && reqFile.Count > 0)
 				{
 					List<TbApprovalTransaction> list = new List<TbApprovalTransaction>();
-
-					foreach (var item in lineApprove.approvalLists)
+					foreach (var item in reqFile)
 					{
 						list.Add(new TbApprovalTransaction()
 						{
 							DocId = DocId,
-							Budget = Convert.ToDecimal(item.Budget),
+							UserId = item.userId,
+							Budget = (item.Budget != null && item.Budget != "-") ? Convert.ToDecimal(item.Budget) : 0,
 							PositionId = item.PositionId.Value,
 							IsApprove = false,
 						});
+					}
+
+					if (action == "บันทึก")
+					{
+						var findApp = _dbContext.TbApprovalMatrix.Where(x => x.IsActive && x.Budget <= Budget).ToList();
+						var findPo = _dbContext.TbPosition.ToList();
+						if (findApp != null)
+						{
+							foreach (var item in findApp)
+							{
+								var position = findPo.FirstOrDefault(x => x.Id == item.PositionId);
+								if (position != null)
+								{
+									list.Add(new TbApprovalTransaction()
+									{
+										DocId = DocId,
+									
+										Budget = item.Budget,
+										PositionId = position.Id,
+										IsApprove = false,
+									});
+								}
+							}
+						}
 					}
 					if (list != null && list.Count > 0)
 					{
@@ -571,15 +603,102 @@ namespace Document_Control.Data.BusinessUnit
 					obj.CreateName = user?.Name;
 					obj.PositionName = position?.PositionName;
 					// ถ้าเป็น New,Draft,Reject จะต้อง Fetch Line Approve ใหม่เสมอ ยกเว้น Flow นั้น บันทึกไปแล้วเพิ่มรออนุมัติ
+					#region Getapproval
+					var sessionFile = _haccess.HttpContext.Session.GetString("ApprovalList");
+					var reqFile = string.IsNullOrEmpty(sessionFile)
+						? new List<ApprovalList>()
+						: JsonConvert.DeserializeObject<List<ApprovalList>>(sessionFile);
 					List<int> StatusActionForCreator = new List<int>() { 1, 2, 3 };
 					if (StatusActionForCreator.Contains(find.StatusId))
 					{
-						obj.ApprovalPR = GetLineApprove(null, find.Budget);
+						var approval = _dbContext.TbApprovalTransaction.Where(x => x.DocId == Id).ToList();
+						if (approval != null)
+						{
+							foreach (var item in approval)
+							{
+								var findUserapp = (from fuser in _dbContext.TbUser
+												   join fposition in _dbContext.TbPosition on user.PositionId equals position.Id
+												   where fuser.Id == item.UserId
+												   select new ModalSelectApprovalApprovalDetail
+												   {
+													   id = user.Id,
+													   Name = user.Name,
+													   TelNo = user.TelNo,
+													   PositionName = position.PositionName
+												   }).FirstOrDefault();
+								if (findUserapp != null)
+								{
+									reqFile.Add(new ApprovalList()
+									{
+										Budget = item.Budget.ToString(),
+										IsApproved = item.IsApprove,
+										PositionId = item.Id,
+										PositionName = findUserapp.PositionName,
+										userId = item.UserId,
+										userName = findUserapp.Name
+									});
+								}
+							}
+						}
 					}
 					else
 					{
-						obj.ApprovalPR = GetLineApprove(find.Id, null);
+						var approval = _dbContext.TbApprovalTransaction.Where(x => x.DocId == Id).ToList();
+						if (approval != null)
+						{
+							foreach (var item in approval)
+							{
+								var findUserapp = (from fuser in _dbContext.TbUser
+												   join fposition in _dbContext.TbPosition on user.PositionId equals position.Id
+												   where fuser.Id == item.UserId
+												   select new ModalSelectApprovalApprovalDetail
+												   {
+													   id = user.Id,
+													   Name = user.Name,
+													   TelNo = user.TelNo,
+													   PositionName = position.PositionName
+												   }).FirstOrDefault();
+								if (findUserapp != null)
+								{
+									reqFile.Add(new ApprovalList()
+									{
+										Budget = item.Budget.ToString(),
+										IsApproved = item.IsApprove,
+										PositionId = item.Id,
+										PositionName = findUserapp.PositionName,
+										userId = item.UserId,
+										userName = findUserapp.Name
+									});
+								}
+								else
+								{
+									var findPo = _dbContext.TbPosition.FirstOrDefault(x => x.Id == item.PositionId);
+									if (findPo != null)
+									{
+										reqFile.Add(new ApprovalList()
+										{
+											Budget = item.Budget.ToString(),
+											IsApproved = item.IsApprove,
+											PositionId = item.Id,
+											PositionName = findPo.PositionName,
+										});
+									}
+								}
+							}
+						}
 					}
+					if (reqFile != null && reqFile.Count > 0)
+					{
+						obj.ApprovalPR = new ApprovalPR();
+						obj.ApprovalPR.approvalLists = reqFile;
+						_haccess.HttpContext.Session.SetString("ApprovalList", JsonConvert.SerializeObject(reqFile));
+					}
+					#endregion
+
+
+
+
+
 					//GetDocFile
 					var fildata = GetDocFile(Id);
 					var file = _dbContext.TbDocumentFile.Where(x => x.DocId == Id).OrderBy(o => o.CreateDate).ToList();
