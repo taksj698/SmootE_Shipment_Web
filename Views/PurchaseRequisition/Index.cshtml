@@ -103,7 +103,7 @@
 									<div class="col-12">
 										<label class="form-label"><b class="text-danger me-1">*</b><b>งบประมาน</b></label>
 							@* 			onchange = "controller.handleBudgetChange()" *@
-										@Html.TextBoxFor(x => x.Budget, new { @class = "form-control", @id = "budgetInput" })
+										@Html.TextBoxFor(x => x.Budget, new { @class = "form-control", @id = "budgetInput", onchange = "controller.handleBudgetChange();" })
 									</div>
 
 									<div class="col-6">
@@ -216,16 +216,16 @@
 			}
 
 			//อาจจะต้องปิดไปแล้ว cal ตอน submit เท่านั้น
-			// controller.handleBudgetChange = function () { 
-			// 	const budgetInput = document.getElementById('budgetInput');
-			// 	let value = parseFloat(budgetInput.value).toFixed(2);
-			// 	if (!isNaN(value)) {
-			// 		budgetInput.value = value;
-			// 	} else {
-			// 		budgetInput.value = '';
-			// 	}
-			// 	loadComponent();
-			// }
+			controller.handleBudgetChange = function () { 
+				const budgetInput = document.getElementById('budgetInput');
+				let value = parseFloat(budgetInput.value).toFixed(2);
+				if (!isNaN(value)) {
+					budgetInput.value = value;
+				} else {
+					budgetInput.value = '';
+				}
+				//loadComponent();
+			}
 			controller.save = function () {
 				services.ConfirmAlert("", "", "", "", "", function (result) {
 					if (result.isConfirmed) {
