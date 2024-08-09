@@ -462,11 +462,11 @@ namespace Document_Control.Data.BusinessUnit
 				? new List<ApprovalList>()
 				: JsonConvert.DeserializeObject<List<ApprovalList>>(sessionFile);
 
-			var userId = reqFile.Select(s => s.userId).ToList();
+			var luserId = reqFile.Select(s => s.userId).ToList();
 
 			obj.approvalDetails = (from user in _dbContext.TbUser
 								   join position in _dbContext.TbPosition on user.PositionId equals position.Id
-								   where !userId.Contains(user.Id) && user.IsApprove
+								   where !luserId.Contains(user.Id) && user.Id != userId && user.IsApprove
 								   select new ModalSelectApprovalApprovalDetail
 								   {
 									   id = user.Id,
