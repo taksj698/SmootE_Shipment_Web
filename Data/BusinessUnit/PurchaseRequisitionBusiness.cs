@@ -205,7 +205,7 @@ namespace Document_Control.Data.BusinessUnit
 		{
 			List<string> status = new List<string>() { "บันทึก", "บันทึกร่าง", "ส่งกลับ" };
 			if (status.Contains(action))
-			{
+			 {
 				var find = _dbContext.TbApprovalTransaction.Where(x => x.DocId == DocId).ToList();
 				if (find != null && find.Count > 0)
 				{
@@ -236,7 +236,7 @@ namespace Document_Control.Data.BusinessUnit
 
 					if (action == "บันทึก")
 					{
-						var findApp = _dbContext.TbApprovalMatrix.Where(x => x.IsActive && x.Budget <= Budget).ToList();
+						var findApp = _dbContext.TbApprovalMatrix.Where(x => x.IsActive && Budget >= x.Budget).ToList();
 						var findPo = _dbContext.TbPosition.ToList();
 						if (findApp != null)
 						{
@@ -270,41 +270,58 @@ namespace Document_Control.Data.BusinessUnit
 			}
 			else if(action == "อนุมัติ")
 			{
-				var FindNowApprover = _dbContext.TbApprovalTransaction.Where(x => x.DocId == DocId && !x.IsApprove).OrderBy(o => o.Budget).ToList();
-				if (FindNowApprover != null && FindNowApprover.Count > 0)
+				var findUser = _dbContext.TbUser.FirstOrDefault(x => x.Id == userId);
+				if (findUser != null && findUser.IsManager)
 				{
-					var NowApprover = FindNowApprover.FirstOrDefault();
-					if (NowApprover.PositionId == positionId)
+					var find = _dbContext.TbDocumentTransaction.FirstOrDefault(x => x.Id == DocId);
+					if (find != null)
 					{
-						NowApprover.IsApprove = true;
-						NowApprover.ApproveBy = userId;
-						_dbContext.TbApprovalTransaction.Update(NowApprover);
-						_dbContext.SaveChanges();
+						//Update All only 
+						List<int> StatusActionForApprover = new List<int>() { 4 };
+						if (StatusActionForApprover.Contains(find.StatusId))
+						{
+							find.StatusId = 5;
+							_dbContext.TbDocumentTransaction.Update(find);
+							_dbContext.SaveChanges();
+						}
 					}
 				}
-
-
-				var find = _dbContext.TbDocumentTransaction.FirstOrDefault(x => x.Id == DocId);
-				if (find != null)
+				else
 				{
-					//Update All only 
-					List<int> StatusActionForApprover = new List<int>() { 4 };
-					if (StatusActionForApprover.Contains(find.StatusId))
+					var FindNowApprover = _dbContext.TbApprovalTransaction.Where(x => x.DocId == DocId && !x.IsApprove).OrderBy(o => o.Budget).ToList();
+					if (FindNowApprover != null && FindNowApprover.Count > 0)
 					{
-						int StatusId = 0;
-						var checklastapp = _dbContext.TbApprovalTransaction.Where(x => x.DocId == DocId && !x.IsApprove).ToList();
-						if (checklastapp.Count == 0)
+						var NowApprover = FindNowApprover.FirstOrDefault();
+						if (NowApprover.PositionId == positionId)
 						{
-							StatusId = 5;
+							NowApprover.IsApprove = true;
+							NowApprover.ApproveBy = userId;
+							_dbContext.TbApprovalTransaction.Update(NowApprover);
+							_dbContext.SaveChanges();
 						}
-						else
+					}
+					var find = _dbContext.TbDocumentTransaction.FirstOrDefault(x => x.Id == DocId);
+					if (find != null)
+					{
+						//Update All only 
+						List<int> StatusActionForApprover = new List<int>() { 4 };
+						if (StatusActionForApprover.Contains(find.StatusId))
 						{
-							StatusId = 4;
+							int StatusId = 0;
+							var checklastapp = _dbContext.TbApprovalTransaction.Where(x => x.DocId == DocId && !x.IsApprove).ToList();
+							if (checklastapp.Count == 0)
+							{
+								StatusId = 5;
+							}
+							else
+							{
+								StatusId = 4;
+							}
+							//update status only
+							find.StatusId = StatusId;
+							_dbContext.TbDocumentTransaction.Update(find);
+							_dbContext.SaveChanges();
 						}
-						//update status only
-						find.StatusId = StatusId;
-						_dbContext.TbDocumentTransaction.Update(find);
-						_dbContext.SaveChanges();
 					}
 				}
 			}

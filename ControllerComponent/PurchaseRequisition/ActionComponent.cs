@@ -92,7 +92,9 @@ namespace Document_Control.ControllerComponent.PurchaseRequisition
 			if (FindNextApprover != null && FindNextApprover.Count > 0 && !StatusActionForCreator.Contains(find.StatusId))
 			{
 				var lastRow = FindNextApprover.FirstOrDefault();
-				if (lastRow != null && lastRow.UserId != null && lastRow.UserId == userId)
+				var findUser = _dbContext.TbUser.FirstOrDefault(x => x.Id == userId);
+
+				if ((lastRow != null && lastRow.UserId != null && lastRow.UserId == userId) || (findUser != null && findUser.IsManager))
 				{
 					obj.IsShow = true;
 				}
