@@ -56,8 +56,9 @@ namespace Document_Control.Data.BusinessUnit
 						join pi in _dbContext.TbPriority on doc.PriorityId equals pi.Id
 						let CurrentUser = _wrapper._dbContext.TbUser.FirstOrDefault(x => x.Id == userId)
 						let appNext = _dbContext.TbApprovalTransaction.Where(x => x.DocId == doc.Id && !x.IsApprove).OrderBy(o => o.Budget).FirstOrDefault()
-						where (doc.CreateBy == userId) && !status.Contains(doc.StatusId) &&
+						where !status.Contains(doc.StatusId) &&
 						(
+						(doc.CreateBy == userId) ||
 						(CurrentUser != null && CurrentUser.IsManager) ||
 						(appNext != null && appNext.UserId != null && appNext.UserId == userId) ? true : false ||
 						(appNext != null && appNext.UserId == null && appNext.PositionId != null && appNext.PositionId == positionId) ? true : false

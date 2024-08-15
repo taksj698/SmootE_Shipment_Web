@@ -697,18 +697,21 @@ namespace Document_Control.Data.BusinessUnit
 						foreach (var item in file)
 						{
 							var fullpart = Path.Combine(string.Format(@"{0}\{1}", PathConfig, item.FileParth));
-							MemoryStream destination = new MemoryStream();
-							using (FileStream source = File.Open(fullpart, FileMode.Open))
+							if (File.Exists(fullpart))
 							{
-								source.CopyTo(destination);
-								fildata.Add(new DocUpload()
+								MemoryStream destination = new MemoryStream();
+								using (FileStream source = File.Open(fullpart, FileMode.Open))
 								{
-									base64 = Convert.ToBase64String(destination.ToArray()),
-									ContentType = item.ContentType,
-									filename = item.FileName,
-									extension = item.Extension,
-									id = Guid.NewGuid().ToString(),
-								});
+									source.CopyTo(destination);
+									fildata.Add(new DocUpload()
+									{
+										base64 = Convert.ToBase64String(destination.ToArray()),
+										ContentType = item.ContentType,
+										filename = item.FileName,
+										extension = item.Extension,
+										id = Guid.NewGuid().ToString(),
+									});
+								}
 							}
 						}
 						_haccess.HttpContext.Session.SetString("docfile", JsonConvert.SerializeObject(fildata));
