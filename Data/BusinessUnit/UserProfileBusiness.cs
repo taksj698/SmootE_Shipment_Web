@@ -17,18 +17,19 @@ namespace Document_Control.Data.BusinessUnit
 		private readonly RestServices _restServices;
 		private IHttpContextAccessor _haccess;
 
+		private readonly LineServices _lineServices;
 		private List<Claim>? UserProfile;
 		private int userId;
 		private string? name;
 		private int positionId;
 		private string? position;
-		public UserProfileBusiness(IHttpContextAccessor haccess, WrapperRepository wrapper, RestServices restServices)
+		public UserProfileBusiness(IHttpContextAccessor haccess, LineServices lineServices, WrapperRepository wrapper, RestServices restServices)
 		{
 			_wrapper = wrapper;
 			_dbContext = _wrapper._dbContext;
 			_haccess = haccess;
 			_restServices = restServices;
-
+			_lineServices = lineServices;
 			var identity = (ClaimsIdentity)haccess.HttpContext.User.Identity;
 			UserProfile = identity.Claims.ToList();
 			var fineName = UserProfile.FirstOrDefault(x => x.Type == ClaimTypes.Name);
@@ -182,16 +183,7 @@ namespace Document_Control.Data.BusinessUnit
 				var find = _dbContext.TbUser.FirstOrDefault(x => x.Id == userId);
 				if (find != null)
 				{
-					var getToken = await _restServices.PostAsync<dynamic>(new ParamsAPI
-					{
-						Url = EndpointNoti,
-						Header = new List<BasicObject>() { new BasicObject() { key = "Authorization", values = $"Bearer {find.NotifyToken}" } },
-						ContentType = ContentType,
-						Data2 = new Dictionary<string, string>
-					{
-						{ "message", "ทดสอบ" }
-					},
-					});
+					 _lineServices.SendMessageByToken(new List<string>() { find.NotifyToken }, "ทดสอบ");
 				}
 			}
 			return new { result = true, type = "success", message = "ทดสอบ" };

@@ -60,8 +60,8 @@ namespace Document_Control.Data.BusinessUnit
 						(
 						(doc.CreateBy == userId) ||
 						(CurrentUser != null && CurrentUser.IsManager) ||
-						(appNext != null && appNext.UserId != null && appNext.UserId == userId) ? true : false ||
-						(appNext != null && appNext.UserId == null && appNext.PositionId != null && appNext.PositionId == positionId) ? true : false
+						(appNext != null && appNext.UserId != null && appNext.UserId == userId && doc.StatusId != 3) ? true : false ||
+						(appNext != null && appNext.UserId == null && appNext.PositionId != null && appNext.PositionId == positionId && doc.StatusId != 3) ? true : false
 						)
 						select new WorklistData
 						{

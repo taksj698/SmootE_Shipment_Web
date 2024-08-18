@@ -12,6 +12,7 @@ using Document_Control.Core.dbModels;
 using Document_Control.Core.pageModels.PurchaseRequisition;
 using Document_Control.Data.Repository;
 using Document_Control.Data.Repository.SQLServer;
+using Document_Control.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -27,17 +28,19 @@ namespace Document_Control.Data.BusinessUnit
 		private readonly WrapperRepository _wrapper;
 		private SqlServerDbContext _dbContext;
 		private IHttpContextAccessor _haccess;
+		private readonly LineServices _lineServices;
 
 		private List<Claim>? UserProfile;
 		private int userId;
 		private string? name;
 		private int positionId;
 		private string? position;
-		public PurchaseRequisitionBusiness(IHttpContextAccessor haccess, WrapperRepository wrapper)
+		public PurchaseRequisitionBusiness(IHttpContextAccessor haccess, WrapperRepository wrapper, LineServices lineServices)
 		{
 			_wrapper = wrapper;
 			_dbContext = _wrapper._dbContext;
 			_haccess = haccess;
+			_lineServices = lineServices;
 
 			var identity = (ClaimsIdentity)haccess.HttpContext.User.Identity;
 			UserProfile = identity.Claims.ToList();
@@ -139,6 +142,7 @@ namespace Document_Control.Data.BusinessUnit
 			}
 			StampApproval(DocId, obj.Budget.Value, action);
 			StampHistory(DocId, action, obj.Reason, 0);
+			NotiAction(DocId, action);
 
 			return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ", url = "Home/MyTask" };
 		}
@@ -205,7 +209,7 @@ namespace Document_Control.Data.BusinessUnit
 		{
 			List<string> status = new List<string>() { "บันทึก", "บันทึกร่าง", "ส่งกลับ" };
 			if (status.Contains(action))
-			 {
+			{
 				var find = _dbContext.TbApprovalTransaction.Where(x => x.DocId == DocId).ToList();
 				if (find != null && find.Count > 0)
 				{
@@ -268,7 +272,7 @@ namespace Document_Control.Data.BusinessUnit
 					}
 				}
 			}
-			else if(action == "อนุมัติ")
+			else if (action == "อนุมัติ")
 			{
 				var findUser = _dbContext.TbUser.FirstOrDefault(x => x.Id == userId);
 				if (findUser != null && findUser.IsManager)
@@ -531,12 +535,84 @@ namespace Document_Control.Data.BusinessUnit
 
 
 
+		public void NotiAction(int Id, string action)
+		{
+			var find = (from doc in _dbContext.TbDocumentTransaction
+						join user in _dbContext.TbUser on doc.CreateBy equals user.Id
+						join position in _dbContext.TbPosition on user.PositionId equals position.Id
+						join status in _dbContext.TbStatus on doc.StatusId equals status.Id
+						let appNext = _dbContext.TbApprovalTransaction.Where(x => x.DocId == doc.Id && !x.IsApprove).OrderBy(o => o.Budget).FirstOrDefault()
+						where doc.Id == Id
+						select new
+						{
+							status = status.StatusName,
+							documentNo = doc.DocumentCode,
+							createDate = doc.CreateDate,
+							createBy = user.Name,
+							createByToken = user.NotifyToken,
+							positionName = position.PositionName,
+							nextPosition = (appNext != null) ? appNext.PositionId : null,
+							nextUser = (appNext != null) ? appNext.UserId : null,
 
+						})
+						.FirstOrDefault();
+			if (find != null)
+			{
 
+				List<string> token = new List<string>();
+				string alertMsg = $"แจ้งเตือน\nสถานะ: {find.status}\nเลขที่เอกสาร: {find.documentNo}\nวันที่สร้าง: {find.createDate}\nผู้สร้าง: {find.createBy}\nตำแหน่ง: {find.positionName}\nรออนุมัติโดย: appnext\nการดำเนินงาน: {action}\nเปิดงาน: {_haccess?.HttpContext?.Request.Scheme}://{_haccess?.HttpContext?.Request.Host}/PurchaseRequisition/{Id}";
 
+				if (!string.IsNullOrEmpty(find.createByToken))
+				{
+					token.Add(find.createByToken);
+				}
+				if (action != "ส่งกลับ" && (action != "บันทึกร่าง"))
+				{
+					if (find.nextUser != null)
+					{
+						var finUser = _dbContext.TbUser.FirstOrDefault(x => x.Id == find.nextUser);
+						if (finUser != null)
+						{
+							alertMsg = alertMsg.Replace("appnext", finUser.Name);
+							if (!string.IsNullOrEmpty(finUser.NotifyToken))
+							{
+								token.Add(finUser.NotifyToken);
+							}
+						}
+						else
+						{
+							alertMsg = alertMsg.Replace("appnext", string.Empty);
+						}
+					}
+					else if (find.nextPosition != null)
+					{
+						var finPosition = _dbContext.TbPosition.FirstOrDefault(x => x.Id == find.nextPosition);
+						if (finPosition != null)
+						{
+							alertMsg = alertMsg.Replace("appnext", finPosition.PositionName);
+							var finPositionToken = _dbContext.TbUser.Where(x => x.PositionId == finPosition.Id && x.IsApprove && !string.IsNullOrEmpty(x.NotifyToken)).Select(s => s.NotifyToken).ToList();
+							if (finPositionToken != null && finPositionToken.Count > 0)
+							{
+								token.AddRange(finPositionToken);
+							}
+						}
+						else
+						{
+							alertMsg = alertMsg.Replace("appnext", string.Empty);
+						}
+					}
+					else
+					{
+						alertMsg = alertMsg.Replace("appnext", string.Empty);
+					}
+				}
 
-
-
+				if (token != null && token.Count > 0)
+				{
+					_lineServices.SendMessageByToken(token, alertMsg);
+				}
+			}
+		}
 		public PagePR GetData(int? Id)
 		{
 			PagePR obj = new PagePR();
