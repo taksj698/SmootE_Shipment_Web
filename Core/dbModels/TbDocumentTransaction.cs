@@ -9,6 +9,7 @@ namespace Document_Control.Core.dbModels
 		[Key]
 		public int Id { get; set; }
 		public DateTime OrderDate { get; set; }
+		public DateTime? RequestDate { get; set; }
 		public string DocumentCode { get; set; }
 		public int PositionId { get; set; }
 		public int StatusId { get; set; }

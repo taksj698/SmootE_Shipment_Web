@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
@@ -13,9 +14,11 @@ using Document_Control.Core.pageModels.PurchaseRequisition;
 using Document_Control.Data.Repository;
 using Document_Control.Data.Repository.SQLServer;
 using Document_Control.Data.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
 using WebGrease.Activities;
 using static System.Net.Mime.MediaTypeNames;
@@ -109,10 +112,16 @@ namespace Document_Control.Data.BusinessUnit
 					List<int> StatusActionForCreator = new List<int>() { 1, 2, 3, 4 };
 					if (StatusActionForCreator.Contains(find.StatusId))
 					{
-						var config = new MapperConfiguration(cfg => cfg.CreateMap<PagePR, TbDocumentTransaction>());
+						var config = new MapperConfiguration(cfg => 
+						cfg.CreateMap<PagePR, TbDocumentTransaction>()
+						 .ForMember(dest => dest.RequestDate, opt => opt.Ignore()));
 						var mapper = new Mapper(config);
 						mapper.Map(obj, find);
 						find.StatusId = StatusId;
+						if (!string.IsNullOrEmpty(obj.RequestDate))
+						{
+							find.RequestDate = DateTime.ParseExact(obj.RequestDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+						}
 						_dbContext.TbDocumentTransaction.Update(find);
 						AddOrUpdateFile(find.Id, find.DocumentCode);
 						_dbContext.SaveChanges();
@@ -124,7 +133,9 @@ namespace Document_Control.Data.BusinessUnit
 			{
 				var date = DateTime.Now;
 				TbDocumentTransaction data = new TbDocumentTransaction();
-				var config = new MapperConfiguration(cfg => cfg.CreateMap<PagePR, TbDocumentTransaction>());
+				var config = new MapperConfiguration(cfg =>
+				cfg.CreateMap<PagePR, TbDocumentTransaction>()
+				 .ForMember(dest => dest.RequestDate, opt => opt.Ignore()));
 				var mapper = new Mapper(config);
 				mapper.Map(obj, data);
 
@@ -133,6 +144,10 @@ namespace Document_Control.Data.BusinessUnit
 				data.CreateDate = date;
 				data.OrderDate = date;
 				data.StatusId = StatusId;
+				if (!string.IsNullOrEmpty(obj.RequestDate))
+				{
+					data.RequestDate = DateTime.ParseExact(obj.RequestDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+				}
 				_dbContext.TbDocumentTransaction.Add(data);
 				_dbContext.SaveChanges();
 				AddOrUpdateFile(data.Id, data.DocumentCode);
@@ -142,7 +157,7 @@ namespace Document_Control.Data.BusinessUnit
 			}
 			StampApproval(DocId, obj.Budget.Value, action);
 			StampHistory(DocId, action, obj.Reason, 0);
-			NotiAction(DocId, action);
+			NotiAction(DocId, action, obj.Reason);
 
 			return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ", url = "Home/MyTask" };
 		}
@@ -535,7 +550,7 @@ namespace Document_Control.Data.BusinessUnit
 
 
 
-		public void NotiAction(int Id, string action)
+		public void NotiAction(int Id, string action, string reason)
 		{
 			var find = (from doc in _dbContext.TbDocumentTransaction
 						join user in _dbContext.TbUser on doc.CreateBy equals user.Id
@@ -546,6 +561,8 @@ namespace Document_Control.Data.BusinessUnit
 						select new
 						{
 							status = status.StatusName,
+							subject = doc.Subject,
+							budget = doc.Budget,
 							documentNo = doc.DocumentCode,
 							createDate = doc.CreateDate,
 							createBy = user.Name,
@@ -560,7 +577,7 @@ namespace Document_Control.Data.BusinessUnit
 			{
 
 				List<string> token = new List<string>();
-				string alertMsg = $"แจ้งเตือน\nสถานะ: {find.status}\nเลขที่เอกสาร: {find.documentNo}\nวันที่สร้าง: {find.createDate}\nผู้สร้าง: {find.createBy}\nตำแหน่ง: {find.positionName}\nรออนุมัติโดย: appnext\nการดำเนินงาน: {action}\nเปิดงาน: {_haccess?.HttpContext?.Request.Scheme}://{_haccess?.HttpContext?.Request.Host}/PurchaseRequisition/{Id}";
+				string alertMsg = $"แจ้งเตือน\nสถานะ: {find.status}\nเลขที่เอกสาร: {find.documentNo}\nหัวเรื่อง: {find.subject}\nงบประมาณ: {find.budget.ToString()}\nวันที่สร้าง: {find.createDate}\nผู้สร้าง: {find.createBy}\nตำแหน่ง: {find.positionName}\nรออนุมัติโดย: appnext\nการดำเนินงาน: {action}\nหมายเหตุ: {reason}\nเปิดงาน: {_haccess?.HttpContext?.Request.Scheme}://{_haccess?.HttpContext?.Request.Host}/PurchaseRequisition/{Id}";
 
 				if (!string.IsNullOrEmpty(find.createByToken))
 				{
@@ -666,6 +683,11 @@ namespace Document_Control.Data.BusinessUnit
 					var position = _dbContext.TbPosition.FirstOrDefault(x => x.Id == positionId);
 					obj.CreateName = user?.Name;
 					obj.PositionName = position?.PositionName;
+
+					if (find.RequestDate != null)
+					{
+						obj.RequestDate = find.RequestDate.Value.ToString("dd/MM/yyyy");
+					}
 					// ถ้าเป็น New,Draft,Reject จะต้อง Fetch Line Approve ใหม่เสมอ ยกเว้น Flow นั้น บันทึกไปแล้วเพิ่มรออนุมัติ
 					#region Getapproval
 					var sessionFile = _haccess.HttpContext.Session.GetString("ApprovalList");

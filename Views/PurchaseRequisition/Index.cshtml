@@ -100,9 +100,12 @@
 										<label class="form-label"><b class="text-danger me-1">*</b><b>หัวเรื่อง</b></label>
 										@Html.TextBoxFor(x => x.Subject, new { @class = "form-control" })
 									</div>
-									<div class="col-12">
+									<div class="col-6">
+										<label class="form-label"><b class="text-danger me-1">*</b><b>วันที่ขอซื้อ</b></label>
+										@Html.TextBoxFor(x => x.RequestDate, new { @class = "form-control datepicker", placeholder = "dd/mm/yyyy" })
+									</div>
+									<div class="col-6">
 										<label class="form-label"><b class="text-danger me-1">*</b><b>งบประมาน</b></label>
-							@* 			onchange = "controller.handleBudgetChange()" *@
 										@Html.TextBoxFor(x => x.Budget, new { @class = "form-control", @id = "budgetInput", onchange = "controller.handleBudgetChange();" })
 									</div>
 
@@ -131,7 +134,7 @@
 						</div>
 					</div>
 
-					
+
 
 
 					<div class="col-12">
@@ -193,7 +196,7 @@
 
 
 
-				
+
 
 
 
@@ -210,13 +213,13 @@
 			if (!isShow || IsReadonly) {
 				$('input[type="text"], textarea, select').not('#Reason').attr('readonly', true).css('background-color', '#e9ecef');
 				$('#groupupload').hide();
-				$('#addApproval').hide();				
+				$('#addApproval').hide();
 				$('.deltefile').hide();
-				$('.delListApproval').hide();				
+				$('.delListApproval').hide();
 			}
 
 			//อาจจะต้องปิดไปแล้ว cal ตอน submit เท่านั้น
-			controller.handleBudgetChange = function () { 
+			controller.handleBudgetChange = function () {
 				const budgetInput = document.getElementById('budgetInput');
 				let value = parseFloat(budgetInput.value).toFixed(2);
 				if (!isNaN(value)) {
@@ -300,7 +303,7 @@
 						});
 					}
 				});
-			}			
+			}
 		});
 
 
@@ -371,7 +374,7 @@
 			$.ajax({
 				url: '@Url.Action("SelectRowApproval", "PurchaseRequisition")',
 				type: 'POST',
-				data: { id : id },
+				data: { id: id },
 				success: function (result) {
 					services.CustomAlert1(result);
 					$('#SelectApprove').modal('hide');

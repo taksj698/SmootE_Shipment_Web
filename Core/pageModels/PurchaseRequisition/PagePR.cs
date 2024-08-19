@@ -16,6 +16,8 @@ namespace Document_Control.Core.pageModels.PurchaseRequisition
 		public string? Subject { get; set; }
         [Required(ErrorMessage = "ระบุ งบประมาน")]
         public decimal? Budget { get; set; } = 0;
+		[Required(ErrorMessage = "ระบุ วันที่ขอซื้อ")]
+		public string? RequestDate { get; set; }
 		[Required(ErrorMessage = "ระบุ บริษัท")]
 		public int? CompanyId { get; set; }
 		[Required(ErrorMessage = "ระบุ แผนก")]
