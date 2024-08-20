@@ -112,7 +112,7 @@ namespace Document_Control.Data.BusinessUnit
 					List<int> StatusActionForCreator = new List<int>() { 1, 2, 3, 4 };
 					if (StatusActionForCreator.Contains(find.StatusId))
 					{
-						var config = new MapperConfiguration(cfg => 
+						var config = new MapperConfiguration(cfg =>
 						cfg.CreateMap<PagePR, TbDocumentTransaction>()
 						 .ForMember(dest => dest.RequestDate, opt => opt.Ignore()));
 						var mapper = new Mapper(config);
@@ -556,12 +556,15 @@ namespace Document_Control.Data.BusinessUnit
 						join user in _dbContext.TbUser on doc.CreateBy equals user.Id
 						join position in _dbContext.TbPosition on user.PositionId equals position.Id
 						join status in _dbContext.TbStatus on doc.StatusId equals status.Id
+						let pri = _dbContext.TbPriority.FirstOrDefault(x => x.Id == doc.PositionId)
 						let appNext = _dbContext.TbApprovalTransaction.Where(x => x.DocId == doc.Id && !x.IsApprove).OrderBy(o => o.Budget).FirstOrDefault()
 						where doc.Id == Id
 						select new
 						{
 							status = status.StatusName,
 							subject = doc.Subject,
+							Priority = (pri != null) ? pri.PriorityName : string.Empty,
+							Description = doc.Description,
 							budget = doc.Budget,
 							documentNo = doc.DocumentCode,
 							createDate = doc.CreateDate,
@@ -577,7 +580,7 @@ namespace Document_Control.Data.BusinessUnit
 			{
 
 				List<string> token = new List<string>();
-				string alertMsg = $"แจ้งเตือน\nสถานะ: {find.status}\nเลขที่เอกสาร: {find.documentNo}\nหัวเรื่อง: {find.subject}\nงบประมาณ: {find.budget.ToString()}\nวันที่สร้าง: {find.createDate}\nผู้สร้าง: {find.createBy}\nตำแหน่ง: {find.positionName}\nรออนุมัติโดย: appnext\nการดำเนินงาน: {action}\nหมายเหตุ: {reason}\nเปิดงาน: {_haccess?.HttpContext?.Request.Scheme}://{_haccess?.HttpContext?.Request.Host}/PurchaseRequisition/{Id}";
+				string alertMsg = $"แจ้งเตือน\nสถานะ: {find.status}\nความสำคัญ: {find.Priority}\nเลขที่เอกสาร: {find.documentNo}\nหัวเรื่อง: {find.subject}\nงบประมาณ: {find.budget.ToString()}\nวันที่สร้าง: {find.createDate}\nผู้สร้าง: {find.createBy}\nตำแหน่ง: {find.positionName}\nรออนุมัติโดย: appnext\nรายละเอียดเพิ่มเติม: {find.Description}\nการดำเนินงาน: {action}\nหมายเหตุ: {reason}\nเปิดงาน: {_haccess?.HttpContext?.Request.Scheme}://{_haccess?.HttpContext?.Request.Host}/PurchaseRequisition/{Id}";
 
 				if (!string.IsNullOrEmpty(find.createByToken))
 				{
