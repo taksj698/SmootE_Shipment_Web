@@ -1,15 +1,40 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Document_Control.Core.comModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Document_Control.ControllerComponent
 {
 	public class SidebarMenuComponent : ViewComponent
 	{
-		public SidebarMenuComponent()
+		private List<Claim>? UserProfile;
+		private string? name;
+		private string? position;
+		private string? role;
+		public SidebarMenuComponent(IHttpContextAccessor haccess)
 		{
+			var identity = (ClaimsIdentity)haccess.HttpContext.User.Identity;
+			UserProfile = identity.Claims.ToList();
+			var fineName = UserProfile.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+			if (fineName != null)
+			{
+				name = fineName.Value;
+			}
+			var finePosition = UserProfile.FirstOrDefault(x => x.Type == "PositionName");
+			if (finePosition != null)
+			{
+				position = finePosition.Value;
+			}
+			var fineRole = UserProfile.FirstOrDefault(x => x.Type == ClaimTypes.Role);
+			if (fineRole != null)
+			{
+				role = fineRole.Value;
+			}
 		}
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
-			return View("~/ViewComponents/SidebarMenuComponent.cshtml");
+			SidebarMenuModel obj  = new SidebarMenuModel();
+			obj.role = role;
+			return View("~/ViewComponents/SidebarMenuComponent.cshtml", obj);
 		}
 	}
 }

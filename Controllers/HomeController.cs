@@ -6,25 +6,25 @@ using System.Diagnostics;
 
 namespace Document_Control.Controllers
 {
-	[Authorize]
+	[Authorize(Roles = "user,admin")]
 	public class HomeController : Controller
-    {
-        private readonly ILogger<HomeController> _logger;
-        private readonly WorkListBusiness _workListBusiness;
-		
+	{
+		private readonly ILogger<HomeController> _logger;
+		private readonly WorkListBusiness _workListBusiness;
+
 		public HomeController(ILogger<HomeController> logger, WorkListBusiness workListBusiness)
-        {
-            _logger = logger;
+		{
+			_logger = logger;
 			_workListBusiness = workListBusiness;
 
 		}
 
-        public IActionResult MyTask()
-        {
-            ViewBag.CurrentController = "Home";
-            ViewBag.CurrentAction = "MyTask";
-            return View(_workListBusiness.MyTask());
-        }
+		public IActionResult MyTask()
+		{
+			ViewBag.CurrentController = "Home";
+			ViewBag.CurrentAction = "MyTask";
+			return View(_workListBusiness.MyTask());
+		}
 		public IActionResult Complete()
 		{
 			ViewBag.CurrentController = "Home";
@@ -33,14 +33,14 @@ namespace Document_Control.Controllers
 		}
 
 		public IActionResult Privacy()
-        {
-            return View();
-        }
+		{
+			return View();
+		}
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+		public IActionResult Error()
+		{
+			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+		}
+	}
 }

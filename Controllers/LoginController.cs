@@ -47,7 +47,7 @@ namespace Document_Control.Controllers
 
 
 				var findPosition = _wrapperRepository._dbContext.TbPosition.FirstOrDefault(x => x.Id == find.PositionId);
-
+				var findRole = _wrapperRepository._dbContext.TbRole.FirstOrDefault(x => x.Id == find.RoleId);
 
 
 
@@ -56,7 +56,7 @@ namespace Document_Control.Controllers
 					new Claim(ClaimTypes.Name, find.Name),
 					new Claim("PositionId",(findPosition != null) ?findPosition.Id.ToString() : string.Empty),
 					new Claim("PositionName",(findPosition != null) ?findPosition.PositionName : string.Empty),
-					new Claim(ClaimTypes.Role, "user"),
+					new Claim(ClaimTypes.Role, (findRole != null) ?findRole.RoleName : string.Empty),
 				};
 
 				var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

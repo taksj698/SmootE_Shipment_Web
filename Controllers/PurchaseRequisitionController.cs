@@ -8,7 +8,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Document_Control.Controllers
 {
-	[Authorize]
+	[Authorize(Roles = "user, admin")]
 	public class PurchaseRequisitionController : Controller
 	{
 		private readonly PurchaseRequisitionBusiness _prBusiness;

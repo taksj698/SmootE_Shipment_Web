@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Document_Control.Controllers
 {
-	[Authorize]
+	[Authorize(Roles = "user, admin")]
 	public class UserProfileController : Controller
 	{
 		private readonly UserProfileBusiness _userProfileBusiness;

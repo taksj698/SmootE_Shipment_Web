@@ -1,42 +1,93 @@
-﻿<aside id="sidebar" class="sidebar">
+﻿@model Document_Control.Core.comModels.SidebarMenuModel
+<aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item">
-            <a class="nav-link @((ViewBag.CurrentController == "Home") ? "" : "collapsed")" data-bs-target="#list-nav" data-bs-toggle="collapse" href="#">
-                <i class="ri-file-list-3-fill icon-size"></i>
-                <span class="menu-head">รายงาน</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="list-nav" class="nav-content collapse @((ViewBag.CurrentController == "Home") ? "show" : "")" data-bs-parent="#sidebar-nav">
-                <li>
-                    <a class="@((ViewBag.CurrentController == "Home" && ViewBag.CurrentAction == "MyTask") ? "active" : "")" href="@Url.Action("MyTask", "Home")">
-                        <i class="ri-dropbox-fill icon-size"></i>
-                        <span class="menu-item">งานที่ต้องทำ</span>
-                    </a>
-                </li>
-            </ul>
-            <ul id="list-nav" class="nav-content collapse @((ViewBag.CurrentController == "Home") ? "show" : "")" data-bs-parent="#sidebar-nav">
-                <li>
-                    <a class="@((ViewBag.CurrentController == "Home" && ViewBag.CurrentAction == "Complete") ? "active" : "")" href="@Url.Action("Complete", "Home")">
-                        <i class="ri-dropbox-fill icon-size"></i>
-                        <span class="menu-item">งานที่เสร็จแล้ว</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link @((ViewBag.CurrentController == "PurchaseRequisition") ? "" : "collapsed")" data-bs-target="#list-nav2" data-bs-toggle="collapse" href="#">
-                <i class="ri-file-list-3-fill icon-size"></i>
-                <span class="menu-head">รายการ</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="list-nav2" class="nav-content collapse @((ViewBag.CurrentController == "PurchaseRequisition") ? "show" : "")" data-bs-parent="#sidebar-nav">
-                <li>
-                    <a class="@((ViewBag.CurrentController == "PurchaseRequisition" && ViewBag.CurrentAction == "Index") ? "active" : "")" href="@Url.Action("", "PurchaseRequisition")">
-                        <i class="ri-dropbox-fill icon-size"></i>
-                        <span class="menu-item">สร้างใบขอซื้อ</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+
+        @if (Model.role == "user" || Model.role == "admin")
+        {
+            <li class="nav-item">
+                <a class="nav-link @((ViewBag.CurrentController == "Home") ? "" : "collapsed")" data-bs-target="#list-nav" data-bs-toggle="collapse" href="#">
+                    <i class="ri-folders-fill icon-size"></i>
+                    <span class="menu-head">บันทึกงาน</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="list-nav" class="nav-content collapse @((ViewBag.CurrentController == "Home") ? "show" : "")" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a class="@((ViewBag.CurrentController == "Home" && ViewBag.CurrentAction == "MyTask") ? "active" : "")" href="@Url.Action("MyTask", "Home")">
+                            <i class="ri-folder-received-fill icon-size"></i>
+                            <span class="menu-item">งานที่ต้องทำ</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul id="list-nav" class="nav-content collapse @((ViewBag.CurrentController == "Home") ? "show" : "")" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a class="@((ViewBag.CurrentController == "Home" && ViewBag.CurrentAction == "Complete") ? "active" : "")" href="@Url.Action("Complete", "Home")">
+                            <i class="ri-folder-shared-fill icon-size"></i>
+                            <span class="menu-item">งานที่เสร็จแล้ว</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @((ViewBag.CurrentController == "PurchaseRequisition") ? "" : "collapsed")" data-bs-target="#list-nav2" data-bs-toggle="collapse" href="#">
+                    <i class="ri-article-fill icon-size"></i>
+                    <span class="menu-head">คำขอ</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="list-nav2" class="nav-content collapse @((ViewBag.CurrentController == "PurchaseRequisition") ? "show" : "")" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a class="@((ViewBag.CurrentController == "PurchaseRequisition" && ViewBag.CurrentAction == "Index") ? "active" : "")" href="@Url.Action("", "PurchaseRequisition")">
+                            <i class="ri-add-circle-fill icon-size"></i>
+                            <span class="menu-item">สร้างใบขอซื้อ</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        }
+        @if (Model.role == "admin")
+        {
+            List<string> data = new List<string>() { "ManageUser", "ManageApproval", "ManagePosition", "ManageDivision" };
+            <li class="nav-item">
+                <a class="nav-link @((data.Contains(ViewBag.CurrentController)) ? "" : "collapsed")" data-bs-target="#list-nav3" data-bs-toggle="collapse" href="#">
+                    <i class="ri-database-2-fill icon-size"></i>
+                    <span class="menu-head">จัดการฐานข้อมูล</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="list-nav3" class="nav-content collapse @((data.Contains(ViewBag.CurrentController)) ? "show" : "")" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a class="@((ViewBag.CurrentController == "ManageUser" && ViewBag.CurrentAction == "Index") ? "active" : "")" href="@Url.Action("", "ManageUser")">
+                            <i class="ri-contacts-fill icon-size"></i>
+                            <span class="menu-item">ผู้ใช้งาน</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="@((ViewBag.CurrentController == "ManageApproval" && ViewBag.CurrentAction == "Index") ? "active" : "")" href="@Url.Action("", "ManageApproval")">
+                            <i class="ri-hand-coin-line icon-size"></i>
+                            <span class="menu-item">ผู้อนุมัติวงเงิน</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="@((ViewBag.CurrentController == "ManagePosition" && ViewBag.CurrentAction == "Index") ? "active" : "")" href="@Url.Action("", "ManagePosition")">
+                            <i class="ri-git-branch-fill icon-size"></i>
+                            <span class="menu-item">ตำแหน่ง</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="@((ViewBag.CurrentController == "ManageDivision" && ViewBag.CurrentAction == "Index") ? "active" : "")" href="@Url.Action("", "ManageDivision")">
+                            <i class="ri-layout-masonry-fill icon-size"></i>
+                            <span class="menu-item">แผนก</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        }
+
+
+
+
+
+
+
+
+
     </ul>
 </aside>
