@@ -1,4 +1,74 @@
 ﻿@model List<Document_Control.Core.pageModels.Home.WorklistData>
+
+
+<table class="table datatable ">
+    <thead>
+        <tr>
+            <th class="text-center" scope="col">เลขที่เอกสาร</th>
+            <th class="text-center" scope="col">วันที่สร้าง</th>
+            <th scope="col">ชื่อ-นามสกุล</th>
+            <th scope="col">หัวเรื่อง</th>
+            <th scope="col">รออนุมัติโดย</th>
+            <th class="text-center" scope="col">ความสำคัญ</th>
+            <th class="text-center" scope="col">สถานะ</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center"><a href="@Url.Action("Index", "PurchaseRequisition")/@item.DocumentId"><span class="badge bg-info me-1">@item.DocumentCode</span></a></td>
+                    <td class="text-center">@item.DocumentDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                    <td>@item.Name</td>
+                    <td>@item.Subject</td>
+                    @if (item.Approver != null)
+                    {
+                        if (!string.IsNullOrEmpty(item.Approver.UserName))
+                        {
+                            <td>@item.Approver.UserName</td>
+                        }
+                        else
+                        {
+                            <td><span class="badge bg-info me-1" onclick="showListApproval('@item.Approver.PositionId')">แสดง</span>@item.Approver.PositionName</td>
+                        }
+
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+                    <td class="text-center">
+                        @if (item.PriorityId == 1)
+                        {
+                            <span class="badge bg-info me-1">@item.Priority</span>
+                        }
+                        else if (item.PriorityId == 2)
+                        {
+                            <span class="badge bg-warning me-1">@item.Priority</span>
+                        }
+                        else if (item.PriorityId == 3)
+                        {
+                            <span class="badge bg-danger me-1">@item.Priority</span>
+                        }
+                    </td>
+                    <td class="text-center"><span class="badge bg-info me-1">@item.Status</span></td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center">ไม่พบข้อมูล</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@*
 <table class="table table-bordered">
 	<tbody>
 		<tr>
@@ -20,7 +90,7 @@
 					<td class="text-center"><a href="@Url.Action("Index", "PurchaseRequisition")/@item.DocumentId"><span class="badge bg-info me-1">@item.DocumentCode</span></a></td>
 					<td class="text-center">@item.DocumentDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
 					<td>@item.Name</td>
-					<td>@item.Subject</td>			
+					<td>@item.Subject</td>
 					@if (item.Approver != null)
 					{
 						if (!string.IsNullOrEmpty(item.Approver.UserName))
@@ -30,7 +100,7 @@
 						{
 							<td><span class="badge bg-info me-1" onclick="showListApproval('@item.Approver.PositionId')">แสดง</span>@item.Approver.PositionName</td>
 						}
-						
+
 					}
 					else
 					{
@@ -62,4 +132,4 @@
 		}
 
 	</tbody>
-</table>
+</table> *@

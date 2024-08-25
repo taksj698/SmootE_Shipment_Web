@@ -1,0 +1,26 @@
+﻿@model Document_Control.Core.pageModels.ManageDivision.PageManageDivisionSave
+<div class="modal fade" id="positionApprove" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">จัดการ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <label class="form-label"<b>รหัส</b></label>
+                        @Html.TextBoxFor(x => x.Id, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label"<b>แผนก</b></label>
+                        @Html.TextBoxFor(x => x.DivisionName, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>

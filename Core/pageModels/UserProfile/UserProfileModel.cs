@@ -1,11 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using AutoMapper;
-
 namespace Document_Control.Core.pageModels.UserProfile
 {
-
-
-
 	public class UserProfileModel
 	{
 		public Profileview? profile { get; set; }
