@@ -10,7 +10,6 @@ namespace Document_Control.Core.pageModels.ManageDivision
     }
     public class DataDivision : TbDivision 
     {
-        public string DivisionName { get; set; }
         public bool IsCanDelete { get; set; }
     }
 
