@@ -10,8 +10,5 @@ namespace Document_Control.Core.dbModels
 		public int Id { get; set; }
 		public string PriorityName { get; set; }
 		public int Seq { get; set; }
-
-        public DateTime? CreateDate { get; set; }
-		public DateTime? ModifyDate { get; set; }
 	}
 }

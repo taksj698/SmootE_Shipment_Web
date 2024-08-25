@@ -1,19 +1,109 @@
-﻿@{
-	ViewData["Title"] = "ManageApproval";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model Document_Control.Core.pageModels.ManageApproval.PageManageApproval
+@{
+    ViewData["Title"] = "ManageApproval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <main id="main" class="main">
-	<form id="formdata">
-		<section class="section dashboard">
-			<h1>ManageApproval</h1>
-		</section>
-	</form>
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">กลุ่มผู้อนุมัติวงเงิน <span>| Approval Matrix</span></h5>
+                        <input type="button" class="btn btn-sm btn-primary" value="เพิ่ม" onclick="controller.edit('');">
+                        <div class="row">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">รหัส</th>
+                                        <th>ตำแหน่ง</th>
+                                        <th>งบประมาณ</th>
+                                        <th class="text-center">ดำเนินการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if (Model != null && Model.tbApproval != null && Model.tbApproval.Count > 0)
+                                    {
+                                        foreach (var item in Model.tbApproval)
+                                        {
+                                            <tr>
+                                                <td class="text-center">@item.Id</td>
+                                                <td>@item.PositionName</td>
+                                                <td>@item.Budget</td>
+                                                <td class="text-center">
+                                                    <input class="btn btn-sm btn-warning text-white" onclick="controller.edit('@item.Id')" type="button" value="แก้ไข" />
+                                                    <input class="btn btn-sm btn-danger" type="button" onclick="controller.delete('@item.Id')" value="ลบ" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-center">ไม่พบข้อมูล</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modalContainer">
+            @await Html.PartialAsync("_ModalShow", Model.pageManageApprovalSave)
+        </div>
+    </section>
+
 </main>
 @section Scripts {
-	<script>
-		$(document).ready(function () {
+    <script>
+        $(document).ready(function () {
+            controller.delete = function (id) {
+                services.ConfirmAlert("", "", "", "", "", function (result) {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '@Url.Action("delete", "ManageApproval")',
+                            type: 'POST',
+                            data: { id: id },
+                            success: function (data) {
+                                services.CustomAlert1(data);
+                            }
+                        });
+                    }
+                });
+            }
+            controller.edit = function (id) {
+                $.ajax({
+                    url: '@Url.Action("edit", "ManageApproval")',
+                    type: 'GET',
+                    data: { id: id },
+                    success: function (result) {
+                        $('#modalContainer').html(result);
+                        $('#positionApprove').modal('show');
+                    }
+                });
+            }
+            controller.update = function () {
+                var data = new FormData($('#formdata').get(0));
+                services.AjaxPostForm("@Url.Action("update", "ManageApproval")", data, function (response) {
+                    services.CustomAlert1(response);
+                });
+            }
 
-		}
-	</script>
+            controller.handleBudgetChange = function () {
+                const budgetInput = document.getElementById('Budget');
+                let value = parseFloat(budgetInput.value).toFixed(2);
+                if (!isNaN(value)) {
+                    budgetInput.value = value;
+                } else {
+                    budgetInput.value = '';
+                }
+                //loadComponent();
+            }
+        });
+    </script>
 }

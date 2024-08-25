@@ -14,7 +14,7 @@ namespace Document_Control.Core.pageModels.PurchaseRequisition
 		public int? PriorityId { get; set; }
 		[Required(ErrorMessage = "ระบุ หัวเรื่อง")]
 		public string? Subject { get; set; }
-        [Required(ErrorMessage = "ระบุ งบประมาน")]
+        [Required(ErrorMessage = "ระบุ งบประมาณ")]
         public decimal? Budget { get; set; } = 0;
 		[Required(ErrorMessage = "ระบุ วันที่ขอซื้อ")]
 		public string? RequestDate { get; set; }

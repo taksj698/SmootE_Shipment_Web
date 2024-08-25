@@ -255,7 +255,7 @@ namespace Document_Control.Data.BusinessUnit
 
 					if (action == "บันทึก")
 					{
-						var findApp = _dbContext.TbApprovalMatrix.Where(x => x.IsActive && Budget >= x.Budget).ToList();
+						var findApp = _dbContext.TbApprovalMatrix.Where(x => Budget >= x.Budget).ToList();
 						var findPo = _dbContext.TbPosition.ToList();
 						if (findApp != null)
 						{

@@ -105,7 +105,7 @@
 										@Html.TextBoxFor(x => x.RequestDate, new { @class = "form-control datepicker", placeholder = "dd/mm/yyyy" })
 									</div>
 									<div class="col-6">
-										<label class="form-label"><b class="text-danger me-1">*</b><b>งบประมาน</b></label>
+										<label class="form-label"><b class="text-danger me-1">*</b><b>งบประมาณ</b></label>
 										@Html.TextBoxFor(x => x.Budget, new { @class = "form-control", @id = "budgetInput", onchange = "controller.handleBudgetChange();" })
 									</div>
 
@@ -181,7 +181,6 @@
 				<div class="col-lg-4">
 					<div class="card">
 						<div class="card-body">
-
 							@await Component.InvokeAsync("TabStatusComponent", Model?.Id)
 						</div>
 					</div>

@@ -10,7 +10,5 @@ namespace Document_Control.Core.dbModels
 		public int Id { get; set; }
 		public int PositionId { get; set; }
 		public decimal Budget { get; set; }
-		public string? Description { get; set; }
-		public bool IsActive { get; set; }
 	}
 }
