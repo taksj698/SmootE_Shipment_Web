@@ -7,19 +7,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-6">
-                        <label class="form-label"<b>รหัส</b></label>
-                        @Html.TextBoxFor(x => x.Id, new { @class = "form-control", @readonly = "readonly" })
+                <form id="formdata">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="form-label"><b>รหัส</b></label>
+                            @Html.TextBoxFor(x => x.Id, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label"><b class="text-danger me-1">*</b><b>แผนก</b></label>
+                            @Html.TextBoxFor(x => x.DivisionName, new { @class = "form-control" })
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <label class="form-label"<b>แผนก</b></label>
-                        @Html.TextBoxFor(x => x.DivisionName, new { @class = "form-control" })
-                    </div>
-                </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                <button type="button" onclick="controller.update();" class="btn btn-info text-white"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
             </div>
         </div>
     </div>

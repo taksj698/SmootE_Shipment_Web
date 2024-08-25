@@ -6,85 +6,82 @@
 }
 
 <main id="main" class="main">
-    <form id="formdata">
-        <section class="section dashboard">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">แผนก <span>| Division</span></h5>
-                            <div class="row">
 
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">แผนก <span>| Division</span></h5>
+                        <input type="button" class="btn btn-sm btn-primary" value="เพิ่มผู้อนุมัติ" onclick="controller.edit('');">
+                        <div class="row">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">รหัส</th>
+                                        <th>แผนก</th>
+                                        <th class="text-center">ดำเนินการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                                <table class="table datatable">
-                                    <thead>
-                                        <tr>
-
-                                            <th class="text-center">รหัส</th>
-                                            <th>แผนก</th>
-                                            <th class="text-center">ดำเนินการ</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @if (Model != null && Model.tbDivision != null && Model.tbDivision.Count > 0)
-                                        {
-                                            foreach (var item in Model.tbDivision)
-                                            {
-                                                <tr>
-                                                    <td class="text-center">@item.Id</td>
-                                                    <td>@item.DivisionName</td>
-                                                    <td class="text-center">
-                                                        @if (item.IsCanDelete)
-                                                        {
-                                                            <input class="btn btn-sm btn-warning text-white" onclick="controller.edit('@item.Id')" type="button" value="แก้ไข" />
-                                                            <input class="btn btn-sm btn-danger" type="button" onclick="controller.delete('@item.Id')" value="ลบ" />
-                                                        }else
-                                                        {
-                                                            <span class="badge bg-info me-1">ไม่สามารถแก้ไขได้</span>
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            }
-                                        }else
+                                    @if (Model != null && Model.tbDivision != null && Model.tbDivision.Count > 0)
+                                    {
+                                        foreach (var item in Model.tbDivision)
                                         {
                                             <tr>
-                                                <td colspan="3" class="text-center">ไม่พบข้อมูล</td>
+                                                <td class="text-center">@item.Id</td>
+                                                <td>@item.DivisionName</td>
+                                                <td class="text-center">
+                                                    @if (item.IsCanDelete)
+                                                    {
+                                                        <input class="btn btn-sm btn-warning text-white" onclick="controller.edit('@item.Id')" type="button" value="แก้ไข" />
+                                                        <input class="btn btn-sm btn-danger" type="button" onclick="controller.delete('@item.Id')" value="ลบ" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-info me-1">ไม่สามารถแก้ไขได้</span>
+                                                    }
+                                                </td>
                                             </tr>
                                         }
-                                    </tbody>
-                                </table>
-                            </div>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-center">ไม่พบข้อมูล</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="modalContainer">
-                @await Html.PartialAsync("_ModalShow", new PageManageDivisionSave())
-            </div>
-        </section>
-    </form>
+        </div>
+        <div id="modalContainer">
+            @await Html.PartialAsync("_ModalShow", Model.pageManageDivisionSave)
+        </div>
+    </section>
+
 </main>
-@section Scripts { 
+@section Scripts {
     <script>
         $(document).ready(function () {
             controller.delete = function (id) {
                 services.ConfirmAlert("", "", "", "", "", function (result) {
                     if (result.isConfirmed) {
-                        console.log(id);
-                        // $.ajax({
-                        //     url: '@Url.Action("delete", "ManageDivision")',
-                        //     type: 'POST',
-                        //     data: { id: id },
-                        //     success: function (data) {
-                        //         services.CustomAlert1(data);
-                        //         loadComponentDocFile();
-                        //     }
-                        // });
+                        $.ajax({
+                            url: '@Url.Action("delete", "ManageDivision")',
+                            type: 'POST',
+                            data: { id: id },
+                            success: function (data) {
+                                services.CustomAlert1(data);
+                            }
+                        });
                     }
                 });
             }
-
             controller.edit = function (id) {
                 $.ajax({
                     url: '@Url.Action("edit", "ManageDivision")',
@@ -94,6 +91,12 @@
                         $('#modalContainer').html(result);
                         $('#positionApprove').modal('show');
                     }
+                });
+            }
+            controller.update = function () {
+                var data = new FormData($('#formdata').get(0));
+                services.AjaxPostForm("@Url.Action("update", "ManageDivision")", data, function (response) {
+                    services.CustomAlert1(response);
                 });
             }
         });

@@ -10,14 +10,15 @@ namespace Document_Control.Core.pageModels.ManageDivision
     }
     public class DataDivision : TbDivision 
     {
-        [Required(ErrorMessage = "ระบุชื่อแผนก")]
         public string DivisionName { get; set; }
         public bool IsCanDelete { get; set; }
     }
 
 
-    public class PageManageDivisionSave : TbDivision
+    public class PageManageDivisionSave
     {
-
+        public int? Id { get; set; }
+        [Required(ErrorMessage = "ระบุชื่อแผนก")]
+        public string DivisionName { get; set; }
     }
 }
