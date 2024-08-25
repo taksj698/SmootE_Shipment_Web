@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Document_Control.Core.dbModels;
-using Document_Control.Core.pageModels.ManageDivision;
 using Document_Control.Data.Repository.SQLServer;
 using Document_Control.Data.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Document_Control.Core.pageModels.ManagePosition;
 
 namespace Document_Control.Controllers
 {
@@ -22,7 +22,7 @@ namespace Document_Control.Controllers
         [HttpGet("ManagePosition")]
         public IActionResult Index()
         {
-            ViewBag.CurrentController = "ManageDivision";
+            ViewBag.CurrentController = "ManagePosition";
             ViewBag.CurrentAction = "Index";
             return View(Getdata());
         }

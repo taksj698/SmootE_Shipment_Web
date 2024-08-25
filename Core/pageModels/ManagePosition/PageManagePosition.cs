@@ -1,7 +1,7 @@
 ﻿using Document_Control.Core.dbModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace Document_Control.Core.pageModels.ManageDivision
+namespace Document_Control.Core.pageModels.ManagePosition
 {
     public class PageManagePosition
     {
@@ -14,7 +14,7 @@ namespace Document_Control.Core.pageModels.ManageDivision
     }
     public class PageManagePositionSave
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         [Required(ErrorMessage = "ระบุชื่อตำแหน่ง")]
         public string? PositionName { get; set; }
     }
