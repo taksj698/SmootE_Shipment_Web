@@ -1,19 +1,113 @@
-﻿@{
-	ViewData["Title"] = "ManageUser";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model Document_Control.Core.pageModels.ManageUser.PageManageUser
+@{
+    ViewData["Title"] = "ManageUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <main id="main" class="main">
-	<form id="formdata">
-		<section class="section dashboard">
-			<h1>ManageUser</h1>
-		</section>
-	</form>
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">ผู้ใช้งาน <span>| User</span></h5>
+                        <input type="button" class="btn btn-sm btn-primary" value="เพิ่ม" onclick="controller.edit('');">
+                        <div class="row">
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">รหัส</th>
+                                        <th>ชื่อ</th>
+                                        <th>หมายเลขโทรศัพท์</th>
+                                        <th>ตำแหน่ง</th>
+                                        <th>สิทธิ์การใช้งาน</th>
+                                        <th>ผู้อนุมัติ</th>
+                                        <th>ผู้จัดการ</th>
+                                        <th class="text-center">ดำเนินการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if (Model != null && Model.tbUser != null && Model.tbUser.Count > 0)
+                                    {
+                                        foreach (var item in Model.tbUser)
+                                        {
+                                            <tr>
+                                                <td class="text-center">@item.Id</td>
+                                                <td>@item.Name</td>
+                                                <td>@item.TelNo</td>
+                                                <td>@item.PositionName</td>
+                                                <td>@item.RoleName</td>
+                                                <td>@(item.IsApprove ? "ใช่" : "ไม่ใช่")</td>
+                                                <td>@(item.IsManager ? "ใช่" : "ไม่ใช่")</td>
+                                                <td class="text-center">
+                                                    @if (item.IsCanDelete)
+                                                    {
+                                                        <input class="btn btn-sm btn-warning text-white" onclick="controller.edit('@item.Id')" type="button" value="แก้ไข" />
+                                                        <input class="btn btn-sm btn-danger" type="button" onclick="controller.delete('@item.Id')" value="ลบ" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-info me-1">ไม่สามารถแก้ไขได้</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-center">ไม่พบข้อมูล</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modalContainer">
+            @await Html.PartialAsync("_ModalShow", Model.pageManageUserSave)
+        </div>
+    </section>
+
 </main>
 @section Scripts {
-	<script>
-		$(document).ready(function () {
-
-		}
-	</script>
+    <script>
+        $(document).ready(function () {
+            controller.delete = function (id) {
+                services.ConfirmAlert("", "", "", "", "", function (result) {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '@Url.Action("delete", "ManageUser")',
+                            type: 'POST',
+                            data: { id: id },
+                            success: function (data) {
+                                services.CustomAlert1(data);
+                            }
+                        });
+                    }
+                });
+            }
+            controller.edit = function (id) {
+                $.ajax({
+                    url: '@Url.Action("edit", "ManageUser")',
+                    type: 'GET',
+                    data: { id: id },
+                    success: function (result) {
+                        $('#modalContainer').html(result);
+                        $('#positionApprove').modal('show');
+                    }
+                });
+            }
+            controller.update = function () {
+                var data = new FormData($('#formdata').get(0));
+                services.AjaxPostForm("@Url.Action("update", "ManageUser")", data, function (response) {
+                    services.CustomAlert1(response);
+                });
+            }
+        });
+    </script>
 }
