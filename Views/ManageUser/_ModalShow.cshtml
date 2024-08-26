@@ -13,6 +13,8 @@
                             <label class="form-label"><b>รหัส</b></label>
                             @Html.TextBoxFor(x => x.Id, new { @class = "form-control", @readonly = "readonly" })
                         </div>
+                    </div>
+                    <div class="row g-3 mt-1">
                         <div class="col-6">
                             <label class="form-label"><b class="text-danger me-1">*</b><b>ชื่อ</b></label>
                             @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
@@ -33,22 +35,37 @@
                             <label class="form-label"><b class="text-danger me-1">*</b><b>ชื่อผู้ใช้งาน</b></label>
                             @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
                         </div>
+                        <div class="col-6">
+                            <label class="form-label"><b>รหัสผ่าน</b></label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Password, new { @class = "form-control" })
+                                <span class="input-group-text" onclick="generateRandomPassword(6);">สร้างรหัสใหม่</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row mt-3">
-                        <div class="col-6">
+                        <div class="col-12">
+                            @Html.CheckBoxFor(x => x.IsApprove, new { @class = "form-check-input" })
                             <label class="form-label">
-                                <b class="text-danger me-1">*</b>
                                 <b>ผู้อนุมัติ</b>
                             </label>
-                            @Html.CheckBoxFor(x => x.IsApprove.Value, new { @class = "form-check-input" })
+
                         </div>
-                        <div class="col-6">
+                        <div class="col-12">
+                            @Html.CheckBoxFor(x => x.IsManager, new { @class = "form-check-input" })
                             <label class="form-label">
-                                <b class="text-danger me-1">*</b>
                                 <b>ผู้จัดการ</b>
                             </label>
-                            @Html.CheckBoxFor(x => x.IsManager.Value, new { @class = "form-check-input" })
+                        </div>
+                        <div class="col-12">
+                            @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input" })
+                            <label class="form-label">
+                                <b>เปิดใช้งาน</b>
+                            </label>
+                        </div>
+                        <div class="col-12">
+                            <span class="text-danger me-1">หมายเหตุ:รหัสผู้ใช้งานจะไม่แสดงเว้นแต่ผู้ดูแลจะสร้างรหัสผ่านใหม่หรือลืมรหัสผ่าน</span>
                         </div>
                     </div>
                 </form>

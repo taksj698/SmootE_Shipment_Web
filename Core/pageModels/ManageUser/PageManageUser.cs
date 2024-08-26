@@ -24,14 +24,15 @@ namespace Document_Control.Core.pageModels.ManageUser
         [Required(ErrorMessage = "ระบุชื่อผู้ใช้งาน")]
         public string? UserName { get; set; }
         //[Required(ErrorMessage = "ระบุชื่อรหัสผ่าน")]
-        //public string? Password { get; set; }
+        public string? Password { get; set; }
         [Required(ErrorMessage = "ระบุชื่อ")]
         public string? Name { get; set; }
         public string? TelNo { get; set; }
         [Required(ErrorMessage = "ระบุตำแหน่ง")]
         public int? PositionId { get; set; }
-        public bool? IsApprove { get; set; } = false;
-        public bool? IsManager { get; set; } = false;
+        public bool IsApprove { get; set; } = false;
+        public bool IsManager { get; set; } = false;
+        public bool IsActive { get; set; } = true;
         [Required(ErrorMessage = "ระบุสิทธิ์การใช้งาน")]
         public int? RoleId { get; set; }
 

@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Document_Control.Core.pageModels.ManageUser;
 using Document_Control.Core.pageModels.ManageApproval;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.IdentityModel.Tokens;
+using Document_Control.Data.Services;
 
 namespace Document_Control.Controllers
 {
@@ -15,10 +18,12 @@ namespace Document_Control.Controllers
     public class ManageUserController : Controller
     {
         private readonly WrapperRepository _wrapper;
+        private readonly CryptographyServices _cryptographyServices;
         private SqlServerDbContext _dbContext;
-        public ManageUserController(IHttpContextAccessor haccess, WrapperRepository wrapper)
+        public ManageUserController(IHttpContextAccessor haccess, WrapperRepository wrapper, CryptographyServices cryptographyServices)
         {
             _wrapper = wrapper;
+            _cryptographyServices = cryptographyServices;
             _dbContext = _wrapper._dbContext;
         }
         [HttpGet("ManageUser")]
@@ -35,7 +40,8 @@ namespace Document_Control.Controllers
             if (find != null)
             {
                 var config = new MapperConfiguration(cfg =>
-                cfg.CreateMap<TbUser, PageManageUserSave>());
+                cfg.CreateMap<TbUser, PageManageUserSave>()
+                .ForMember(dest => dest.Password, opt => opt.Ignore()));
                 var mapper = new Mapper(config);
                 mapper.Map(find, obj);
             }
@@ -70,20 +76,38 @@ namespace Document_Control.Controllers
                 {
                     var config = new MapperConfiguration(cfg =>
                     cfg.CreateMap<PageManageUserSave, TbUser>()
-                     .ForMember(dest => dest.Id, opt => opt.Ignore()));
+                     .ForMember(dest => dest.Id, opt => opt.Ignore())
+                     .ForMember(dest => dest.Password, opt => opt.Ignore())
+                     );
                     var mapper = new Mapper(config);
+                    if (!string.IsNullOrEmpty(obj.Password)) 
+                    {
+                        find.Password = _cryptographyServices.GetMd5Hash(obj.Password);
+                    }
                     mapper.Map(obj, find);
                     _dbContext.SaveChanges();
                 }
             }
             else
             {
+                var user = _dbContext.TbUser.Any(x => x.UserName == obj.UserName);
+                if (user)
+                {
+                    return Json(new { result = false, type = "warning", message = "ชื่อผู้ใช้งานซ้ำในระบบ" });
+                }
+                if (string.IsNullOrEmpty(obj.Password))
+                {
+                    return Json(new { result = false, type = "warning", message = "ต้องสร้างรหัสผ่านผู้ใช้งานใหม่" });
+                }
+
+
                 TbUser data = new TbUser();
                 var config = new MapperConfiguration(cfg =>
                 cfg.CreateMap<PageManageUserSave, TbUser>()
                  .ForMember(dest => dest.Id, opt => opt.Ignore()));
                 var mapper = new Mapper(config);
                 mapper.Map(obj, data);
+                data.Password = _cryptographyServices.GetMd5Hash(obj.Password);
                 _dbContext.TbUser.Add(data);
                 _dbContext.SaveChanges();
             }

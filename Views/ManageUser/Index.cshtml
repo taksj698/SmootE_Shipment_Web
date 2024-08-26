@@ -41,15 +41,15 @@
                                                 <td>@item.RoleName</td>
                                                 <td>@(item.IsApprove ? "ใช่" : "ไม่ใช่")</td>
                                                 <td>@(item.IsManager ? "ใช่" : "ไม่ใช่")</td>
-                                                <td class="text-center">
+                                                <td class="text-center" style="width:120px;">
                                                     @if (item.IsCanDelete)
                                                     {
-                                                        <input class="btn btn-sm btn-warning text-white" onclick="controller.edit('@item.Id')" type="button" value="แก้ไข" />
-                                                        <input class="btn btn-sm btn-danger" type="button" onclick="controller.delete('@item.Id')" value="ลบ" />
+                                                        <input class="btn btn-sm btn-warning text-white" onclick="controller.edit('@item.Id')" type="button" value="แก้ไข" style="display: inline-block;" />
+                                                        <input class="btn btn-sm btn-danger" type="button" onclick="controller.delete('@item.Id')" value="ลบ" style="display: inline-block;" />
                                                     }
                                                     else
                                                     {
-                                                        <span class="badge bg-info me-1">ไม่สามารถแก้ไขได้</span>
+                                                        <input class="btn btn-sm btn-warning text-white" onclick="controller.edit('@item.Id')" type="button" value="แก้ไข" style="display: inline-block;" />
                                                     }
                                                 </td>
                                             </tr>
@@ -109,5 +109,14 @@
                 });
             }
         });
+        function generateRandomPassword(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                password += characters.charAt(randomIndex);
+            }
+            $('#Password').val(password);
+        }
     </script>
 }
