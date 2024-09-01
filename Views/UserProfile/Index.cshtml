@@ -1,7 +1,7 @@
 ﻿@model Document_Control.Core.pageModels.UserProfile.UserProfileModel
 @{
-	ViewData["Title"] = "";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -9,182 +9,188 @@
 
 
 
-	<section class="section profile">
-		<div class="row">
-			<div class="col-xl-4">
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-				<div class="card">
-					<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-						@* <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> *@
-						<h2>@Model.profile?.name</h2>
-						<h3>@Model.profile?.positionName</h3>
 
-					</div>
-				</div>
 
-			</div>
+                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" class="rounded-circle">
 
-			<div class="col-xl-8">
+                        <h2>@Model.profile?.name</h2>
+                        <h3>@Model.profile?.positionName</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered" role="tablist">
 
-				<div class="card">
-					<div class="card-body pt-3">
-						<!-- Bordered Tabs -->
-						<ul class="nav nav-tabs nav-tabs-bordered" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-overview" aria-selected="true" role="tab">ข้อมูลส่วนตัว</button>
+                            </li>
 
-							<li class="nav-item" role="presentation">
-								<button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-overview" aria-selected="true" role="tab">ข้อมูลส่วนตัว</button>
-							</li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="noti-tab" data-bs-toggle="tab" data-bs-target="#profile-noti" aria-selected="false" role="tab" tabindex="-1">การแจ้งเตือน</button>
+                            </li>
 
-							<li class="nav-item" role="presentation">
-								<button class="nav-link" id="noti-tab" data-bs-toggle="tab" data-bs-target="#profile-noti" aria-selected="false" role="tab" tabindex="-1">การแจ้งเตือน</button>
-							</li>
-
-							<li class="nav-item" role="presentation">
-								<button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#profile-change-password" aria-selected="false" role="tab" tabindex="-1">เปลี่ยนรหัสผ่าน</button>
-							</li>
-
-						</ul>
-						<div class="tab-content pt-2">
-							<div class="tab-pane fade profile-overview active show" id="profile-overview" role="tabpanel">
-								<div class="row mt-2">
-									<div class="col-lg-3 col-md-4 label mt-2">ชื่อ - นามสกุล</div>
-									<div class="col-lg-9 col-md-8">
-										@Html.TextBoxFor(x => x.profile.name, new { @class = "form-control" })
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-lg-3 col-md-4 label mt-2">หมายเลขโทรศัพท์</div>
-									<div class="col-lg-9 col-md-8">
-										@Html.TextBoxFor(x => x.profile.TelNo, new { @class = "form-control" })
-									</div>
-								</div>
-								<div class="row">
-									<div class="text-center">
-										<button type="button" onclick="controller.updateProfile();" class="btn btn-primary btn-sm"><i class="ri-save-2-fill me-1 icon-size-btn"></i>บันทึกและเปลี่ยนแปลง</button>
-									</div>
-								</div>
-							</div>
-
-							<div class="tab-pane fade pt-3" id="profile-noti" role="tabpanel">
-								<!-- Settings Form -->
-								<div class="row">
-									<div class="text-center">
-										<div class="col-12 mb-4">
-											<img class="img-fluid" src="//scdn.line-apps.com/n/line_notice/img/pc/img_lp02_th.png?20161005" />
-										</div>
-										@if (!string.IsNullOrEmpty(Model?.notiSetting?.token))
-										{
-											<input type="text" class="form-control text-center" value="@Model?.notiSetting?.token" disabled="disabled" />
-											<button onclick="controller.linetest();" class="btn btn-success btn-sm mt-2"><i class="ri-line-fill me-1 icon-size-btn"></i>ทดสอบ</button>
-											<button onclick="controller.delline();" class="btn btn-danger btn-sm mt-2"><i class="ri-line-fill me-1 icon-size-btn"></i>ยกเลิก</button>
-										}
-										else
-										{
-											<a class="btn btn-success btn-sm" href="@Model?.notiSetting?.link"><i class="ri-line-fill me-1 icon-size-btn"></i>เชื่อมต่อระบบแจ้งเตือนผ่านไลน์</a>
-										}
-									</div>
-								</div>
-							</div>
-							<div class="tab-pane fade pt-3" id="profile-change-password" role="tabpanel">
-								<!-- Change Password Form -->
-								<form>
-
-									<div class="row mb-3">
-										<label class="col-md-4 col-lg-3 col-form-label">รหัสผ่านเดิม</label>
-										<div class="col-md-8 col-lg-9">
-											<input type="password" class="form-control" id="oldpass">
-										</div>
-									</div>
-
-									<div class="row mb-3">
-										<label class="col-md-4 col-lg-3 col-form-label">รหัสผ่านใหม่</label>
-										<div class="col-md-8 col-lg-9">
-											<input type="password" class="form-control" id="newpass">
-										</div>
-									</div>
-
-									<div class="row mb-3">
-										<label class="col-md-4 col-lg-3 col-form-label">ยืนยันรหัสผ่านใหม่</label>
-										<div class="col-md-8 col-lg-9">
-											<input type="password" class="form-control" id="renewpass">
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="text-center">
-											<button type="button" class="btn btn-primary btn-sm" onclick="controller.ChangePass();"><i class="ri-save-2-fill me-1 icon-size-btn"></i>บันทึกและเปลี่ยนแปลงรหัสผ่าน</button>
-										</div>
-									</div>
-								</form><!-- End Change Password Form -->
-
-							</div>
-
-						</div><!-- End Bordered Tabs -->
-
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</section>
-
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#profile-change-password" aria-selected="false" role="tab" tabindex="-1">เปลี่ยนรหัสผ่าน</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content pt-2">
+                            <div class="tab-pane fade profile-overview active show" id="profile-overview" role="tabpanel">
+                                <div class="row mt-2">
+                                    <div class="col-lg-3 col-md-4 label mt-2">รูปโปรไฟล์</div>
+                                    <div class="col-lg-9 col-md-8">
+                                        <input type="file" id="formFile" class="form-control" accept="image/*" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-lg-3 col-md-4 label mt-2">ชื่อ - นามสกุล</div>
+                                    <div class="col-lg-9 col-md-8">
+                                        @Html.TextBoxFor(x => x.profile.name, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label mt-2">หมายเลขโทรศัพท์</div>
+                                    <div class="col-lg-9 col-md-8">
+                                        @Html.TextBoxFor(x => x.profile.TelNo, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="text-center">
+                                        <button type="button" onclick="controller.updateProfile();" class="btn btn-primary btn-sm"><i class="ri-save-2-fill me-1 icon-size-btn"></i>บันทึกและเปลี่ยนแปลง</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade pt-3" id="profile-noti" role="tabpanel">
+                                <!-- Settings Form -->
+                                <div class="row">
+                                    <div class="text-center">
+                                        <div class="col-12 mb-4">
+                                            <img class="img-fluid" src="//scdn.line-apps.com/n/line_notice/img/pc/img_lp02_th.png?20161005" />
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(Model?.notiSetting?.token))
+                                        {
+                                            <input type="text" class="form-control text-center" value="@Model?.notiSetting?.token" disabled="disabled" />
+                                            <button onclick="controller.linetest();" class="btn btn-success btn-sm mt-2"><i class="ri-line-fill me-1 icon-size-btn"></i>ทดสอบ</button>
+                                            <button onclick="controller.delline();" class="btn btn-danger btn-sm mt-2"><i class="ri-line-fill me-1 icon-size-btn"></i>ยกเลิก</button>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-success btn-sm" href="@Model?.notiSetting?.link"><i class="ri-line-fill me-1 icon-size-btn"></i>เชื่อมต่อระบบแจ้งเตือนผ่านไลน์</a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade pt-3" id="profile-change-password" role="tabpanel">
+                                <!-- Change Password Form -->
+                                <form>
+                                    <div class="row mb-3">
+                                        <label class="col-md-4 col-lg-3 col-form-label">รหัสผ่านเดิม</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="password" class="form-control" id="oldpass">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-md-4 col-lg-3 col-form-label">รหัสผ่านใหม่</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="password" class="form-control" id="newpass">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-md-4 col-lg-3 col-form-label">ยืนยันรหัสผ่านใหม่</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="password" class="form-control" id="renewpass">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="text-center">
+                                            <button type="button" class="btn btn-primary btn-sm" onclick="controller.ChangePass();"><i class="ri-save-2-fill me-1 icon-size-btn"></i>บันทึกและเปลี่ยนแปลงรหัสผ่าน</button>
+                                        </div>
+                                    </div>
+                                </form><!-- End Change Password Form -->
+                            </div>
+                        </div><!-- End Bordered Tabs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
-
-
 @section Scripts {
-	<script>
-		$(document).ready(function () {
-			var Tab = '@Model?.Tab';
-			if (Tab == "noti-tab") {
-				$('#noti-tab').tab('show');
-			}
+    <script>
+        $(document).ready(function () {
+            var Tab = '@Model?.Tab';
+            if (Tab == "noti-tab") {
+                $('#noti-tab').tab('show');
+            }
+            controller.updateProfile = function () {
+                services.ConfirmAlert("", "", "", "", "", function (result) {
+                    if (result.isConfirmed) {
+
+                        var formData = new FormData();
+                        var fileInput = document.getElementById('formFile');
+
+                        formData.append('file', fileInput.files[0]);
+                        formData.append('name', $('#profile_name').val());
+                        formData.append('TelNo', $('#profile_TelNo').val());
+
+                        services.AjaxPostForm("@Url.Action("updateProfile", "UserProfile")",
+                            formData
+                            , function (response) {
+                                console.log(response);
+                                services.CustomAlert1(response);
+                            });
 
 
-			controller.updateProfile = function () {
-				services.ConfirmAlert("", "", "", "", "", function (result) {
-					if (result.isConfirmed) {
-						services.AjaxPostData("@Url.Action("updateProfile", "UserProfile")",
-							{ name: $('#profile_name').val(), TelNo: $('#profile_TelNo').val() }
-							, function (response) {
-								console.log(response);
-								services.CustomAlert1(response);
-							});
-					}
-				});
-			}
-			controller.ChangePass = function () {
-				services.ConfirmAlert("", "", "", "", "", function (result) {
-					if (result.isConfirmed) {
-						services.AjaxPostData("@Url.Action("ChangePass", "UserProfile")",
-							{
-								oldpass: $('#oldpass').val(),
-								newpass: $('#newpass').val(),
-								renewpass: $('#renewpass').val()
-							}
-							, function (response) {
-								console.log(response);
-								services.CustomAlert1(response);
-							});
-					}
-				});
-			}
 
-			controller.linetest = function () {
-				services.AjaxPostData("@Url.Action("linetest", "UserProfile")", null
-					, function (response) {
-						services.CustomAlert1(response);
-					});
-			}
-			controller.delline = function () {
-				services.ConfirmAlert("", "", "", "", "", function (result) {
-					if (result.isConfirmed) {
-						services.AjaxPostData("@Url.Action("delline", "UserProfile")", null
-							, function (response) {
-								services.CustomAlert1(response);
-							});
-					}
-				});
-			}			
-		});
-	</script>
+                        // services.AjaxPostData("@Url.Action("updateProfile", "UserProfile")",
+                        //     { name: $('#profile_name').val(), TelNo: $('#profile_TelNo').val() }
+                        //     , function (response) {
+                        //         console.log(response);
+                        //         services.CustomAlert1(response);
+                        //     });
+                    }
+                });
+            }
+            controller.ChangePass = function () {
+                services.ConfirmAlert("", "", "", "", "", function (result) {
+                    if (result.isConfirmed) {
+                        services.AjaxPostData("@Url.Action("ChangePass", "UserProfile")",
+                            {
+                                oldpass: $('#oldpass').val(),
+                                newpass: $('#newpass').val(),
+                                renewpass: $('#renewpass').val()
+                            }
+                            , function (response) {
+                                console.log(response);
+                                services.CustomAlert1(response);
+                            });
+                    }
+                });
+            }
+            controller.linetest = function () {
+                services.AjaxPostData("@Url.Action("linetest", "UserProfile")", null
+                    , function (response) {
+                        services.CustomAlert1(response);
+                    });
+            }
+            controller.delline = function () {
+                services.ConfirmAlert("", "", "", "", "", function (result) {
+                    if (result.isConfirmed) {
+                        services.AjaxPostData("@Url.Action("delline", "UserProfile")", null
+                            , function (response) {
+                                services.CustomAlert1(response);
+                            });
+                    }
+                });
+            }
+        });
+    </script>
 }
