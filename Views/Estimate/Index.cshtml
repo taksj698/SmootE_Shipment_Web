@@ -1,0 +1,211 @@
+﻿@using QuickVisualWebWood.Core.pageModels.PurchaseRequisition
+@model QuickVisualWebWood.Core.pageModels.PurchaseRequisition.PagePR
+@{
+    ViewData["Title"] = "PurchaseRequisition";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .dashboard .activity .activity-item .activite-label {
+        min-width: 0px;
+    }
+
+    .custom-file-input {
+        display: none;
+    }
+</style>
+<main id="main" class="main">
+    <form id="formdata">
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.OrderDate)
+        @Html.HiddenFor(x => x.DocumentCode)
+        @Html.HiddenFor(x => x.CreateBy)
+        @Html.HiddenFor(x => x.CreateName)
+        @Html.HiddenFor(x => x.PositionId)
+        @Html.HiddenFor(x => x.PositionName)
+        <section class="section dashboard">
+            <div class="row" style="justify-content:center;">
+                <div class="col-lg-8">
+
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">ข้อมูล <span>| Information</span></h5>
+                                <div class="row">
+                                    <div class="col-6 mb-1">
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <i class="ri-article-fill icon-size"></i>
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="row">
+                                                    <div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>เลขที่ชั่ง :</b> </div>
+                                                    <div class="col col-12 ga-text-lh-10">@Model?.OrderDate?.ToString("dd/MM/yyyy")</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-1">
+                                        <div class="row">
+                                            <div class="col-2">
+
+                                                <i class="ri-calendar-todo-fill icon-size"></i>
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="row">
+                                                    <div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>วันที่ทำรายการ :</b> </div>
+                                                    <div class="col col-12 ga-text-lh-10">@Model?.DocumentCode</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-1">
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <i class="ri-bus-line icon-size"></i>
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="row">
+                                                    <div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>ทะเบียนรถ :</b> </div>
+                                                    <div class="col col-12 ga-text-lh-10">@Model?.CreateName</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-1">
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <i class="ri-file-user-line icon-size"></i>
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="row">
+                                                    <div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>ชื่อลูกค้า :</b> </div>
+                                                    <div class="col col-12 ga-text-lh-10">@Model?.PositionName</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">รายละเอียด <span>| Detail</span></h5>
+
+
+                                <div class="row" style="justify-content:center;">
+                                    <div class="col-10">
+                                        <h6><b>การประเมิน</b></h6>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6 col-sm-6 col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="options" value="1">
+                                                    <label class="form-check-label" for="option1">ผ่าน</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="options" value="2">
+                                                    <label class="form-check-label" for="option2">ไม่ผ่าน</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="options" value="3">
+                                                    <label class="form-check-label" for="option3">อื่นๆ</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="options" value="4">
+                                                    <label class="form-check-label" for="option4">ตัดราคา</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label"><b>หมายเหตุ</b></label>
+                                                @Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = 3 })
+                                            </div>
+                                        </div>
+
+                                        <h6><b>รูปแบบการประเมิน</b></h6>
+
+                                        <div class="form-group" id="groupupload">
+                                            <label class="btn btn-sm btn-secondary" for="fileInput"><i class="ri-camera-fill me-1"></i>ถ่ายภาพ</label>
+                                            <input type="file" class="custom-file-input" id="fileInput" onchange="controller.upload();">
+                                        </div>
+                                        @await Html.PartialAsync("_FileComponent", Model?.DocUpload)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+</main>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            controller.save = function () {
+                services.ConfirmAlert("", "", "", "", "", function (result) {
+                    if (result.isConfirmed) {
+                        var data = new FormData($('#formdata').get(0));
+                        services.AjaxPostForm("@Url.Action("save", "PurchaseRequisition")", data, function (response) {
+                            services.CustomAlert1(response);
+                        });
+                    }
+                });
+            }
+            controller.draft = function () {
+                services.ConfirmAlert("", "", "", "", "", function (result) {
+                    if (result.isConfirmed) {
+                        var data = new FormData($('#formdata').get(0));
+                        services.AjaxPostForm("@Url.Action("draft", "PurchaseRequisition")", data, function (response) {
+                            services.CustomAlert1(response);
+                        });
+                    }
+                });
+            }
+            controller.upload = function () {
+                var file = $("#fileInput")[0].files[0];
+                var formData = new FormData();
+                formData.append('file', file);
+                services.AjaxPostForm("@Url.Action("upload", "PurchaseRequisition")", formData, function (response) {
+                    $("#fileInput").val('');
+                    services.CustomAlert1(response);
+                    loadComponentDocFile();
+                });
+            }
+            controller.deletefile = function (id) {
+                services.ConfirmAlert("", "", "", "", "", function (result) {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '@Url.Action("deletefile", "PurchaseRequisition")',
+                            type: 'POST',
+                            data: { id: id },
+                            success: function (data) {
+                                services.CustomAlert1(data);
+                                loadComponentDocFile();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+
+        function loadComponentDocFile() {
+            $.ajax({
+                url: '@Url.Action("LoadComponentDocFile", "PurchaseRequisition")',
+                type: 'GET',
+                data: { id: @Model?.Id },
+                success: function (data) {
+                    $('#componentDocfile').html(data);
+                }
+            });
+        }
+    </script>
+}

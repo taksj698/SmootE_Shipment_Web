@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace QuickVisualWebWood.Controllers
 {
-	[Authorize(Roles = "user,admin")]
+	//[Authorize(Roles = "user,admin")]
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;

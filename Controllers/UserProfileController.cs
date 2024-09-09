@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace QuickVisualWebWood.Controllers
 {
-	[Authorize(Roles = "user, admin")]
+	//[Authorize(Roles = "user, admin")]
 	public class UserProfileController : Controller
 	{
 		private readonly UserProfileBusiness _userProfileBusiness;

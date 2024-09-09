@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\PurchaseRequisition\_PositionApprove.cshtml" />
+    <Content Remove="Views\Estimate\_PositionApprove.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,14 +22,6 @@
 
   <ItemGroup>
     <Content Update="Views\Home\_ModalShowAproval.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\PurchaseRequisition\_ActionComponent.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\PurchaseRequisition\_ModalSelectAproval.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

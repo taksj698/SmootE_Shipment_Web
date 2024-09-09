@@ -8,18 +8,18 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace QuickVisualWebWood.Controllers
 {
-	[Authorize(Roles = "user, admin")]
-	public class PurchaseRequisitionController : Controller
+	//[Authorize(Roles = "user, admin")]
+	public class EstimateController : Controller
 	{
 		private readonly PurchaseRequisitionBusiness _prBusiness;
 
-		public PurchaseRequisitionController(PurchaseRequisitionBusiness prBusiness)
+		public EstimateController(PurchaseRequisitionBusiness prBusiness)
 		{
 			_prBusiness = prBusiness;
 		}
 
 
-		[HttpGet("PurchaseRequisition/{Id:int?}")]
+		[HttpGet("Estimate/{Id:int?}")]
 		public IActionResult Index(int? Id)
 		{
 			ViewBag.CurrentController = "PurchaseRequisition";
@@ -87,22 +87,12 @@ namespace QuickVisualWebWood.Controllers
 
 
 		#region Component
-		public PartialViewResult LoadComponentApproval(int? id, decimal? budget)
-		{
-			return PartialView("_Approval", _prBusiness.GetLineApprove());
-		}
+
 		public PartialViewResult LoadComponentDocFile(int? id)
 		{
 			return PartialView("_FileComponent", _prBusiness.GetDocFile(id));
 		}
-		public PartialViewResult LoadPositionApproval(int? id)
-		{
-			return PartialView("_ModalShowAproval", _prBusiness.GetPositionApproval(id));
-		}
-		public PartialViewResult LoadSelectApproval()
-		{
-			return PartialView("_ModalSelectAproval", _prBusiness.GetApproval());
-		}
+
 		#endregion
 
 
