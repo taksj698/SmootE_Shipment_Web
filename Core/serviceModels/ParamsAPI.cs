@@ -1,4 +1,4 @@
-﻿namespace Document_Control.Core.serviceModels
+﻿namespace QuickVisualWebWood.Core.serviceModels
 {
 	public class ParamsAPI
 	{

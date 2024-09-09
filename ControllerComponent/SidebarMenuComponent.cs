@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
-using Document_Control.Core.comModels;
+using QuickVisualWebWood.Core.comModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Document_Control.ControllerComponent
+namespace QuickVisualWebWood.ControllerComponent
 {
 	public class SidebarMenuComponent : ViewComponent
 	{

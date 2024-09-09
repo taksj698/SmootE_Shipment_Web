@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Document_Control.Data.Services
+namespace QuickVisualWebWood.Data.Services
 {
     public class CryptographyServices
     {

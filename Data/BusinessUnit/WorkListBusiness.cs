@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Security.Claims;
-using Document_Control.Core.pageModels.Home;
-using Document_Control.Data.Repository;
-using Document_Control.Data.Repository.SQLServer;
+using QuickVisualWebWood.Core.pageModels.Home;
+using QuickVisualWebWood.Data.Repository;
+using QuickVisualWebWood.Data.Repository.SQLServer;
 using Microsoft.EntityFrameworkCore;
 
-namespace Document_Control.Data.BusinessUnit
+namespace QuickVisualWebWood.Data.BusinessUnit
 {
 	public class WorkListBusiness
 	{

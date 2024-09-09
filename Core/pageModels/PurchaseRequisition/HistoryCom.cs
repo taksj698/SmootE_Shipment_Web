@@ -1,4 +1,4 @@
-﻿namespace Document_Control.Core.pageModels.PurchaseRequisition
+﻿namespace QuickVisualWebWood.Core.pageModels.PurchaseRequisition
 {
 	public class HistoryCom
 	{

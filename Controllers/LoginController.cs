@@ -1,15 +1,15 @@
-﻿using Document_Control.Data.Repository;
+﻿using QuickVisualWebWood.Data.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Document_Control.Core.pageModels;
-using Document_Control.Data.Repository.SQLServer;
+using QuickVisualWebWood.Core.pageModels;
+using QuickVisualWebWood.Data.Repository.SQLServer;
 using Microsoft.AspNetCore.Authorization;
-using Document_Control.Data.Services;
+using QuickVisualWebWood.Data.Services;
 
-namespace Document_Control.Controllers
+namespace QuickVisualWebWood.Controllers
 {
     public class LoginController : Controller
     {

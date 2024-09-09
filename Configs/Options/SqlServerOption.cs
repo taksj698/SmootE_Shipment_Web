@@ -1,4 +1,4 @@
-﻿namespace Document_Control.Configs.Options
+﻿namespace QuickVisualWebWood.Configs.Options
 {
     public class SqlServerOption
     {

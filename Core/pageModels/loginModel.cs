@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Document_Control.Core.pageModels
+namespace QuickVisualWebWood.Core.pageModels
 {
 	public class loginModel
 	{

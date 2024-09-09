@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Document_Control.Core.pageModels.UserProfile
+namespace QuickVisualWebWood.Core.pageModels.UserProfile
 {
 	public class UserProfileModel
 	{

@@ -1,4 +1,4 @@
-﻿namespace Document_Control.Core.pageModels.Home
+﻿namespace QuickVisualWebWood.Core.pageModels.Home
 {
 	public class Worklist
 	{

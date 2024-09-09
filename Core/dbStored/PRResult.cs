@@ -1,4 +1,4 @@
-﻿namespace Document_Control.Core.dbStored
+﻿namespace QuickVisualWebWood.Core.dbStored
 {
 	public class PRResult
 	{

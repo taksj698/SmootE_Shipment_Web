@@ -1,6 +1,6 @@
-﻿using Document_Control.Data.Repository.SQLServer;
+﻿using QuickVisualWebWood.Data.Repository.SQLServer;
 
-namespace Document_Control.Data.Repository
+namespace QuickVisualWebWood.Data.Repository
 {
 	public class WrapperRepository
 	{

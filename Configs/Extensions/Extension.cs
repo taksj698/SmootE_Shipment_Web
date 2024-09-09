@@ -1,4 +1,4 @@
-﻿namespace Document_Control.Configs.Extensions
+﻿namespace QuickVisualWebWood.Configs.Extensions
 {
 	public static class Extension
 	{

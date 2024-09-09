@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Document_Control.Core.dbModels
+namespace QuickVisualWebWood.Core.dbModels
 {
 	[Table(nameof(TbPriority))]
 	public class TbPriority

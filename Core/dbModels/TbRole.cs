@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Document_Control.Core.dbModels
+namespace QuickVisualWebWood.Core.dbModels
 {
 	[Table(nameof(TbRole))]
 	public class TbRole

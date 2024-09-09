@@ -1,9 +1,9 @@
-﻿using Document_Control.Core.dbModels;
-using Document_Control.Core.pageModels.ManageDivision;
+﻿using QuickVisualWebWood.Core.dbModels;
+using QuickVisualWebWood.Core.pageModels.ManageDivision;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
-namespace Document_Control.Core.pageModels.ManageApproval
+namespace QuickVisualWebWood.Core.pageModels.ManageApproval
 {
     public class PageManageApproval
     {

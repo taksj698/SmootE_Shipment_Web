@@ -1,9 +1,9 @@
-﻿using Document_Control.Core.dbModels;
-using Document_Control.Data.Repository.SQLServer;
+﻿using QuickVisualWebWood.Core.dbModels;
+using QuickVisualWebWood.Data.Repository.SQLServer;
 using Microsoft.Ajax.Utilities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Document_Control.Data.Repository
+namespace QuickVisualWebWood.Data.Repository
 {
 
 	public class StoredProcedureRepository

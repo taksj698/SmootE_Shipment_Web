@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
 using Autofac;
-using Document_Control.Configs.Extensions;
-using Document_Control.Configs.Options;
+using QuickVisualWebWood.Configs.Extensions;
+using QuickVisualWebWood.Configs.Options;
 
-namespace Document_Control.Configs.Configurations
+namespace QuickVisualWebWood.Configs.Configurations
 {
     public class RegisterInstant : Autofac.Module
     {

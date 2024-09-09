@@ -1,9 +1,9 @@
-﻿using Document_Control.Core.pageModels.UserProfile;
-using Document_Control.Data.BusinessUnit;
+﻿using QuickVisualWebWood.Core.pageModels.UserProfile;
+using QuickVisualWebWood.Data.BusinessUnit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Document_Control.Controllers
+namespace QuickVisualWebWood.Controllers
 {
 	[Authorize(Roles = "user, admin")]
 	public class UserProfileController : Controller

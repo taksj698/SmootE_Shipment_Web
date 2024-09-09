@@ -1,10 +1,10 @@
-﻿using Document_Control.Core.dbModels;
-using Document_Control.Core.pageModels.ManagePosition;
+﻿using QuickVisualWebWood.Core.dbModels;
+using QuickVisualWebWood.Core.pageModels.ManagePosition;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 
-namespace Document_Control.Core.pageModels.ManageUser
+namespace QuickVisualWebWood.Core.pageModels.ManageUser
 {
     public class PageManageUser
     {

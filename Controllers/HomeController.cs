@@ -1,10 +1,10 @@
-using Document_Control.Data.BusinessUnit;
-using Document_Control.Models;
+using QuickVisualWebWood.Data.BusinessUnit;
+using QuickVisualWebWood.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace Document_Control.Controllers
+namespace QuickVisualWebWood.Controllers
 {
 	[Authorize(Roles = "user,admin")]
 	public class HomeController : Controller

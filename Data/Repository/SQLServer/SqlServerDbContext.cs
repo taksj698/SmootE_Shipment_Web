@@ -1,10 +1,10 @@
-﻿using Document_Control.Core.dbModels;
-using Document_Control.Core.dbStored;
+﻿using QuickVisualWebWood.Core.dbModels;
+using QuickVisualWebWood.Core.dbStored;
 using Microsoft.Ajax.Utilities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace Document_Control.Data.Repository.SQLServer
+namespace QuickVisualWebWood.Data.Repository.SQLServer
 {
 	public class SqlServerDbContext : DbContext
 	{

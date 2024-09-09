@@ -7,13 +7,13 @@ using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
 using AutoMapper.Features;
-using Document_Control.Configs.Extensions;
-using Document_Control.Core.comModels;
-using Document_Control.Core.dbModels;
-using Document_Control.Core.pageModels.PurchaseRequisition;
-using Document_Control.Data.Repository;
-using Document_Control.Data.Repository.SQLServer;
-using Document_Control.Data.Services;
+using QuickVisualWebWood.Configs.Extensions;
+using QuickVisualWebWood.Core.comModels;
+using QuickVisualWebWood.Core.dbModels;
+using QuickVisualWebWood.Core.pageModels.PurchaseRequisition;
+using QuickVisualWebWood.Data.Repository;
+using QuickVisualWebWood.Data.Repository.SQLServer;
+using QuickVisualWebWood.Data.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,7 +24,7 @@ using WebGrease.Activities;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Document_Control.Data.BusinessUnit
+namespace QuickVisualWebWood.Data.BusinessUnit
 {
 	public class PurchaseRequisitionBusiness
 	{

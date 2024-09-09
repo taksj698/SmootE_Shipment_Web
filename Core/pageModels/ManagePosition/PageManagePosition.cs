@@ -1,7 +1,7 @@
-﻿using Document_Control.Core.dbModels;
+﻿using QuickVisualWebWood.Core.dbModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace Document_Control.Core.pageModels.ManagePosition
+namespace QuickVisualWebWood.Core.pageModels.ManagePosition
 {
     public class PageManagePosition
     {

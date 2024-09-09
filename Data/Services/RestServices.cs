@@ -1,9 +1,9 @@
-﻿using Document_Control.Core.serviceModels;
+﻿using QuickVisualWebWood.Core.serviceModels;
 using Newtonsoft.Json;
 using System.Globalization;
 using System.Text;
 
-namespace Document_Control.Data.Services
+namespace QuickVisualWebWood.Data.Services
 {
 	public class RestServices
 	{

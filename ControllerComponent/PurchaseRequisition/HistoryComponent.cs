@@ -1,12 +1,12 @@
-﻿using Document_Control.Core.comModels;
-using Document_Control.Core.dbModels;
-using Document_Control.Data.Repository.SQLServer;
-using Document_Control.Data.Repository;
+﻿using QuickVisualWebWood.Core.comModels;
+using QuickVisualWebWood.Core.dbModels;
+using QuickVisualWebWood.Data.Repository.SQLServer;
+using QuickVisualWebWood.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using Document_Control.Core.pageModels.PurchaseRequisition;
+using QuickVisualWebWood.Core.pageModels.PurchaseRequisition;
 
-namespace Document_Control.ControllerComponent.PurchaseRequisition
+namespace QuickVisualWebWood.ControllerComponent.PurchaseRequisition
 {
 	public class HistoryComponent : ViewComponent
 	{

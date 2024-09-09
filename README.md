@@ -13,3 +13,6 @@ SASE^0101
 
 Sase^0101
 1 303 120 160
+
+
+https://www.figma.com/proto/iwJObGPqaNIKoHZe2nh44J/Riso?node-id=3-13&node-type=FRAME&t=kx32BgKzT4dZqZeU-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1

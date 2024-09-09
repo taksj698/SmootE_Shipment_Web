@@ -1,12 +1,12 @@
 ﻿
-using Document_Control.Core.pageModels;
-using Document_Control.Core.pageModels.PurchaseRequisition;
-using Document_Control.Data.BusinessUnit;
+using QuickVisualWebWood.Core.pageModels;
+using QuickVisualWebWood.Core.pageModels.PurchaseRequisition;
+using QuickVisualWebWood.Data.BusinessUnit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Document_Control.Controllers
+namespace QuickVisualWebWood.Controllers
 {
 	[Authorize(Roles = "user, admin")]
 	public class PurchaseRequisitionController : Controller

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Document_Control.Core.pageModels.PurchaseRequisition
+namespace QuickVisualWebWood.Core.pageModels.PurchaseRequisition
 {
     public class PagePR
     {

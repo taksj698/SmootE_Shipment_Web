@@ -1,8 +1,8 @@
-﻿using Document_Control.Configs.Options;
-using Document_Control.Data.Repository.SQLServer;
+﻿using QuickVisualWebWood.Configs.Options;
+using QuickVisualWebWood.Data.Repository.SQLServer;
 using Microsoft.EntityFrameworkCore;
 
-namespace Document_Control.Configs.Configurations
+namespace QuickVisualWebWood.Configs.Configurations
 {
 	public static class ConfigSqlServer
 	{

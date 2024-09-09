@@ -1,4 +1,4 @@
-namespace Document_Control.Models
+namespace QuickVisualWebWood.Models
 {
     public class ErrorViewModel
     {

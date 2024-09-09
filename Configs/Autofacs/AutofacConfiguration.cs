@@ -1,8 +1,8 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using Autofac;
-using Document_Control.Configs.Configurations;
+using QuickVisualWebWood.Configs.Configurations;
 
-namespace Document_Control.Configs.Autofacs
+namespace QuickVisualWebWood.Configs.Autofacs
 {
 	public static class AutofacConfiguration
 	{

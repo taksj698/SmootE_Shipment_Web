@@ -1,7 +1,7 @@
-﻿using Document_Control.Core.dbModels;
+﻿using QuickVisualWebWood.Core.dbModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace Document_Control.Core.pageModels.ManageDivision
+namespace QuickVisualWebWood.Core.pageModels.ManageDivision
 {
     public class PageManageDivision
     {

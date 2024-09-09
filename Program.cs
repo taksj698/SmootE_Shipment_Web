@@ -1,5 +1,5 @@
-using Document_Control.Configs.Autofacs;
-using Document_Control.Configs.Configurations;
+using QuickVisualWebWood.Configs.Autofacs;
+using QuickVisualWebWood.Configs.Configurations;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);

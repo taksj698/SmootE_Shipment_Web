@@ -1,8 +1,8 @@
-﻿using Document_Control.Data.Repository.SQLServer;
-using Document_Control.Data.Repository;
-using Document_Control.Core.serviceModels;
+﻿using QuickVisualWebWood.Data.Repository.SQLServer;
+using QuickVisualWebWood.Data.Repository;
+using QuickVisualWebWood.Core.serviceModels;
 
-namespace Document_Control.Data.Services
+namespace QuickVisualWebWood.Data.Services
 {
 	public class LineServices
 	{

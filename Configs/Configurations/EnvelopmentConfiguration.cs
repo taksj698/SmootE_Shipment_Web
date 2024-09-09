@@ -1,4 +1,4 @@
-﻿namespace Document_Control.Configs.Configurations
+﻿namespace QuickVisualWebWood.Configs.Configurations
 {
     public static class EnvelopmentConfiguration
     {

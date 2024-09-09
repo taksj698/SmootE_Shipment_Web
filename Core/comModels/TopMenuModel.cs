@@ -1,4 +1,4 @@
-﻿namespace Document_Control.Core.comModels
+﻿namespace QuickVisualWebWood.Core.comModels
 {
 	public class TopMenuModel
 	{

@@ -1,8 +1,8 @@
-﻿using Document_Control.Core.comModels;
+﻿using QuickVisualWebWood.Core.comModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Document_Control.ControllerComponent
+namespace QuickVisualWebWood.ControllerComponent
 {
 	public class TopMenuComponent : ViewComponent
 	{

@@ -1,14 +1,14 @@
-﻿using Document_Control.Data.Repository.SQLServer;
-using Document_Control.Data.Repository;
+﻿using QuickVisualWebWood.Data.Repository.SQLServer;
+using QuickVisualWebWood.Data.Repository;
 using System.Security.Claims;
-using Document_Control.Core.pageModels.PurchaseRequisition;
-using Document_Control.Core.pageModels.UserProfile;
-using Document_Control.Data.Services;
-using Document_Control.Core.serviceModels;
+using QuickVisualWebWood.Core.pageModels.PurchaseRequisition;
+using QuickVisualWebWood.Core.pageModels.UserProfile;
+using QuickVisualWebWood.Data.Services;
+using QuickVisualWebWood.Core.serviceModels;
 using Azure.Core;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Document_Control.Data.BusinessUnit
+namespace QuickVisualWebWood.Data.BusinessUnit
 {
     public class UserProfileBusiness
     {
