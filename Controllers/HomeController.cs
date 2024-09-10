@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace QuickVisualWebWood.Controllers
 {
-	//[Authorize(Roles = "user,admin")]
+	[Authorize]
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
@@ -25,22 +25,6 @@ namespace QuickVisualWebWood.Controllers
 			ViewBag.CurrentAction = "MyTask";
 			return View(_workListBusiness.MyTask());
 		}
-		public IActionResult Complete()
-		{
-			ViewBag.CurrentController = "Home";
-			ViewBag.CurrentAction = "Complete";
-			return View(_workListBusiness.Complete());
-		}
 
-		public IActionResult Privacy()
-		{
-			return View();
-		}
-
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-		}
 	}
 }

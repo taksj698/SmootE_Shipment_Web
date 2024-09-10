@@ -16,25 +16,13 @@
 				</div>
 			</div>
 		</div>
-		<div id="modalContainer">
-			@await Html.PartialAsync("_ModalShowAproval", new ModalShowApproval())
-		</div>
+
 	</section>
 </main>
 
 
 @section Scripts {
 	<script>
-		function showListApproval(positionId) {
-			$.ajax({
-				url: '@Url.Action("LoadPositionApproval", "PurchaseRequisition")',
-				type: 'GET',
-				data: { id: positionId },
-				success: function (result) {
-					$('#modalContainer').html(result);
-					$('#positionApprove').modal('show');
-				}
-			});
-		}
+
 	</script>
 }

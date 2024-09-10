@@ -10,7 +10,7 @@ namespace QuickVisualWebWood.Core.pageModels.ManageApproval
         public List<DataApproval>? tbApproval { get; set; }
         public PageManageApprovalSave? pageManageApprovalSave { get; set; }
     }
-    public class DataApproval : TbApprovalMatrix
+    public class DataApproval// : TbApprovalMatrix
     {
         public string? PositionName { get; set; }
     }

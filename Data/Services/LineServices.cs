@@ -20,29 +20,29 @@ namespace QuickVisualWebWood.Data.Services
 
 		public async void SendMessageByToken(List<string> token, string message)
 		{
-			var noti = _wrapper._dbContext.TbConfigs.Where(x => x.Group == "LineNoti").ToList();
-			if (noti != null)
-			{
-				var EndpointNoti = noti.FirstOrDefault(x => x.Name == "EndpointNoti")?.Value;
-				var ContentType = noti.FirstOrDefault(x => x.Name == "ContentType")?.Value;
+			//var noti = _wrapper._dbContext.TbConfigs.Where(x => x.Group == "LineNoti").ToList();
+			//if (noti != null)
+			//{
+			//	var EndpointNoti = noti.FirstOrDefault(x => x.Name == "EndpointNoti")?.Value;
+			//	var ContentType = noti.FirstOrDefault(x => x.Name == "ContentType")?.Value;
 
-				if (token != null && token.Count > 0)
-				{
-					foreach (var item in token)
-					{
-						var getToken = await _restServices.PostAsync<dynamic>(new ParamsAPI
-						{
-							Url = EndpointNoti,
-							Header = new List<BasicObject>() { new BasicObject() { key = "Authorization", values = $"Bearer {item}" } },
-							ContentType = ContentType,
-							Data2 = new Dictionary<string, string>
-					{
-						{ "message", message }
-					},
-						});
-					}
-				}
-			}
+			//	if (token != null && token.Count > 0)
+			//	{
+			//		foreach (var item in token)
+			//		{
+			//			var getToken = await _restServices.PostAsync<dynamic>(new ParamsAPI
+			//			{
+			//				Url = EndpointNoti,
+			//				Header = new List<BasicObject>() { new BasicObject() { key = "Authorization", values = $"Bearer {item}" } },
+			//				ContentType = ContentType,
+			//				Data2 = new Dictionary<string, string>
+			//		{
+			//			{ "message", message }
+			//		},
+			//			});
+			//		}
+			//	}
+			//}
 		}
 	}
 }

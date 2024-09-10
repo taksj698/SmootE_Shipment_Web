@@ -12,7 +12,7 @@ namespace QuickVisualWebWood.Core.pageModels.ManageUser
         public PageManageUserSave? pageManageUserSave { get; set; }
     }
 
-    public class DataUser : TbUser 
+    public class DataUser //: TbUser 
     {
         public string? PositionName { get; set; }
         public string? RoleName { get; set; }

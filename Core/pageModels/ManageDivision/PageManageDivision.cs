@@ -8,7 +8,7 @@ namespace QuickVisualWebWood.Core.pageModels.ManageDivision
         public List<DataDivision>? tbDivision { get; set; }
         public PageManageDivisionSave? pageManageDivisionSave { get; set; }
     }
-    public class DataDivision : TbDivision 
+    public class DataDivision //: TbDivision 
     {
         public bool IsCanDelete { get; set; }
     }

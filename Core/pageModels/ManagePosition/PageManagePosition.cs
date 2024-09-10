@@ -8,7 +8,7 @@ namespace QuickVisualWebWood.Core.pageModels.ManagePosition
         public List<DataPosition>? tbPosition { get; set; }
         public PageManagePositionSave? pageManagePositionSave { get; set; }
     }
-    public class DataPosition : TbPosition 
+    public class DataPosition// : TbPosition 
     {
         public bool IsCanDelete { get; set; }
     }

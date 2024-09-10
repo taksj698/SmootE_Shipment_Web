@@ -8,23 +8,21 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace QuickVisualWebWood.Controllers
 {
-	//[Authorize(Roles = "user, admin")]
+	[Authorize]
 	public class EstimateController : Controller
 	{
-		private readonly PurchaseRequisitionBusiness _prBusiness;
+		private readonly EstimateBusiness _esBusiness;
 
-		public EstimateController(PurchaseRequisitionBusiness prBusiness)
+		public EstimateController(EstimateBusiness esBusiness)
 		{
-			_prBusiness = prBusiness;
+			_esBusiness = esBusiness;
 		}
-
-
-		[HttpGet("Estimate/{Id:int?}")]
-		public IActionResult Index(int? Id)
+		[HttpGet("Estimate/{Id?}")]
+		public IActionResult Index(string? Id)
 		{
-			ViewBag.CurrentController = "PurchaseRequisition";
+			ViewBag.CurrentController = "Estimate";
 			ViewBag.CurrentAction = "Index";
-			return View(_prBusiness.GetData(Id));
+			return View(_esBusiness.GetData("1"));
 		}
 		public dynamic save(PagePR obj)
 		{
@@ -40,46 +38,21 @@ namespace QuickVisualWebWood.Controllers
 					message = (errors != null && errors.Count > 0) ? errors.FirstOrDefault().ErrorMessage : string.Empty
 				});
 			}
-			return _prBusiness.AddorUpdate(obj, "บันทึก");
+			return _esBusiness.AddorUpdate(obj, "บันทึก");
 		}
 		public dynamic draft(PagePR obj)
 		{
-			return _prBusiness.AddorUpdate(obj, "บันทึกร่าง");
+			return _esBusiness.AddorUpdate(obj, "บันทึกร่าง");
 		}
-
-		public dynamic approve(PagePR obj)
-		{
-			return _prBusiness.AddorUpdate(obj, "อนุมัติ");
-		}
-		public dynamic reject(PagePR obj)
-		{
-			return _prBusiness.AddorUpdate(obj, "ส่งกลับ");
-		}
-		public dynamic cancel(PagePR obj)
-		{
-			return _prBusiness.AddorUpdate(obj, "ยกเลิก");
-		}
-
 		public async Task<dynamic> upload(IFormFile file)
 		{
-			return await _prBusiness.UploadDoc(file);
+			return await _esBusiness.UploadDoc(file);
 		}
 		public dynamic deletefile(string id)
 		{
-			return _prBusiness.deletefile(id);
+			return _esBusiness.deletefile(id);
 		}
 
-		public dynamic deleteapproval(int id)
-		{
-			return _prBusiness.deleteapproval(id);
-		}
-
-
-		public dynamic SelectRowApproval(int id)
-		{
-			return _prBusiness.SelectRowApproval(id);
-
-		}
 
 
 		
@@ -90,7 +63,7 @@ namespace QuickVisualWebWood.Controllers
 
 		public PartialViewResult LoadComponentDocFile(int? id)
 		{
-			return PartialView("_FileComponent", _prBusiness.GetDocFile(id));
+			return PartialView("_FileComponent", _esBusiness.GetDocFile(id));
 		}
 
 		#endregion
