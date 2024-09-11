@@ -11,6 +11,7 @@ namespace QuickVisualWebWood.Core.pageModels.PurchaseRequisition
         public string? Plate { get; set; }
         public string? CustomerName { get; set; }
         public string? Description { get; set; }
+        [Required(ErrorMessage = "ระบุการประเมิน")]
         public string? SelectedOption { get; set; }
         public List<DocUpload>? DocUpload { get; set; }
 

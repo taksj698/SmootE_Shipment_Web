@@ -15,7 +15,7 @@
 </style>
 <main id="main" class="main">
     <form id="formdata">
-
+        @Html.HiddenFor(x => x.SequenceID)
         <section class="section dashboard">
             <div class="row" style="justify-content:center;">
                 <div class="col-lg-8">
@@ -123,12 +123,17 @@
                                         </div>
 
                                         <h6><b>รูปแบบการประเมิน</b></h6>
-
                                         <div class="form-group" id="groupupload">
                                             <label class="btn btn-sm btn-secondary" for="fileInput"><i class="ri-camera-fill me-1"></i>ถ่ายภาพ</label>
-                                            <input type="file" class="custom-file-input" id="fileInput" onchange="controller.upload();">
+                                            <input type="file" class="custom-file-input" id="fileInput" accept="image/*" capture="environment" onchange="controller.upload();">
                                         </div>
                                         @await Html.PartialAsync("_FileComponent", Model?.DocUpload)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                    <button type="button" onclick="controller.draft();" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
+				                    <button type="button" onclick="controller.save();" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
                                     </div>
                                 </div>
                             </div>

@@ -40,7 +40,8 @@ namespace QuickVisualWebWood.Data.BusinessUnit
 
 			Worklist obj = new Worklist();
 			obj.data = (from weightData in _dbContext.TB_WeightData
-						select new WorklistData
+						where weightData.CancelState == 0 && weightData.WeightState == false
+                        select new WorklistData
 						{
 							WeighNumber = weightData.TicketCodeIn,
 							SequenceID = weightData.SequenceID,
