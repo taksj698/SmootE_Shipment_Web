@@ -82,18 +82,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
 			{
 				StatusId = 4;
 			}
-			else if (action == "ส่งกลับ")
-			{
-				StatusId = 3;
-			}
-			else if (action == "ยกเลิก")
-			{
-				StatusId = 6;
-			}
-			else if (action == "อนุมัติ")
-			{
-				StatusId = 4;
-			}
+
 
 			if (action == "บันทึก")
 			{
@@ -285,7 +274,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
 
 
 
-		public List<DocUpload> GetDocFile(int? id)
+		public List<DocUpload> GetDocFile()
 		{
 			var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
 			var reqFile = string.IsNullOrEmpty(sessionFile)
@@ -298,218 +287,82 @@ namespace QuickVisualWebWood.Data.BusinessUnit
 
 
 
-		public ModalSelectApproval GetApproval()
-		{
-			ModalSelectApproval obj = new ModalSelectApproval();
 
-
-			var sessionFile = _haccess.HttpContext.Session.GetString("ApprovalList");
-			var reqFile = string.IsNullOrEmpty(sessionFile)
-				? new List<ApprovalList>()
-				: JsonConvert.DeserializeObject<List<ApprovalList>>(sessionFile);
-
-			var luserId = reqFile.Select(s => s.userId).ToList();
-
-			//obj.approvalDetails = (from user in _dbContext.TbUser
-			//					   join position in _dbContext.TbPosition on user.PositionId equals position.Id
-			//					   where !luserId.Contains(user.Id) && user.Id != userId && user.IsApprove
-			//					   select new ModalSelectApprovalApprovalDetail
-			//					   {
-			//						   id = user.Id,
-			//						   Name = user.Name,
-			//						   TelNo = user.TelNo,
-			//						   PositionName = position.PositionName
-			//					   }).ToList();
-			return obj;
-		}
 
 		public PagePR GetData(string? Id)
 		{
 			PagePR obj = new PagePR();
 			_haccess.HttpContext.Session.Remove("docfile");
 			_haccess.HttpContext.Session.Remove("ApprovalList");
-			//obj.lPriority = _dbContext.TbPriority
-			//.OrderBy(o => o.Seq)
-			//.Select(s => new SelectListItem()
-			//{
-			//	Text = s.PriorityName,
-			//	Value = s.Id.ToString()
-			//}).ToList();
-			//obj.lCompany = _dbContext.TbCompany
-			//.Select(s => new SelectListItem()
-			//{
-			//	Text = s.CompanyName,
-			//	Value = s.Id.ToString()
-			//}).ToList();
-			//obj.lDivision = _dbContext.TbDivision
-			//.Select(s => new SelectListItem()
-			//{
-			//	Text = s.DivisionName,
-			//	Value = s.Id.ToString()
-			//}).ToList();
-			//obj.lUser = _dbContext.TbUser
-			//.Select(s => new SelectListItem()
-			//{
-			//	Text = s.Name,
-			//	Value = s.Id.ToString()
-			//}).ToList();
-			//if (Id == null)
-			//{
-			//	obj.OrderDate = DateTime.Now;
-			//	obj.DocumentCode = "Auto Generate";
-			//	obj.CreateBy = userId;
-			//	obj.PositionId = positionId;
-			//	//
-			//	obj.CreateName = name;
-			//	obj.PositionName = position;
-			//}
-			//else
-			//{
-			//	var find = _dbContext.TbDocumentTransaction.FirstOrDefault(x => x.Id == Id);
-			//	if (find != null)
-			//	{
-			//		var config = new MapperConfiguration(cfg => cfg.CreateMap<TbDocumentTransaction, PagePR>());
-			//		var mapper = new Mapper(config);
-			//		mapper.Map(find, obj);
 
-			//		//var user = _dbContext.TbUser.FirstOrDefault(x => x.Id == find.CreateBy);
-			//		//var position = _dbContext.TbPosition.FirstOrDefault(x => x.Id == positionId);
-			//		obj.CreateName = user?.Name;
-			//		obj.PositionName = position?.PositionName;
+			if (Id == null)
+			{
+              
+                obj.QualityDate = DateTime.Now;
+			}
+			else
+			{
+				var find = _dbContext.TB_QualityTransaction.FirstOrDefault(x => x.SequenceID == Id);
+				if (find != null)
+				{
+					var findweight = _dbContext.TB_WeightData.FirstOrDefault(x => x.SequenceID == Id);
+					if (findweight != null) 
+					{
+                        obj.SequenceID = findweight.SequenceID;
+						obj.Plate = findweight.Plate1;
+						obj.CustomerName = findweight.CustomerID;
+                    }
+                    obj.QualityDate = find.QualityDate;
 
-			//		if (find.RequestDate != null)
-			//		{
-			//			obj.RequestDate = find.RequestDate.Value.ToString("dd/MM/yyyy");
-			//		}
-			//		// ถ้าเป็น New,Draft,Reject จะต้อง Fetch Line Approve ใหม่เสมอ ยกเว้น Flow นั้น บันทึกไปแล้วเพิ่มรออนุมัติ
-			//		#region Getapproval
-			//		var sessionFile = _haccess.HttpContext.Session.GetString("ApprovalList");
-			//		var reqFile = string.IsNullOrEmpty(sessionFile)
-			//			? new List<ApprovalList>()
-			//			: JsonConvert.DeserializeObject<List<ApprovalList>>(sessionFile);
-			//		List<int> StatusActionForCreator = new List<int>() { 1, 2, 3 };
-			//		//if (StatusActionForCreator.Contains(find.StatusId))
-			//		//{
-			//		//	var approval = _dbContext.TbApprovalTransaction.Where(x => x.DocId == Id).ToList();
-			//		//	if (approval != null)
-			//		//	{
-			//		//		foreach (var item in approval)
-			//		//		{
-			//		//			var findUserapp = (from fuser in _dbContext.TbUser
-			//		//							   join fposition in _dbContext.TbPosition on fuser.PositionId equals fposition.Id
-			//		//							   where fuser.Id == item.UserId
-			//		//							   select new ModalSelectApprovalApprovalDetail
-			//		//							   {
-			//		//								   id = fuser.Id,
-			//		//								   Name = fuser.Name,
-			//		//								   TelNo = fuser.TelNo,
-			//		//								   PositionName = fposition.PositionName
-			//		//							   }).FirstOrDefault();
-			//		//			if (findUserapp != null)
-			//		//			{
-			//		//				reqFile.Add(new ApprovalList()
-			//		//				{
-			//		//					Budget = item.Budget.ToString(),
-			//		//					IsApproved = item.IsApprove,
-			//		//					PositionId = item.PositionId,
-			//		//					PositionName = findUserapp.PositionName,
-			//		//					userId = item.UserId,
-			//		//					userName = findUserapp.Name
-			//		//				});
-			//		//			}
-			//		//		}
-			//		//	}
-			//		//}
-			//		//else
-			//		//{
-			//		//	var approval = _dbContext.TbApprovalTransaction.Where(x => x.DocId == Id).ToList();
-			//		//	if (approval != null)
-			//		//	{
-			//		//		foreach (var item in approval)
-			//		//		{
-			//		//			var findUserapp = (from fuser in _dbContext.TbUser
-			//		//							   join fposition in _dbContext.TbPosition on fuser.PositionId equals fposition.Id
-			//		//							   where fuser.Id == item.UserId
-			//		//							   select new ModalSelectApprovalApprovalDetail
-			//		//							   {
-			//		//								   id = fuser.Id,
-			//		//								   Name = fuser.Name,
-			//		//								   TelNo = fuser.TelNo,
-			//		//								   PositionName = fposition.PositionName
-			//		//							   }).FirstOrDefault();
-			//		//			if (findUserapp != null)
-			//		//			{
-			//		//				reqFile.Add(new ApprovalList()
-			//		//				{
-			//		//					Budget = item.Budget.ToString(),
-			//		//					IsApproved = item.IsApprove,
-			//		//					PositionId = item.PositionId,
-			//		//					PositionName = findUserapp.PositionName,
-			//		//					userId = item.UserId,
-			//		//					userName = findUserapp.Name
-			//		//				});
-			//		//			}
-			//		//			else
-			//		//			{
-			//		//				var findPo = _dbContext.TbPosition.FirstOrDefault(x => x.Id == item.PositionId);
-			//		//				if (findPo != null)
-			//		//				{
-			//		//					reqFile.Add(new ApprovalList()
-			//		//					{
-			//		//						Budget = item.Budget.ToString(),
-			//		//						IsApproved = item.IsApprove,
-			//		//						PositionId = item.PositionId,
-			//		//						PositionName = findPo.PositionName,
-			//		//					});
-			//		//				}
-			//		//			}
-			//		//		}
-			//		//	}
-			//		//}
-			//		if (reqFile != null && reqFile.Count > 0)
-			//		{
-			//			obj.ApprovalPR = new ApprovalPR();
-			//			obj.ApprovalPR.approvalLists = reqFile;
-			//			_haccess.HttpContext.Session.SetString("ApprovalList", JsonConvert.SerializeObject(reqFile));
-			//		}
-			//		#endregion
-
-
-
-
-
-			//		//GetDocFile
-			//		var fildata = GetDocFile(Id);
-			//		var file = _dbContext.TbDocumentFile.Where(x => x.DocId == Id).OrderBy(o => o.CreateDate).ToList();
-			//		if (file != null)
-			//		{
-			//			var configp = _dbContext.TbConfigs.FirstOrDefault(x => x.Name == "PathFile");
-			//			var PathConfig = (configp != null) ? configp.Value : string.Empty;
-			//			foreach (var item in file)
-			//			{
-			//				var fullpart = Path.Combine(string.Format(@"{0}\{1}", PathConfig, item.FileParth));
-			//				if (File.Exists(fullpart))
-			//				{
-			//					MemoryStream destination = new MemoryStream();
-			//					using (FileStream source = File.Open(fullpart, FileMode.Open))
-			//					{
-			//						source.CopyTo(destination);
-			//						fildata.Add(new DocUpload()
-			//						{
-			//							base64 = Convert.ToBase64String(destination.ToArray()),
-			//							ContentType = item.ContentType,
-			//							filename = item.FileName,
-			//							extension = item.Extension,
-			//							id = Guid.NewGuid().ToString(),
-			//						});
-			//					}
-			//				}
-			//			}
-			//			_haccess.HttpContext.Session.SetString("docfile", JsonConvert.SerializeObject(fildata));
-			//		}
-			//		obj.DocUpload = fildata;
-			//	}
-			//}
+					if (find.Quality1 != null && find.Quality1.Value)
+					{
+						obj.SelectedOption = "1";
+					}
+					else if (find.Quality2 != null && find.Quality2.Value)
+					{
+                        obj.SelectedOption = "2";
+                    }
+                    else if (find.Quality3 != null && find.Quality3.Value)
+                    {
+                        obj.SelectedOption = "3";
+                    }
+                    else if (find.Quality4 != null && find.Quality4.Value)
+                    {
+                        obj.SelectedOption = "4";
+                    }
+                    obj.Description = find.Description;
+                    //GetDocFile
+                    var fildata = GetDocFile();
+					var file = _dbContext.TB_DocumentFile.Where(x => x.SequenceID == Id).OrderBy(o => o.CreateDate).ToList();
+					if (file != null)
+					{
+						var configp = _dbContext.TB_VisualConfigs.FirstOrDefault(x => x.Name == "PathPicture");
+						var PathConfig = (configp != null) ? configp.Value : string.Empty;
+						foreach (var item in file)
+						{
+							var fullpart = Path.Combine(string.Format(@"{0}\{1}", PathConfig, item.FileParth));
+							if (File.Exists(fullpart))
+							{
+								MemoryStream destination = new MemoryStream();
+								using (FileStream source = File.Open(fullpart, FileMode.Open))
+								{
+									source.CopyTo(destination);
+									fildata.Add(new DocUpload()
+									{
+										base64 = Convert.ToBase64String(destination.ToArray()),
+										ContentType = item.ContentType,
+										filename = item.FileName,
+										extension = item.Extension,
+										id = Guid.NewGuid().ToString(),
+									});
+								}
+							}
+						}
+						_haccess.HttpContext.Session.SetString("docfile", JsonConvert.SerializeObject(fildata));
+					}
+					obj.DocUpload = fildata;
+				}
+			}
 			return obj;
 		}
 	}

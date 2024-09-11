@@ -15,13 +15,7 @@
 </style>
 <main id="main" class="main">
     <form id="formdata">
-        @Html.HiddenFor(x => x.Id)
-        @Html.HiddenFor(x => x.OrderDate)
-        @Html.HiddenFor(x => x.DocumentCode)
-        @Html.HiddenFor(x => x.CreateBy)
-        @Html.HiddenFor(x => x.CreateName)
-        @Html.HiddenFor(x => x.PositionId)
-        @Html.HiddenFor(x => x.PositionName)
+
         <section class="section dashboard">
             <div class="row" style="justify-content:center;">
                 <div class="col-lg-8">
@@ -39,7 +33,7 @@
                                             <div class="col-10">
                                                 <div class="row">
                                                     <div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>เลขที่ชั่ง :</b> </div>
-                                                    <div class="col col-12 ga-text-lh-10">@Model?.OrderDate?.ToString("dd/MM/yyyy")</div>
+                                                    <div class="col col-12 ga-text-lh-10">@Model?.SequenceID</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -53,7 +47,7 @@
                                             <div class="col-10">
                                                 <div class="row">
                                                     <div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>วันที่ทำรายการ :</b> </div>
-                                                    <div class="col col-12 ga-text-lh-10">@Model?.DocumentCode</div>
+                                                    <div class="col col-12 ga-text-lh-10">@Model?.QualityDate?.ToString("dd/MM/yyyy")</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -66,7 +60,7 @@
                                             <div class="col-10">
                                                 <div class="row">
                                                     <div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>ทะเบียนรถ :</b> </div>
-                                                    <div class="col col-12 ga-text-lh-10">@Model?.CreateName</div>
+                                                    <div class="col col-12 ga-text-lh-10">@Model?.Plate</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -79,7 +73,7 @@
                                             <div class="col-10">
                                                 <div class="row">
                                                     <div class="col col-12 ga-text-grey ga-text-font-size-1rem "><b>ชื่อลูกค้า :</b> </div>
-                                                    <div class="col col-12 ga-text-lh-10">@Model?.PositionName</div>
+                                                    <div class="col col-12 ga-text-lh-10">@Model?.CustomerName</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -100,25 +94,25 @@
                                         <div class="row mb-3">
                                             <div class="col-md-6 col-sm-6 col-6">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="options" value="1">
+                                                    @Html.RadioButtonFor(model => model.SelectedOption, "1", new { @class = "form-check-input", id = "option1" })
                                                     <label class="form-check-label" for="option1">ผ่าน</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6 col-6">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="options" value="2">
+                                                    @Html.RadioButtonFor(model => model.SelectedOption, "2", new { @class = "form-check-input", id = "option2" })
                                                     <label class="form-check-label" for="option2">ไม่ผ่าน</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6 col-6">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="options" value="3">
+                                                    @Html.RadioButtonFor(model => model.SelectedOption, "3", new { @class = "form-check-input", id = "option3" })
                                                     <label class="form-check-label" for="option3">อื่นๆ</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6 col-6">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="options" value="4">
+                                                    @Html.RadioButtonFor(model => model.SelectedOption, "4", new { @class = "form-check-input", id = "option4" })
                                                     <label class="form-check-label" for="option4">ตัดราคา</label>
                                                 </div>
                                             </div>
@@ -153,7 +147,7 @@
                 services.ConfirmAlert("", "", "", "", "", function (result) {
                     if (result.isConfirmed) {
                         var data = new FormData($('#formdata').get(0));
-                        services.AjaxPostForm("@Url.Action("save", "PurchaseRequisition")", data, function (response) {
+                        services.AjaxPostForm("@Url.Action("save", "Estimate")", data, function (response) {
                             services.CustomAlert1(response);
                         });
                     }
@@ -163,7 +157,7 @@
                 services.ConfirmAlert("", "", "", "", "", function (result) {
                     if (result.isConfirmed) {
                         var data = new FormData($('#formdata').get(0));
-                        services.AjaxPostForm("@Url.Action("draft", "PurchaseRequisition")", data, function (response) {
+                        services.AjaxPostForm("@Url.Action("draft", "Estimate")", data, function (response) {
                             services.CustomAlert1(response);
                         });
                     }
@@ -173,7 +167,7 @@
                 var file = $("#fileInput")[0].files[0];
                 var formData = new FormData();
                 formData.append('file', file);
-                services.AjaxPostForm("@Url.Action("upload", "PurchaseRequisition")", formData, function (response) {
+                services.AjaxPostForm("@Url.Action("upload", "Estimate")", formData, function (response) {
                     $("#fileInput").val('');
                     services.CustomAlert1(response);
                     loadComponentDocFile();
@@ -183,7 +177,7 @@
                 services.ConfirmAlert("", "", "", "", "", function (result) {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: '@Url.Action("deletefile", "PurchaseRequisition")',
+                            url: '@Url.Action("deletefile", "Estimate")',
                             type: 'POST',
                             data: { id: id },
                             success: function (data) {
@@ -197,15 +191,14 @@
         });
 
 
-        function loadComponentDocFile() {
-            $.ajax({
-                url: '@Url.Action("LoadComponentDocFile", "PurchaseRequisition")',
-                type: 'GET',
-                data: { id: @Model?.Id },
-                success: function (data) {
-                    $('#componentDocfile').html(data);
+                function loadComponentDocFile() {
+                    $.ajax({
+                        url: '@Url.Action("LoadComponentDocFile", "Estimate")',
+                        type: 'GET',
+                        success: function (data) {
+                            $('#componentDocfile').html(data);
+                        }
+                    });
                 }
-            });
-        }
     </script>
 }

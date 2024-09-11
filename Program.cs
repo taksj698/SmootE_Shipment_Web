@@ -20,7 +20,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = "Document_Control";
+    options.Cookie.Name = "QuickVisualWebWood";
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.IsEssential = true;
 });

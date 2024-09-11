@@ -6,11 +6,11 @@
         <tr>
             <th class="text-center" scope="col">เลขที่ชั่ง</th>
             <th class="text-center" scope="col">ทะเบียนรถ</th>
-            <th scope="col">ชื่อลูกค้า</th>
+            <th class="text-left">ชื่อลูกค้า</th>
             <th class="text-center">วันที่ทำรายการ</th>
             <th class="text-center">ผลการประเมิน</th>
             <th class="text-center">สถานะ</th>
-            <th scope="col">หมายเหตุ</th>
+            <th class="text-left">หมายเหตุ</th>
         </tr>
     </thead>
     <tbody>
@@ -19,12 +19,12 @@
             foreach (var item in Model)
             {
                 <tr>
-                    <td class="text-center"><a href="@Url.Action("Index", "Estimate")/@item.SequenceID"><span class="badge bg-info me-1">@item.WeighNumber</span></a></td>
+                    <td class="text-center"><a href="@Url.Action("Index", "Estimate")/@item.SequenceID"><span class="badge bg-info me-1">@item.SequenceID</span></a></td>
                     <td class="text-center">@item.Plate</td>
                     <td>@item.CustomerName</td>
-                    <td>@item.TransctionDate</td>
-                    <td>@item.EvaluationResults</td>
-					<td>@item.Status</td>
+                    <td class="text-center">@item.TransctionDate</td>
+                    <td class="text-center">@item.EvaluationResults</td>
+                    <td class="text-center">@item.Status</td>
 					<td>@item.Remark</td>
                 </tr>
             }
