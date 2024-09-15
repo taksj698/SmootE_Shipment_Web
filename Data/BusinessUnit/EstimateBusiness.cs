@@ -23,6 +23,8 @@ using Newtonsoft.Json;
 using WebGrease.Activities;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using QuickVisualWebWood.Core.pageModels.Home;
+using Microsoft.IdentityModel.Tokens;
 
 namespace QuickVisualWebWood.Data.BusinessUnit
 {
@@ -105,6 +107,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                     find.ResultText = "ตัดราคา";
                 }
                 find.Description = obj.Description;
+                find.Status = action;
                 find.Inactive = false;
                 _dbContext.TB_QualityTransaction.Update(find);
                 AddOrUpdateFile(find.SequenceID);
@@ -143,6 +146,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                     data.ResultText = "ตัดราคา";
                 }
                 data.Description = obj.Description;
+                data.Status = action;
                 data.Inactive = false;
                 _dbContext.TB_QualityTransaction.Add(data);
                 _dbContext.SaveChanges();
@@ -161,10 +165,49 @@ namespace QuickVisualWebWood.Data.BusinessUnit
             }
             _dbContext.TB_WeightData.Update(update);
             _dbContext.SaveChanges();
-
+            NotiAction(SequenceID, action, obj.Description);
 
             return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ", url = "Home/MyTask" };
         }
+
+
+
+        public void NotiAction(string SequenceID, string action, string reason)
+        {
+            var find = (from weightData in _dbContext.TB_WeightData
+                        join qu in _dbContext.TB_QualityTransaction on weightData.SequenceID equals qu.SequenceID into quGroup
+                        from qu in quGroup.DefaultIfEmpty()
+                        let customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == weightData.CustomerID)
+                        where (weightData.QualityState == null || (weightData.QualityState != null && !weightData.QualityState.Value))
+                        select new
+                        {
+                            WeighNumber = weightData.TicketCodeIn,
+                            SequenceID = weightData.SequenceID,
+                            Plate = weightData.Plate1,
+                            CustomerName = (customer != null && !string.IsNullOrEmpty(customer.CustomerName)) ? customer.CustomerName : "-",
+                            TransctionDate = (qu != null && qu.QualityDate != null) ? qu.QualityDate.Value.ToString("dd/MM/yyyy") : "-",
+                            EvaluationResults = (qu != null && !string.IsNullOrEmpty(qu.ResultText)) ? qu.ResultText : "-",
+                            Status = (qu != null && !string.IsNullOrEmpty(qu.Status)) ? qu.Status : "-",
+                            Remark = (qu != null && !string.IsNullOrEmpty(qu.Description)) ? qu.Description : "-",
+                        }).FirstOrDefault();
+            if (find != null)
+            {
+                var findToken = _dbContext.TB_VisualConfigs.FirstOrDefault(x => x.Name == "LineToken");
+
+                string alertMsg = $"แจ้งเตือน\nสถานะ: {find.Status}\nทะเบียนรถ: {find.Plate}\nชื่อลูกค้า: {find.CustomerName}\nวันที่ทำรายการ: {find.TransctionDate}\nผลการประเมิน {find.EvaluationResults}\nสถานะ: {find.Status}\nหมายเหตุ: {find.Remark}";
+
+
+
+                if (findToken != null && !string.IsNullOrEmpty(findToken.Value))
+                {
+                    _lineServices.SendMessageByToken(new List<string>() { findToken.Value }, alertMsg);
+                }
+            }
+        }
+
+
+
+
         public void AddOrUpdateFile(string SequenceID)
         {
             var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
@@ -326,7 +369,8 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                     obj.QualityDate = DateTime.Now;
                     obj.SequenceID = findweight.SequenceID;
                     obj.Plate = findweight.Plate1;
-                    obj.CustomerName = findweight.CustomerID;
+                    var customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == findweight.CustomerID);
+                    obj.CustomerName = (customer != null) ? customer.CustomerName : "-";
                 }
                 var find = _dbContext.TB_QualityTransaction.FirstOrDefault(x => x.SequenceID == Id);
                 if (find != null)

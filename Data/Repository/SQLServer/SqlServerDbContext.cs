@@ -19,6 +19,7 @@ namespace QuickVisualWebWood.Data.Repository.SQLServer
         }
 
         public DbSet<TB_Users> TB_Users { get; set; }
+        public DbSet<TB_Customers> TB_Customers { get; set; }        
         public DbSet<TB_WeightData> TB_WeightData { get; set; }
         public DbSet<TB_QualityTransaction> TB_QualityTransaction { get; set; }
         public DbSet<TB_DocumentFile> TB_DocumentFile { get; set; }

@@ -10,7 +10,7 @@
 		public string? SequenceID { get; set; }
 		public string? Plate { get; set; }
 		public string? CustomerName { get; set; }
-		public DateTime? TransctionDate { get; set; }
+		public string? TransctionDate { get; set; }
 		public string? EvaluationResults { get; set; }
 		public string? Status { get; set; }
 		public string? Remark { get; set; }
