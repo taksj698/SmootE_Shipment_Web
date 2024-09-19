@@ -34,18 +34,20 @@ namespace QuickVisualWebWood.Data.BusinessUnit
         private SqlServerDbContext _dbContext;
         private IHttpContextAccessor _haccess;
         private readonly LineServices _lineServices;
+        private readonly RisoServices _risoServices;
 
         private List<Claim>? UserProfile;
         private int userId;
         private string? name;
         private int positionId;
         private string? position;
-        public EstimateBusiness(IHttpContextAccessor haccess, WrapperRepository wrapper, LineServices lineServices)
+        public EstimateBusiness(IHttpContextAccessor haccess, WrapperRepository wrapper, LineServices lineServices, RisoServices risoServices)
         {
             _wrapper = wrapper;
             _dbContext = _wrapper._dbContext;
             _haccess = haccess;
             _lineServices = lineServices;
+            _risoServices = risoServices;
 
             var identity = (ClaimsIdentity)haccess.HttpContext.User.Identity;
             UserProfile = identity.Claims.ToList();

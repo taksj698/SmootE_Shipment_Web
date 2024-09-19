@@ -25,6 +25,13 @@ namespace QuickVisualWebWood.Configs.Configurations
 				return options;
 			}).SingleInstance();
 
-		}
+            builder.Register(context =>
+            {
+                var configuration = context.Resolve<IConfiguration>();
+                var options = configuration.GetOptions<ApiOption>("Api:endpoint");
+                return options;
+            }).SingleInstance();
+
+        }
     }
 }
