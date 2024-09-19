@@ -25,6 +25,7 @@ using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using QuickVisualWebWood.Core.pageModels.Home;
 using Microsoft.IdentityModel.Tokens;
+using QuickVisualWebWood.Core.serviceModels;
 
 namespace QuickVisualWebWood.Data.BusinessUnit
 {
@@ -48,6 +49,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
             _haccess = haccess;
             _lineServices = lineServices;
             _risoServices = risoServices;
+
 
             var identity = (ClaimsIdentity)haccess.HttpContext.User.Identity;
             UserProfile = identity.Claims.ToList();
@@ -168,8 +170,46 @@ namespace QuickVisualWebWood.Data.BusinessUnit
             _dbContext.TB_WeightData.Update(update);
             _dbContext.SaveChanges();
             NotiAction(SequenceID, action, obj.Description);
-
+            UpdateThirdParty(SequenceID, action);
             return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ", url = "Home/MyTask" };
+        }
+
+
+        public void UpdateThirdParty(string SequenceID, string action)
+        {
+            if (action == "บันทึก")
+            {
+                var QtyTrans = _dbContext.TB_QualityTransaction.Where(x => x.SequenceID == SequenceID).FirstOrDefault();
+                var DocFile = _dbContext.TB_DocumentFile.Where(x => x.SequenceID == SequenceID).ToList();
+
+                if (QtyTrans != null)
+                {
+                    TBQualityTransaction data = new TBQualityTransaction();
+                    var config = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<TB_QualityTransaction, TBQualityTransaction>()
+                           .ForMember(dest => dest.id, opt => opt.Ignore());
+                    });
+                    var mapper = new Mapper(config);
+                    mapper.Map(QtyTrans, data);
+                    var result = _risoServices.TbQualityTransaction(data);
+                }
+                if (DocFile != null)
+                {
+                    foreach (var item in DocFile)
+                    {
+                        TbDocumentFile data = new TbDocumentFile();
+                        var config = new MapperConfiguration(cfg =>
+                        {
+                            cfg.CreateMap<TB_DocumentFile, TbDocumentFile>()
+                               .ForMember(dest => dest.id, opt => opt.Ignore());
+                        });
+                        var mapper = new Mapper(config);
+                        mapper.Map(item, data);
+                        var result = _risoServices.TbDocumentFile(data);
+                    }
+                }
+            }
         }
 
 

@@ -28,7 +28,7 @@ namespace QuickVisualWebWood.Configs.Configurations
             builder.Register(context =>
             {
                 var configuration = context.Resolve<IConfiguration>();
-                var options = configuration.GetOptions<ApiOption>("Api:endpoint");
+                var options = configuration.GetOptions<ApiOption>("Api");
                 return options;
             }).SingleInstance();
 

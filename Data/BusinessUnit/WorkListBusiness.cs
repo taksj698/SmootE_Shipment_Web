@@ -41,12 +41,9 @@ namespace QuickVisualWebWood.Data.BusinessUnit
             Worklist obj = new Worklist();
             obj.data = (from weightData in _dbContext.TB_WeightData
                         join qu in _dbContext.TB_QualityTransaction on weightData.SequenceID equals qu.SequenceID into quGroup
-                        // join customer in _dbContext.TB_Customers on weightData.CustomerID equals customer.CustomerID into cusGroup
                         from qu in quGroup.DefaultIfEmpty()
                         let customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == weightData.CustomerID)
-                        //from customer in cusGroup.DefaultIfEmpty()
-                        //where weightData.CancelState == 0 && weightData.WeightState == false
-                        where (weightData.QualityState == null || (weightData.QualityState != null && !weightData.QualityState.Value))
+                        //where (weightData.QualityState == null || (weightData.QualityState != null && !weightData.QualityState.Value))
                         select new WorklistData
                         {
                             WeighNumber = weightData.TicketCodeIn,
