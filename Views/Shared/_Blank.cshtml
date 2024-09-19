@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 @{
-    var backgroundImageUrl = Url.Content("~/bg.png");
+    var backgroundImageUrl = Url.Content("~/bg.jpg");
 }
 
 <head>
@@ -31,7 +31,7 @@
     <link href="~/assets/css/themes.css" rel="stylesheet">
 </head>
 
-<body style="background-image: url('@backgroundImageUrl'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+<body style="background-image: url('@backgroundImageUrl'); background-size: auto; background-position: center;background-repeat: no-repeat;">
 	@RenderBody()
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/sweetalert.js"></script>
