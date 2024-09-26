@@ -44,8 +44,8 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                         from qu in quGroup.DefaultIfEmpty()
                         let customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == weightData.CustomerID)
                         where (weightData.WeightState != null && !weightData.WeightState.Value) &&
-                        (weightData.CancelState != null && weightData.CancelState.Value == 0) &&
-                        (weightData.QualityState == null || (weightData.QualityState != null && !weightData.QualityState.Value))
+                        (weightData.CancelState != null && weightData.CancelState.Value == 0) //&&
+                        //(weightData.QualityState == null || (weightData.QualityState != null && !weightData.QualityState.Value))
                         select new WorklistData
                         {
                             WeighNumber = weightData.TicketCodeIn,
