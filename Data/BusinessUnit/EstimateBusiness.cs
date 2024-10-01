@@ -113,6 +113,8 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 find.Description = obj.Description;
                 find.Status = action;
                 find.Inactive = false;
+                find.ModifyDate = DateTime.Now;
+                find.ModifyBy = name;
                 _dbContext.TB_QualityTransaction.Update(find);
                 AddOrUpdateFile(find.SequenceID);
                 _dbContext.SaveChanges();
@@ -152,6 +154,8 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 data.Description = obj.Description;
                 data.Status = action;
                 data.Inactive = false;
+                data.CreateDate = DateTime.Now;
+                data.CreateBy = name;
                 _dbContext.TB_QualityTransaction.Add(data);
                 _dbContext.SaveChanges();
                 AddOrUpdateFile(data.SequenceID);
@@ -210,7 +214,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                                .ForMember(dest => dest.id, opt => opt.Ignore());
                         });
                         var mapper = new Mapper(config);
-                        mapper.Map(item, data);               
+                        mapper.Map(item, data);
                         var result = _risoServices.TbDocumentFile(data);
                     }
                 }

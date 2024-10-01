@@ -16,7 +16,7 @@
 		public string? Remark { get; set; }
 		public string? QualityByName { get; set; }
 		public string? Branch { get; set; }
-
+		public string? UpdateDate { get; set; }
     }
 
 }

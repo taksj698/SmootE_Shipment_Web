@@ -26,5 +26,12 @@ namespace QuickVisualWebWood.Controllers
 			return View(_workListBusiness.MyTask());
 		}
 
-	}
+        public IActionResult Complete()
+        {
+            ViewBag.CurrentController = "Home";
+            ViewBag.CurrentAction = "Complete";
+            return View(_workListBusiness.Complete());
+        }
+
+    }
 }

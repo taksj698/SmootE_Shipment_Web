@@ -12,6 +12,29 @@
     .custom-file-input {
         display: none;
     }
+
+        .modal {
+            background: transparent; /* No background */
+        }
+        .modal-content {
+            border: none; /* Remove border */
+            box-shadow: none; /* Remove shadow */
+            max-width: 800px; /* Set max width for medium size */
+            margin: auto; /* Center the modal */
+        }
+        .modal-body {
+            padding: 0; /* Remove padding */
+            text-align: center; /* Center the image */
+        }
+        .modal-img {
+            width: auto; /* Allow width to adjust */
+            height: auto; /* Allow height to adjust */
+            max-width: 100%; /* Max width to fit within modal */
+            max-height: 80vh; /* Max height for the image */
+            display: block; /* Ensure block display */
+            margin: 0 auto; /* Center the image horizontally */
+        }
+
 </style>
 <main id="main" class="main">
     <form id="formdata">
@@ -132,8 +155,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                    <button type="button" onclick="controller.draft();" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
-				                    <button type="button" onclick="controller.save();" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
+                                        <button type="button" onclick="controller.draft();" class="btn btn-primary"><i class="ri-draft-fill me-1"></i>บันทึกร่าง</button>
+                                        <button type="button" onclick="controller.save();" class="btn btn-success"><i class="ri-save-3-fill me-1"></i>บันทึก</button>
                                     </div>
                                 </div>
                             </div>
@@ -141,6 +164,19 @@
                     </div>
                 </div>
             </div>
+
+
+            <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <img id="modalImage" class="modal-img" src="" alt="Image Preview">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </section>
     </form>
 </main>
@@ -196,14 +232,23 @@
         });
 
 
-                function loadComponentDocFile() {
-                    $.ajax({
-                        url: '@Url.Action("LoadComponentDocFile", "Estimate")',
-                        type: 'GET',
-                        success: function (data) {
-                            $('#componentDocfile').html(data);
-                        }
-                    });
+        function loadComponentDocFile() {
+            $.ajax({
+                url: '@Url.Action("LoadComponentDocFile", "Estimate")',
+                type: 'GET',
+                success: function (data) {
+                    $('#componentDocfile').html(data);
                 }
+            });
+        }
+
+
+        function viewImage(item) {
+            console.log(item);
+            const imageUrl = `data:${item.ContentType};base64,${item.base64}`;
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageUrl; // Set the image source
+            $('#imageModal').modal('show'); // Show the modal
+        }
     </script>
 }
