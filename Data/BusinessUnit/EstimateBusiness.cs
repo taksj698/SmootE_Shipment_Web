@@ -162,10 +162,12 @@ namespace QuickVisualWebWood.Data.BusinessUnit
             if (action == "บันทึกร่าง")
             {
                 update.QualityState = false;
+                update.QualityByName = name;
             }
             else if (action == "บันทึก")
             {
                 update.QualityState = true;
+                update.QualityByName = name;
             }
             _dbContext.TB_WeightData.Update(update);
             _dbContext.SaveChanges();

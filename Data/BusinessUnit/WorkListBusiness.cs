@@ -56,6 +56,9 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                             EvaluationResults = (qu != null && !string.IsNullOrEmpty(qu.ResultText)) ? qu.ResultText : "-",
                             Status = (qu != null && !string.IsNullOrEmpty(qu.Status)) ? qu.Status : "-",
                             Remark = (qu != null && !string.IsNullOrEmpty(qu.Description)) ? qu.Description : "-",
+                            Branch = (!string.IsNullOrEmpty(weightData.BranchID)) ? weightData.BranchID : "-",
+                            QualityByName = (!string.IsNullOrEmpty(weightData.QualityByName)) ? weightData.QualityByName : "-",
+
                         }).ToList();
             return obj;
         }

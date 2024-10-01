@@ -14,6 +14,9 @@
 		public string? EvaluationResults { get; set; }
 		public string? Status { get; set; }
 		public string? Remark { get; set; }
-	}
+		public string? QualityByName { get; set; }
+		public string? Branch { get; set; }
+
+    }
 
 }
