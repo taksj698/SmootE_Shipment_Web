@@ -67,5 +67,38 @@ namespace QuickVisualWebWood.Data.Services
                 Data = JsonConvert.SerializeObject(obj)
             });
         }
+
+        public ResponseModel DeleteTbQualityTransaction(string sequenceId)
+        {
+            var login = Login();
+            return _client.Delete<ResponseModel>(new ParamsAPI()
+            {
+                Header = new List<BasicObject>()
+                { new BasicObject()
+                    {
+                        key = "Authorization",
+                        values = string.Format("Bearer {0}",(string)login.Data.token)
+                    }
+                },
+                Url = string.Format("{0}/{1}/{2}", _apiOption.endpoint, "api/TbQualityTransaction/sequenceid", sequenceId),
+                Data = string.Empty
+            });
+        }
+        public ResponseModel DeleteTbDocumentFile(string sequenceId)
+        {
+            var login = Login();
+            return _client.Delete<ResponseModel>(new ParamsAPI()
+            {
+                Header = new List<BasicObject>()
+                { new BasicObject()
+                    {
+                        key = "Authorization",
+                        values = string.Format("Bearer {0}",(string)login.Data.token)
+                    }
+                },
+                Url = string.Format("{0}/{1}/{2}", _apiOption.endpoint, "api/TbDocumentFile/sequenceid", sequenceId),
+                Data = string.Empty
+            });
+        }
     }
 }

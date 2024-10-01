@@ -194,10 +194,13 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                     });
                     var mapper = new Mapper(config);
                     mapper.Map(QtyTrans, data);
+
+                    var rs = _risoServices.DeleteTbQualityTransaction(SequenceID);
                     var result = _risoServices.TbQualityTransaction(data);
                 }
                 if (DocFile != null)
                 {
+                    var rs = _risoServices.DeleteTbDocumentFile(SequenceID);
                     foreach (var item in DocFile)
                     {
                         TbDocumentFile data = new TbDocumentFile();
@@ -207,7 +210,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                                .ForMember(dest => dest.id, opt => opt.Ignore());
                         });
                         var mapper = new Mapper(config);
-                        mapper.Map(item, data);
+                        mapper.Map(item, data);               
                         var result = _risoServices.TbDocumentFile(data);
                     }
                 }
