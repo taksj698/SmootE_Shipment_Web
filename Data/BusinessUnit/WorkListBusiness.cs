@@ -43,6 +43,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                         join qu in _dbContext.TB_QualityTransaction on weightData.SequenceID equals qu.SequenceID into quGroup
                         from qu in quGroup.DefaultIfEmpty()
                         let customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == weightData.CustomerID)
+                        let branch = _dbContext.TB_Branch.FirstOrDefault(x => x.BranchID == weightData.BranchID)
                         where (weightData.WeightState != null && !weightData.WeightState.Value) &&
                         (weightData.CancelState != null && weightData.CancelState.Value == 0) &&
                         (string.IsNullOrEmpty(qu.Status) || (!string.IsNullOrEmpty(qu.Status)) && qu.Status == "บันทึกร่าง")
@@ -56,7 +57,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                             EvaluationResults = (qu != null && !string.IsNullOrEmpty(qu.ResultText)) ? qu.ResultText : "-",
                             Status = (qu != null && !string.IsNullOrEmpty(qu.Status)) ? qu.Status : "-",
                             Remark = (qu != null && !string.IsNullOrEmpty(qu.Description)) ? qu.Description : "-",
-                            Branch = (!string.IsNullOrEmpty(weightData.BranchID)) ? weightData.BranchID : "-",
+                            Branch = (branch != null) ? branch.BranchName : "-",
                             QualityByName = (!string.IsNullOrEmpty(weightData.QualityByName)) ? weightData.QualityByName : "-",
                             UpdateDate = (qu.ModifyDate != null) ? qu.ModifyDate.Value.ToString("dd/MM/yyyy HH:mm") : (qu.CreateDate != null) ? qu.CreateDate.Value.ToString("dd/MM/yyyy HH:mm") : "-"
                         }).ToList();
@@ -71,6 +72,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                         join qu in _dbContext.TB_QualityTransaction on weightData.SequenceID equals qu.SequenceID into quGroup
                         from qu in quGroup.DefaultIfEmpty()
                         let customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == weightData.CustomerID)
+                        let branch = _dbContext.TB_Branch.FirstOrDefault(x => x.BranchID == weightData.BranchID)
                         where (weightData.WeightState != null && !weightData.WeightState.Value) &&
                         (weightData.CancelState != null && weightData.CancelState.Value == 0) &&
                         ((!string.IsNullOrEmpty(qu.Status)) && qu.Status == "บันทึก")
@@ -84,7 +86,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                             EvaluationResults = (qu != null && !string.IsNullOrEmpty(qu.ResultText)) ? qu.ResultText : "-",
                             Status = (qu != null && !string.IsNullOrEmpty(qu.Status)) ? qu.Status : "-",
                             Remark = (qu != null && !string.IsNullOrEmpty(qu.Description)) ? qu.Description : "-",
-                            Branch = (!string.IsNullOrEmpty(weightData.BranchID)) ? weightData.BranchID : "-",
+                            Branch = (branch != null) ? branch.BranchName : "-",
                             QualityByName = (!string.IsNullOrEmpty(weightData.QualityByName)) ? weightData.QualityByName : "-",
                             UpdateDate = (qu.ModifyDate != null) ? qu.ModifyDate.Value.ToString("dd/MM/yyyy HH:mm") : (qu.CreateDate != null) ? qu.CreateDate.Value.ToString("dd/MM/yyyy HH:mm") : "-"
                         }).ToList();
