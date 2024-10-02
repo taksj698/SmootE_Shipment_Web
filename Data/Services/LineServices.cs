@@ -1,6 +1,7 @@
 ﻿using QuickVisualWebWood.Data.Repository.SQLServer;
 using QuickVisualWebWood.Data.Repository;
 using QuickVisualWebWood.Core.serviceModels;
+using RestSharp;
 
 namespace QuickVisualWebWood.Data.Services
 {
@@ -34,6 +35,23 @@ namespace QuickVisualWebWood.Data.Services
                         { "message", message }
                     },
                     });
+                }
+            }
+        }
+
+        public void LineImageNoti(List<string> token, string msg, string base64, string filename)
+        {
+            if (token != null && token.Count > 0)
+            {
+                foreach (var item in token)
+                {
+                    var bytes = Convert.FromBase64String(base64);
+                    RestRequest request = new RestRequest("https://notify-api.line.me/api/notify", Method.Post);
+                    request.AddHeader("Authorization", string.Format("Bearer {0}", item));
+                    request.AddParameter("message", msg);
+                    request.AddFile("imageFile", bytes, filename);
+                    RestClient client = new RestClient();
+                    var response = client.Execute(request);
                 }
             }
         }

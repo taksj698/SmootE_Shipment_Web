@@ -251,7 +251,22 @@ namespace QuickVisualWebWood.Data.BusinessUnit
 
                 if (findToken != null && !string.IsNullOrEmpty(findToken.Value))
                 {
-                    _lineServices.SendMessageByToken(new List<string>() { findToken.Value }, alertMsg);
+                    _lineServices.SendMessageByToken(new List<string>() { findToken.Value.Trim() }, alertMsg);
+
+                    var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
+                    var reqFile = string.IsNullOrEmpty(sessionFile)
+                        ? new List<DocUpload>()
+                        : JsonConvert.DeserializeObject<List<DocUpload>>(sessionFile);
+                    if (reqFile != null)
+                    {
+                        foreach (var item in reqFile)
+                        {
+                            _lineServices.LineImageNoti(new List<string>() { findToken.Value.Trim() }, item.filename, item.base64, item.filename);
+                        }
+                    }
+
+
+
                 }
             }
         }
