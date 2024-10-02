@@ -173,6 +173,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 update.QualityState = true;
                 update.QualityByName = name;
             }
+            _risoServices.updateWeightData(SequenceID, update.QualityState.Value, update.QualityByName);
             _dbContext.TB_WeightData.Update(update);
             _dbContext.SaveChanges();
             NotiAction(SequenceID, action, obj.Description);
@@ -264,15 +265,9 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                             _lineServices.LineImageNoti(new List<string>() { findToken.Value.Trim() }, item.filename, item.base64, item.filename);
                         }
                     }
-
-
-
                 }
             }
         }
-
-
-
 
         public void AddOrUpdateFile(string SequenceID)
         {

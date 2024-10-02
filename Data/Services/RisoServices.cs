@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using QuickVisualWebWood.Configs.Options;
 using QuickVisualWebWood.Core.dbModels;
@@ -98,6 +99,24 @@ namespace QuickVisualWebWood.Data.Services
                 },
                 Url = string.Format("{0}/{1}/{2}", _apiOption.endpoint, "api/TbDocumentFile/sequenceid", sequenceId),
                 Data = string.Empty
+            });
+        }
+
+
+        public ResponseModel updateWeightData(string sequenceId, bool qualityState, string qualityByName)
+        {
+            var login = Login();
+            return _client.Put<ResponseModel>(new ParamsAPI()
+            {
+                Header = new List<BasicObject>()
+                { new BasicObject()
+                    {
+                        key = "Authorization",
+                        values = string.Format("Bearer {0}",(string)login.Data.token)
+                    }
+                },
+                Url = string.Format("{0}/{1}", _apiOption.endpoint, "api/TbWeightData/sequenceid"),
+                Data = JsonConvert.SerializeObject(new { sequenceId = sequenceId, qualityState = qualityState, qualityByName = qualityByName })
             });
         }
     }

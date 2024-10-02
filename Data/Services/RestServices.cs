@@ -75,6 +75,36 @@ namespace QuickVisualWebWood.Data.Services
 			return JsonConvert.DeserializeObject<T>(responseBody);
 		}
 
+        public T Put<T>(ParamsAPI obj)
+        {
+            HttpClient _client = Client();
+            string responseBody = string.Empty;
+            try
+            {
+                if (obj != null)
+                {
+                    if (obj.Header != null)
+                    {
+                        foreach (var item in obj.Header)
+                        {
+                            _client.DefaultRequestHeaders.Add(item.key, item.values);
+                        }
+                    }
+                    HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Put, obj.Url);
+                    var content = (!string.IsNullOrEmpty(obj.ContentType)) ? new StringContent(obj.Data, Encoding.UTF8, obj.ContentType) : new StringContent(obj.Data, Encoding.UTF8);
+                    requestMessage.Content = content;
+
+                    var response = _client.SendAsync(requestMessage).Result;
+                    responseBody = response.Content.ReadAsStringAsync().Result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return JsonConvert.DeserializeObject<T>(responseBody);
+        }
+
         public T Delete<T>(ParamsAPI obj)
         {
             HttpClient _client = Client();
