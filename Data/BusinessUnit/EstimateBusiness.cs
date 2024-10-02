@@ -229,7 +229,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                         join qu in _dbContext.TB_QualityTransaction on weightData.SequenceID equals qu.SequenceID into quGroup
                         from qu in quGroup.DefaultIfEmpty()
                         let customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == weightData.CustomerID)
-                        where (weightData.QualityState == null || (weightData.QualityState != null && !weightData.QualityState.Value))
+                        where weightData.SequenceID == SequenceID
                         select new
                         {
                             WeighNumber = weightData.TicketCodeIn,
