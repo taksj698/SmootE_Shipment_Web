@@ -8,9 +8,9 @@ namespace QuickVisualWebWood.Data.Repository.SQLServer
 {
     public class SqlServerDbContext2 : DbContext
     {
-        public SqlServerDbContext2(DbContextOptions options) : base(options)
+        public SqlServerDbContext2(DbContextOptions<SqlServerDbContext2> options)
+            : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

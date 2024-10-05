@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuickVisualWebWood.Core.dbModels
 {
     [Table(nameof(TB_Log))]
     public class TB_Log
     {
+        [Key]
         public long AutoRun { get; set; }
         public DateTime? LogDateTime { get; set; }
         public string? Params { get; set; }

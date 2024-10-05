@@ -36,20 +36,22 @@ namespace QuickVisualWebWood.Data.BusinessUnit
         private IHttpContextAccessor _haccess;
         private readonly LineServices _lineServices;
         private readonly RisoServices _risoServices;
+        private readonly SqlServerDbContext2 _dbContext2;
+
 
         private List<Claim>? UserProfile;
         private int userId;
         private string? name;
         private int positionId;
         private string? position;
-        public EstimateBusiness(IHttpContextAccessor haccess, WrapperRepository wrapper, LineServices lineServices, RisoServices risoServices)
+        public EstimateBusiness(IHttpContextAccessor haccess, WrapperRepository wrapper, LineServices lineServices, RisoServices risoServices,SqlServerDbContext2 dbContext2)
         {
             _wrapper = wrapper;
             _dbContext = _wrapper._dbContext;
             _haccess = haccess;
             _lineServices = lineServices;
             _risoServices = risoServices;
-
+            _dbContext2 = dbContext2;
 
             var identity = (ClaimsIdentity)haccess.HttpContext.User.Identity;
             UserProfile = identity.Claims.ToList();
@@ -74,7 +76,6 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 positionId = Convert.ToInt32(finePositionId.Value);
             }
         }
-
         public dynamic AddorUpdate(PagePR obj, string action)
         {
             string SequenceID = string.Empty;
@@ -181,8 +182,6 @@ namespace QuickVisualWebWood.Data.BusinessUnit
             UpdateThirdParty(SequenceID, action);
             return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ", url = "Home/MyTask" };
         }
-
-
         public void UpdateThirdParty(string SequenceID, string action)
         {
             if (action == "บันทึก")
