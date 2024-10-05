@@ -82,6 +82,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
             var find = _dbContext.TB_QualityTransaction.FirstOrDefault(x => x.SequenceID == obj.SequenceID);
             if (find != null)
             {
+
                 find.SequenceID = obj.SequenceID;
                 find.QualityDate = DateTime.Now;
                 //
@@ -265,7 +266,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                         {
                             foreach (var item in reqFile)
                             {
-                                _lineServices.LineImageNoti(new List<string>() { findToken.Value.Trim() }, item.filename, item.base64, item.filename);
+                                _lineServices.LineImageNoti(new List<string>() { findToken.Value.Trim() }, find.CustomerName, item.base64, item.filename);
                             }
                         }
                     }
