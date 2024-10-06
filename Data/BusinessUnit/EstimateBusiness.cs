@@ -26,6 +26,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using QuickVisualWebWood.Core.pageModels.Home;
 using Microsoft.IdentityModel.Tokens;
 using QuickVisualWebWood.Core.serviceModels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace QuickVisualWebWood.Data.BusinessUnit
 {
@@ -44,7 +45,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
         private string? name;
         private int positionId;
         private string? position;
-        public EstimateBusiness(IHttpContextAccessor haccess, WrapperRepository wrapper, LineServices lineServices, RisoServices risoServices,SqlServerDbContext2 dbContext2)
+        public EstimateBusiness(IHttpContextAccessor haccess, WrapperRepository wrapper, LineServices lineServices, RisoServices risoServices, SqlServerDbContext2 dbContext2)
         {
             _wrapper = wrapper;
             _dbContext = _wrapper._dbContext;
@@ -117,6 +118,9 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 find.Inactive = false;
                 find.ModifyDate = DateTime.Now;
                 find.ModifyBy = name;
+
+                _dbContext2.TB_Log.Add(new TB_Log() { LogDateTime = DateTime.Now, TableName = "TB_QualityTransaction", OldValue = JsonConvert.SerializeObject(find) });
+                _dbContext2.SaveChanges();
                 _dbContext.TB_QualityTransaction.Update(find);
                 AddOrUpdateFile(find.SequenceID);
                 _dbContext.SaveChanges();
@@ -158,6 +162,8 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 data.Inactive = false;
                 data.CreateDate = DateTime.Now;
                 data.CreateBy = name;
+                _dbContext2.TB_Log.Add(new TB_Log() { LogDateTime = DateTime.Now, TableName = "TB_QualityTransaction", OldValue = JsonConvert.SerializeObject(data) });
+                _dbContext2.SaveChanges();
                 _dbContext.TB_QualityTransaction.Add(data);
                 _dbContext.SaveChanges();
                 AddOrUpdateFile(data.SequenceID);
@@ -176,6 +182,13 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 update.QualityByName = name;
             }
             _risoServices.updateWeightData(SequenceID, update.QualityState.Value, update.QualityByName);
+
+
+            _dbContext2.TB_Log.Add(new TB_Log() { LogDateTime = DateTime.Now, TableName = "TB_WeightData", OldValue = JsonConvert.SerializeObject(update) });
+            _dbContext2.SaveChanges();
+
+
+
             _dbContext.TB_WeightData.Update(update);
             _dbContext.SaveChanges();
             NotiAction(SequenceID, action, obj.Description);
@@ -316,7 +329,9 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                     File.WriteAllBytes(fullPath, fileBytes);
 
                     var subpart = fullPath.Replace(PathConfig, string.Empty);
-                    _dbContext.TB_DocumentFile.Add(new TB_DocumentFile()
+
+
+                    var file = new TB_DocumentFile()
                     {
                         Extension = item.extension,
                         CreateBy = userId.ToString(),
@@ -325,8 +340,14 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                         SequenceID = SequenceID,
                         FileName = item.filename,
                         FileParth = subpart
-                    });
+                    };
+
+                    _dbContext.TB_DocumentFile.Add(file);
                     _dbContext.SaveChanges();
+
+
+                    _dbContext2.TB_Log.Add(new TB_Log() { LogDateTime = DateTime.Now, TableName = "TB_DocumentFile", OldValue = JsonConvert.SerializeObject(file) });
+                    _dbContext2.SaveChanges();
                 }
             }
         }
