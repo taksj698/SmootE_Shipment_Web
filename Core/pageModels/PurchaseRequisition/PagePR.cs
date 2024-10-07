@@ -7,6 +7,7 @@ namespace QuickVisualWebWood.Core.pageModels.PurchaseRequisition
     {
 
         public string? SequenceID { get; set; }
+        public int? QueueNo { get; set; }
         public DateTime? QualityDate { get; set; }
         public string? Plate { get; set; }
         public string? CustomerName { get; set; }

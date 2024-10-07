@@ -452,6 +452,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 var findweight = _dbContext.TB_WeightData.FirstOrDefault(x => x.SequenceID == Id);
                 if (findweight != null)
                 {
+                    obj.QueueNo = findweight.QueueNo;
                     obj.QualityDate = DateTime.Now;
                     obj.SequenceID = findweight.SequenceID;
                     obj.Plate = findweight.Plate1;
