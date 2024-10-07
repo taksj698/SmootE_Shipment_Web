@@ -80,13 +80,15 @@ namespace QuickVisualWebWood.Data.BusinessUnit
         public dynamic AddorUpdate(PagePR obj, string action)
         {
             string SequenceID = string.Empty;
-
+            var wd = _dbContext.TB_WeightData.FirstOrDefault(x => x.SequenceID == obj.SequenceID);
             var find = _dbContext.TB_QualityTransaction.FirstOrDefault(x => x.SequenceID == obj.SequenceID);
             if (find != null)
             {
-
                 find.SequenceID = obj.SequenceID;
                 find.QualityDate = DateTime.Now;
+                find.Plate = wd?.Plate1;
+                find.QueueNo = wd?.QueueNo;
+
                 //
                 find.Quality1 = false;
                 find.Quality2 = false;
@@ -131,6 +133,8 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 TB_QualityTransaction data = new TB_QualityTransaction();
                 data.SequenceID = obj.SequenceID;
                 data.QualityDate = DateTime.Now;
+                data.Plate = wd?.Plate1;
+                data.QueueNo = wd?.QueueNo;
                 //
                 data.Quality1 = false;
                 data.Quality2 = false;

@@ -22,5 +22,7 @@ namespace QuickVisualWebWood.Core.dbModels
         public DateTime? ModifyDate { get; set; }
         public string? ModifyBy { get; set; }
         public bool? Inactive { get; set; }
+        public string? Plate { get; set; }
+        public int? QueueNo { get; set; }
     }
 }

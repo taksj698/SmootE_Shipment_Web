@@ -16,5 +16,7 @@
         public DateTime? modifyDate { get; set; }
         public string? modifyBy { get; set; }
         public bool? inactive { get; set; }
+        public string? plate { get; set; }
+        public int? queueNo { get; set; }
     }
 }
