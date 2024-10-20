@@ -16,7 +16,10 @@
 		public string? Remark { get; set; }
 		public string? QualityByName { get; set; }
 		public string? Branch { get; set; }
-		public string? UpdateDate { get; set; }
+		public string? WeightTypeName { get; set; }
+
+        public string? UpdateDate { get; set; }
+		public bool IsCancel { get; set; } = false;
     }
 
 }

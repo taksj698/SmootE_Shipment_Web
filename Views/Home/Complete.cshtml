@@ -18,3 +18,24 @@
 	</section>
 </main>
 
+@section Scripts {
+		<script>
+			$(document).ready(function () {
+				controller.oncancel = function (id) {
+					services.ConfirmAlert("", "", "", "", "", function (result) {
+						if (result.isConfirmed) {
+							$.ajax({
+									url: '@Url.Action("Cancel", "Home")',
+								type: 'POST',
+								data: { id: id },
+								success: function (data) {
+									services.CustomAlert1(data);
+								}
+							});
+						}
+					});
+				}
+			});
+
+		</script>
+}

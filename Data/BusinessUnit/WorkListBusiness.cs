@@ -40,6 +40,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
 
             Worklist obj = new Worklist();
             obj.data = (from weightData in _dbContext.TB_WeightData
+                        join weightType in _dbContext.TB_WeightType on weightData.WeightTypeID equals weightType.WeightTypeID
                         join qu in _dbContext.TB_QualityTransaction on weightData.SequenceID equals qu.SequenceID into quGroup
                         from qu in quGroup.DefaultIfEmpty()
                         let customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == weightData.CustomerID)
@@ -52,6 +53,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                             WeighNumber = weightData.TicketCodeIn,
                             SequenceID = weightData.SequenceID,
                             Plate = weightData.Plate1,
+                            WeightTypeName = weightType.WeightTypeName,
                             CustomerName = (customer != null && !string.IsNullOrEmpty(customer.CustomerName)) ? customer.CustomerName : "-",
                             TransctionDate = (qu != null && qu.QualityDate != null) ? qu.QualityDate.Value.ToString("dd/MM/yyyy") : "-",
                             EvaluationResults = (qu != null && !string.IsNullOrEmpty(qu.ResultText)) ? qu.ResultText : "-",
@@ -63,12 +65,12 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                         }).ToList();
             return obj;
         }
-
         public Worklist Complete()
         {
 
             Worklist obj = new Worklist();
             obj.data = (from weightData in _dbContext.TB_WeightData
+                        join weightType in _dbContext.TB_WeightType on weightData.WeightTypeID equals weightType.WeightTypeID
                         join qu in _dbContext.TB_QualityTransaction on weightData.SequenceID equals qu.SequenceID into quGroup
                         from qu in quGroup.DefaultIfEmpty()
                         let customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == weightData.CustomerID)
@@ -81,6 +83,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                             WeighNumber = weightData.TicketCodeIn,
                             SequenceID = weightData.SequenceID,
                             Plate = weightData.Plate1,
+                            WeightTypeName = weightType.WeightTypeName,
                             CustomerName = (customer != null && !string.IsNullOrEmpty(customer.CustomerName)) ? customer.CustomerName : "-",
                             TransctionDate = (qu != null && qu.QualityDate != null) ? qu.QualityDate.Value.ToString("dd/MM/yyyy") : "-",
                             EvaluationResults = (qu != null && !string.IsNullOrEmpty(qu.ResultText)) ? qu.ResultText : "-",
@@ -88,9 +91,17 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                             Remark = (qu != null && !string.IsNullOrEmpty(qu.Description)) ? qu.Description : "-",
                             Branch = (branch != null) ? branch.BranchName : "-",
                             QualityByName = (!string.IsNullOrEmpty(weightData.QualityByName)) ? weightData.QualityByName : "-",
-                            UpdateDate = (qu.ModifyDate != null) ? qu.ModifyDate.Value.ToString("dd/MM/yyyy HH:mm") : (qu.CreateDate != null) ? qu.CreateDate.Value.ToString("dd/MM/yyyy HH:mm") : "-"
+                            UpdateDate = (qu.ModifyDate != null) ? qu.ModifyDate.Value.ToString("dd/MM/yyyy HH:mm") : (qu.CreateDate != null) ? qu.CreateDate.Value.ToString("dd/MM/yyyy HH:mm") : "-",
+                            IsCancel = true
                         }).ToList();
             return obj;
         }
+
+
+        public dynamic Cancel(string id)
+        {
+            return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ", url = "Home/Complete" };
+        }
+
     }
 }

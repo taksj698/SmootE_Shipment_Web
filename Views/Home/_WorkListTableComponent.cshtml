@@ -10,10 +10,15 @@
             <th class="text-center">วันที่ทำรายการ</th>
             <th class="text-left">สาขา</th>
             <th class="text-center">ผู้ประเมิน</th>
-            <th class="text-center">เวลาที่ประเมิน</th>            
+            <th class="text-center">เวลาที่ประเมิน</th>
+            <th class="text-center">ประเถทชั่ง</th>
             <th class="text-center">ผลการประเมิน</th>
             <th class="text-center">สถานะ</th>
             <th class="text-left">หมายเหตุ</th>
+            @if (Model != null && Model.Count > 0 && Model.FirstOrDefault().IsCancel)
+            {
+                <th class="text-left">ยกเลิก</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -28,9 +33,14 @@
                     <td class="text-left">@item.Branch</td>
                     <td class="text-center">@item.QualityByName</td>
                     <td class="text-center">@item.UpdateDate</td>
+                    <td class="text-center">@item.WeightTypeName</td>
                     <td class="text-center">@item.EvaluationResults</td>
                     <td class="text-center">@item.Status</td>
                     <td>@item.Remark</td>
+                    @if (item.IsCancel)
+                    {
+                        <td><input type="button" class="btn btn-sm btn-danger" value="ยกเลิก" onclick="controller.oncancel('@item.SequenceID')" /></td>
+                    }
                 </tr>
             }
         }

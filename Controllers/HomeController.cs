@@ -33,5 +33,9 @@ namespace QuickVisualWebWood.Controllers
             return View(_workListBusiness.Complete());
         }
 
-    }
+		public dynamic Cancel(string id)
+		{
+			return _workListBusiness.Cancel(id);
+		}
+	}
 }

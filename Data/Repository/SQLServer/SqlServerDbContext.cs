@@ -24,6 +24,7 @@ namespace QuickVisualWebWood.Data.Repository.SQLServer
         public DbSet<TB_QualityTransaction> TB_QualityTransaction { get; set; }
         public DbSet<TB_DocumentFile> TB_DocumentFile { get; set; }
         public DbSet<TB_VisualConfigs> TB_VisualConfigs { get; set; }
-        public DbSet<TB_Branch> TB_Branch { get; set; }        
+        public DbSet<TB_Branch> TB_Branch { get; set; }    
+        public DbSet<TB_WeightType> TB_WeightType { get; set; }
     }
 }
