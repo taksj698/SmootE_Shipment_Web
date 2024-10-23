@@ -124,8 +124,8 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 _dbContext2.TB_Log.Add(new TB_Log() { LogDateTime = DateTime.Now, TableName = "TB_QualityTransaction", OldValue = JsonConvert.SerializeObject(find) });
                 _dbContext2.SaveChanges();
                 _dbContext.TB_QualityTransaction.Update(find);
-                AddOrUpdateFile(find.SequenceID);
                 _dbContext.SaveChanges();
+                AddOrUpdateFile(find.SequenceID);              
                 SequenceID = find.SequenceID;
             }
             else
