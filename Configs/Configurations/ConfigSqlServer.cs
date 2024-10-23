@@ -5,10 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace QuickVisualWebWood.Configs.Configurations
 {
-	public static class ConfigSqlServer
-	{
-		public static void AddSqlServerConfiguration(this IServiceCollection services, IConfiguration configuration)
-		{
+    public static class ConfigSqlServer
+    {
+        public static void AddSqlServerConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
             // Get connection strings from the configuration
             var connectionString = configuration["Database:SqlServer:ConnectionString"];
             var connectionString2 = configuration["Database:SqlServer:ConnectionString2"];
@@ -21,15 +21,13 @@ namespace QuickVisualWebWood.Configs.Configurations
 
             // Register SqlServerDbContext with the main connection string
             services.AddDbContext<SqlServerDbContext>(options =>
-                options.UseSqlServer(connectionString)
-            //.EnableSensitiveDataLogging()  // Uncomment if needed
-            );
+                options.UseSqlServer(connectionString),
+                ServiceLifetime.Scoped);
 
             // Register SqlServerDbContext2 with the second connection string
             services.AddDbContext<SqlServerDbContext2>(options =>
-                options.UseSqlServer(connectionString2)
-            //.EnableSensitiveDataLogging()  // Uncomment if needed
-            );
+            options.UseSqlServer(connectionString2),
+            ServiceLifetime.Scoped);
         }
-	}
+    }
 }

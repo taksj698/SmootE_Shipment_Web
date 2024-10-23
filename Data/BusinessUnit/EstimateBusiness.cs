@@ -174,26 +174,25 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 SequenceID = data.SequenceID;
             }
 
-            var update = _dbContext.TB_WeightData.FirstOrDefault(x => x.SequenceID == SequenceID);
             if (action == "บันทึกร่าง")
             {
-                update.QualityState = false;
-                update.QualityByName = name;
+                wd.QualityState = false;
+                wd.QualityByName = name;
             }
             else if (action == "บันทึก")
             {
-                update.QualityState = true;
-                update.QualityByName = name;
+                wd.QualityState = true;
+                wd.QualityByName = name;
             }
-            _risoServices.updateWeightData(SequenceID, update.QualityState.Value, update.QualityByName);
+            _risoServices.updateWeightData(SequenceID, wd.QualityState.Value, wd.QualityByName);
 
 
-            _dbContext2.TB_Log.Add(new TB_Log() { LogDateTime = DateTime.Now, TableName = "TB_WeightData", OldValue = JsonConvert.SerializeObject(update) });
+            _dbContext2.TB_Log.Add(new TB_Log() { LogDateTime = DateTime.Now, TableName = "TB_WeightData", OldValue = JsonConvert.SerializeObject(wd) });
             _dbContext2.SaveChanges();
 
 
 
-            _dbContext.TB_WeightData.Update(update);
+            _dbContext.TB_WeightData.Update(wd);
             _dbContext.SaveChanges();
             NotiAction(SequenceID, action, obj.Description);
             UpdateThirdParty(SequenceID, action);
