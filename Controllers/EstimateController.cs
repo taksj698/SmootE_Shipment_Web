@@ -25,7 +25,7 @@ namespace QuickVisualWebWood.Controllers
             ViewBag.CurrentAction = "Index";
             return View(_esBusiness.GetData(Id));
         }
-        public async Task<dynamic> save(PagePR obj)
+        public dynamic save(PagePR obj)
         {
             if (!ModelState.IsValid)
             {
@@ -39,11 +39,11 @@ namespace QuickVisualWebWood.Controllers
                     message = (errors != null && errors.Count > 0) ? errors.FirstOrDefault().ErrorMessage : string.Empty
                 });
             }
-            return await _esBusiness.AddorUpdate(obj, "บันทึก");
+            return _esBusiness.AddorUpdate(obj, "บันทึก");
         }
-        public async Task<dynamic> draft(PagePR obj)
+        public dynamic draft(PagePR obj)
         {
-            return await _esBusiness.AddorUpdate(obj, "บันทึกร่าง");
+            return _esBusiness.AddorUpdate(obj, "บันทึกร่าง");
         }
         public async Task<dynamic> upload(IFormFile file)
         {
