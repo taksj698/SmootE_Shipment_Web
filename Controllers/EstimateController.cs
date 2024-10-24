@@ -5,6 +5,7 @@ using QuickVisualWebWood.Data.BusinessUnit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Threading.Tasks;
 
 namespace QuickVisualWebWood.Controllers
 {
@@ -24,7 +25,7 @@ namespace QuickVisualWebWood.Controllers
             ViewBag.CurrentAction = "Index";
             return View(_esBusiness.GetData(Id));
         }
-        public dynamic save(PagePR obj)
+        public async Task<dynamic> save(PagePR obj)
         {
             if (!ModelState.IsValid)
             {
@@ -38,11 +39,11 @@ namespace QuickVisualWebWood.Controllers
                     message = (errors != null && errors.Count > 0) ? errors.FirstOrDefault().ErrorMessage : string.Empty
                 });
             }
-            return _esBusiness.AddorUpdate(obj, "บันทึก");
+            return await _esBusiness.AddorUpdate(obj, "บันทึก");
         }
-        public dynamic draft(PagePR obj)
+        public async Task<dynamic> draft(PagePR obj)
         {
-            return _esBusiness.AddorUpdate(obj, "บันทึกร่าง");
+            return await _esBusiness.AddorUpdate(obj, "บันทึกร่าง");
         }
         public async Task<dynamic> upload(IFormFile file)
         {

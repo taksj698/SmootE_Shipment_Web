@@ -3,7 +3,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using QuickVisualWebWood.Configs.Options;
 using QuickVisualWebWood.Core.dbModels;
+using QuickVisualWebWood.Core.pageModels.PurchaseRequisition;
 using QuickVisualWebWood.Core.serviceModels;
+using System.IO;
 using System.Security.Claims;
 
 namespace QuickVisualWebWood.Data.Services
@@ -119,5 +121,31 @@ namespace QuickVisualWebWood.Data.Services
                 Data = JsonConvert.SerializeObject(new { sequenceId = sequenceId, qualityState = qualityState, qualityByName = qualityByName })
             });
         }
+
+
+        public ResponseModel SaveFile(string base64,string contextType,string filename, string path)
+        {
+            var login = Login();
+            return _client.Post<ResponseModel>(new ParamsAPI()
+            {
+                Header = new List<BasicObject>()
+                { new BasicObject()
+                    {
+                        key = "Authorization",
+                        values = string.Format("Bearer {0}",(string)login.Data.token)
+                    }
+                },
+                Url = string.Format("{0}/{1}", _apiOption.endpoint, "api/Helper/SaveFile"),
+                Data = JsonConvert.SerializeObject(new 
+                {
+                    base64 = base64,
+                    contextType = contextType,
+                    filename = filename,
+                    path = path
+                })
+            });
+        }
+
+        
     }
 }

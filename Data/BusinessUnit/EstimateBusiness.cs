@@ -77,7 +77,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 positionId = Convert.ToInt32(finePositionId.Value);
             }
         }
-        public dynamic AddorUpdate(PagePR obj, string action)
+        public async Task<dynamic> AddorUpdate(PagePR obj, string action)
         {
             string SequenceID = string.Empty;
             var wd = _dbContext.TB_WeightData.FirstOrDefault(x => x.SequenceID == obj.SequenceID);
@@ -125,7 +125,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 _dbContext2.SaveChanges();
                 _dbContext.TB_QualityTransaction.Update(find);
                 _dbContext.SaveChanges();
-                AddOrUpdateFile(find.SequenceID);              
+                AddOrUpdateFile(find.SequenceID);
                 SequenceID = find.SequenceID;
             }
             else
@@ -195,7 +195,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
             _dbContext.TB_WeightData.Update(wd);
             _dbContext.SaveChanges();
             NotiAction(SequenceID, action, obj.Description);
-            UpdateThirdParty(SequenceID, action);
+           await UpdateThirdParty(SequenceID, action);
             return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ", url = "Home/MyTask" };
         }
         //public void UpdateThirdParty(string SequenceID, string action)
@@ -274,6 +274,12 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                         var rs = _risoServices.DeleteTbDocumentFile(SequenceID);
                     }));
 
+
+                    var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
+                    var reqFile = string.IsNullOrEmpty(sessionFile)
+                        ? new List<DocUpload>()
+                        : JsonConvert.DeserializeObject<List<DocUpload>>(sessionFile);
+
                     foreach (var item in DocFile)
                     {
                         tasks.Add(Task.Run(() =>
@@ -287,10 +293,22 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                             var mapper = new Mapper(config);
                             mapper.Map(item, data);
                             var result = _risoServices.TbDocumentFile(data);
+                            //var result2 = _risoServices.SaveFile();
                         }));
+
+
+
+                        if (reqFile != null && reqFile.Count > 0)
+                        {
+                            var find = reqFile.FirstOrDefault(x => x.filename == item.FileName);
+                            if (find != null)
+                            {
+                                var result = _risoServices.SaveFile(find.base64, find.ContentType, find.filename, item.FileParth);
+                            }
+                        }
+
                     }
                 }
-
                 // รอให้ทุก Task เสร็จสมบูรณ์
                 await Task.WhenAll(tasks);
             }
@@ -557,10 +575,12 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                     await file.CopyToAsync(stream);
                     fileBytes = stream.ToArray();
                 }
+                string extension = Path.GetExtension(file.FileName);
+                string newFileName = $"Doc_{DateTime.Now.ToString("dd_MM_yyyy_HHmmssfff")}{extension}";
                 reqFile.Add(new DocUpload
                 {
                     id = Guid.NewGuid().ToString(),
-                    filename = file.FileName,
+                    filename = newFileName,
                     extension = Path.GetExtension(file.FileName),
                     base64 = Convert.ToBase64String(fileBytes),
                     ContentType = file.ContentType
