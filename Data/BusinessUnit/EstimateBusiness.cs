@@ -332,7 +332,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
 
 
 
-        public async Task NotiAction(string SequenceID, string action, string reason)
+        public void NotiAction(string SequenceID, string action, string reason)
         {
             var find = (from weightData in _dbContext.TB_WeightData
                         join qu in _dbContext.TB_QualityTransaction on weightData.SequenceID equals qu.SequenceID into quGroup
