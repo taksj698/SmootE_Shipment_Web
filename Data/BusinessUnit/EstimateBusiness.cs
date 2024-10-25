@@ -1,32 +1,16 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+﻿
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
-using AutoMapper.Features;
-using QuickVisualWebWood.Configs.Extensions;
-using QuickVisualWebWood.Core.comModels;
 using QuickVisualWebWood.Core.dbModels;
 using QuickVisualWebWood.Core.pageModels.PurchaseRequisition;
 using QuickVisualWebWood.Data.Repository;
 using QuickVisualWebWood.Data.Repository.SQLServer;
 using QuickVisualWebWood.Data.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
-using WebGrease.Activities;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using QuickVisualWebWood.Core.pageModels.Home;
-using Microsoft.IdentityModel.Tokens;
 using QuickVisualWebWood.Core.serviceModels;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace QuickVisualWebWood.Data.BusinessUnit
 {
@@ -198,6 +182,27 @@ namespace QuickVisualWebWood.Data.BusinessUnit
             UpdateThirdParty(SequenceID, action);
             return new { result = true, type = "success", message = "บันทึกรายการสำเร็จ", url = "Home/MyTask" };
         }
+
+
+        public string ResizeImage(string base64Image, int newWidth, int newHeight)
+        {
+            // แปลง Base64 เป็นภาพ
+            byte[] imageBytes = Convert.FromBase64String(base64Image);
+            using (var ms = new MemoryStream(imageBytes))
+            {
+                using (var image = Image.Load(ms))
+                {
+                    // เปลี่ยนขนาดภาพ
+                    image.Mutate(x => x.Resize(newWidth, newHeight));
+                    using (var msResized = new MemoryStream())
+                    {
+                        // บันทึกภาพ resized เป็น Base64
+                        image.SaveAsPng(msResized); // หรือ SaveAsJpeg(), SaveAsGif() ตามต้องการ
+                        return Convert.ToBase64String(msResized.ToArray());
+                    }
+                }
+            }
+        }
         public void UpdateThirdParty(string SequenceID, string action)
         {
             if (action == "บันทึก")
@@ -253,82 +258,6 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 }
             }
         }
-        //public async Task UpdateThirdParty(string SequenceID, string action)
-        //{
-        //    if (action == "บันทึก")
-        //    {
-        //        var QtyTransTask = _dbContext.TB_QualityTransaction.Where(x => x.SequenceID == SequenceID).FirstOrDefaultAsync();
-        //        var DocFileTask = _dbContext.TB_DocumentFile.Where(x => x.SequenceID == SequenceID).ToListAsync();
-
-        //        var QtyTrans = await QtyTransTask;
-        //        var DocFile = await DocFileTask;
-
-        //        List<Task> tasks = new List<Task>();
-
-        //        if (QtyTrans != null)
-        //        {
-        //            TBQualityTransaction data = new TBQualityTransaction();
-        //            var config = new MapperConfiguration(cfg =>
-        //            {
-        //                cfg.CreateMap<TB_QualityTransaction, TBQualityTransaction>()
-        //                   .ForMember(dest => dest.id, opt => opt.Ignore());
-        //            });
-        //            var mapper = new Mapper(config);
-        //            mapper.Map(QtyTrans, data);
-
-        //            tasks.Add(Task.Run(() =>
-        //            {
-        //                var rs = _risoServices.DeleteTbQualityTransaction(SequenceID);
-        //                var result = _risoServices.TbQualityTransaction(data);
-        //            }));
-        //        }
-
-        //        if (DocFile != null && DocFile.Any())
-        //        {
-        //            tasks.Add(Task.Run(() =>
-        //            {
-        //                var rs = _risoServices.DeleteTbDocumentFile(SequenceID);
-        //            }));
-
-
-        //            var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
-        //            var reqFile = string.IsNullOrEmpty(sessionFile)
-        //                ? new List<DocUpload>()
-        //                : JsonConvert.DeserializeObject<List<DocUpload>>(sessionFile);
-
-        //            foreach (var item in DocFile)
-        //            {
-        //                tasks.Add(Task.Run(() =>
-        //                {
-        //                    TbDocumentFile data = new TbDocumentFile();
-        //                    var config = new MapperConfiguration(cfg =>
-        //                    {
-        //                        cfg.CreateMap<TB_DocumentFile, TbDocumentFile>()
-        //                           .ForMember(dest => dest.id, opt => opt.Ignore());
-        //                    });
-        //                    var mapper = new Mapper(config);
-        //                    mapper.Map(item, data);
-        //                    var result = _risoServices.TbDocumentFile(data);
-        //                    //var result2 = _risoServices.SaveFile();
-        //                }));
-
-
-
-        //                if (reqFile != null && reqFile.Count > 0)
-        //                {
-        //                    var find = reqFile.FirstOrDefault(x => x.filename == item.FileName);
-        //                    if (find != null)
-        //                    {
-        //                        var result = _risoServices.SaveFile(find.base64, find.ContentType, find.filename, item.FileParth);
-        //                    }
-        //                }
-
-        //            }
-        //        }
-        //        // รอให้ทุก Task เสร็จสมบูรณ์
-        //        await Task.WhenAll(tasks);
-        //    }
-        //}
 
 
 
@@ -370,7 +299,8 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                         {
                             foreach (var item in reqFile)
                             {
-                                _lineServices.LineImageNoti(new List<string>() { findToken.Value.Trim() }, find.CustomerName, item.base64, item.filename);
+                                var base64 = ResizeImage(item.base64, 800, 600);
+                                _lineServices.LineImageNoti(new List<string>() { findToken.Value.Trim() }, find.CustomerName, base64, item.filename);
                             }
                         }
                     }
