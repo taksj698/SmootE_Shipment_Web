@@ -358,12 +358,7 @@ namespace QuickVisualWebWood.Data.BusinessUnit
 
                 if (findToken != null && !string.IsNullOrEmpty(findToken.Value))
                 {
-                    // ส่งข้อความแบบ async เพื่อไม่ให้รอการตอบสนองทีละรายการ
-                    var sendTextTask = Task.Run(() =>
-                    {
-                        _lineServices.SendMessageByToken(new List<string>() { findToken.Value.Trim() }, alertMsg);
-                    });
-
+                    _lineServices.SendMessageByToken(new List<string>() { findToken.Value.Trim() }, alertMsg);
                     if (action == "บันทึก")
                     {
                         var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
@@ -373,25 +368,11 @@ namespace QuickVisualWebWood.Data.BusinessUnit
 
                         if (reqFile != null && reqFile.Any())
                         {
-                            // ส่งรูปภาพแบบ async และทำพร้อมกันหลายรายการ
-                            var sendImageTasks = reqFile.Select(item => Task.Run(() =>
+                            foreach (var item in reqFile)
                             {
                                 _lineServices.LineImageNoti(new List<string>() { findToken.Value.Trim() }, find.CustomerName, item.base64, item.filename);
-                            })).ToList();
-
-                            // รอจนกว่างานส่งข้อความและรูปภาพทั้งหมดจะเสร็จสิ้น
-                            await Task.WhenAll(sendTextTask, Task.WhenAll(sendImageTasks));
+                            }
                         }
-                        else
-                        {
-                            // ถ้าไม่มีไฟล์ ก็รอแค่ส่งข้อความ
-                            await sendTextTask;
-                        }
-                    }
-                    else
-                    {
-                        // ถ้าไม่มีการบันทึก ก็รอแค่ส่งข้อความ
-                        await sendTextTask;
                     }
                 }
 
