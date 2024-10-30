@@ -48,7 +48,7 @@ namespace QuickVisualWebWood.Data.Services
                     var bytes = Convert.FromBase64String(base64);
                     RestRequest request = new RestRequest("https://notify-api.line.me/api/notify", Method.Post);
                     request.AddHeader("Authorization", string.Format("Bearer {0}", item));
-                    request.AddParameter("message", msg);
+                    request.AddParameter("message", filename);
                     request.AddFile("imageFile", bytes, filename);
                     RestClient client = new RestClient();
                     var response = client.Execute(request);

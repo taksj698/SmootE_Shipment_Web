@@ -284,18 +284,18 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                 var findToken = _dbContext.TB_VisualConfigs.FirstOrDefault(x => x.Name == "LineToken");
 
                 string alertMsg = $"แจ้งเตือน\nสถานะ: {find.Status}\nทะเบียนรถ: {find.Plate}\nชื่อลูกค้า: {find.CustomerName}\nวันที่ทำรายการ: {find.TransctionDate}\nผลการประเมิน {find.EvaluationResults}\nสถานะ: {find.Status}\nหมายเหตุ: {find.Remark}";
-
                 if (findToken != null && !string.IsNullOrEmpty(findToken.Value))
                 {
                     _lineServices.SendMessageByToken(new List<string>() { findToken.Value.Trim() }, alertMsg);
+
+
                     if (action == "บันทึก")
                     {
                         var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
                         var reqFile = string.IsNullOrEmpty(sessionFile)
                             ? new List<DocUpload>()
                             : JsonConvert.DeserializeObject<List<DocUpload>>(sessionFile);
-
-                        if (reqFile != null && reqFile.Any())
+                        if (reqFile != null)
                         {
                             foreach (var item in reqFile)
                             {
@@ -305,111 +305,9 @@ namespace QuickVisualWebWood.Data.BusinessUnit
                         }
                     }
                 }
-
-
-                //if (findToken != null && !string.IsNullOrEmpty(findToken.Value))
-                //{
-                //    _lineServices.SendMessageByToken(new List<string>() { findToken.Value.Trim() }, alertMsg);
-
-
-                //    if (action == "บันทึก")
-                //    {
-                //        var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
-                //        var reqFile = string.IsNullOrEmpty(sessionFile)
-                //            ? new List<DocUpload>()
-                //            : JsonConvert.DeserializeObject<List<DocUpload>>(sessionFile);
-                //        if (reqFile != null)
-                //        {
-                //            foreach (var item in reqFile)
-                //            {
-                //                _lineServices.LineImageNoti(new List<string>() { findToken.Value.Trim() }, find.CustomerName, item.base64, item.filename);
-                //            }
-                //        }
-                //    }
-                //}
             }
         }
-        //public async Task AddOrUpdateFile(string SequenceID)
-        //{
-        //    var sessionFile = _haccess.HttpContext.Session.GetString("docfile");
-        //    var reqFile = string.IsNullOrEmpty(sessionFile)
-        //        ? new List<DocUpload>()
-        //        : JsonConvert.DeserializeObject<List<DocUpload>>(sessionFile);
 
-        //    var config = _dbContext.TB_VisualConfigs.FirstOrDefault(x => x.Name == "PathPicture");
-        //    var PathConfig = config != null ? config.Value : string.Empty;
-        //    var part = Path.Combine(PathConfig, SequenceID);
-
-        //    // ลบไฟล์ที่มีอยู่ก่อนหน้า
-        //    var find = await _dbContext.TB_DocumentFile.Where(x => x.SequenceID == SequenceID).ToListAsync();
-        //    if (find != null && find.Any())
-        //    {
-        //        List<Task> deleteTasks = new List<Task>();
-        //        foreach (var item in find)
-        //        {
-        //            var delPath = Path.Combine(PathConfig, item.FileParth);
-        //            if (File.Exists(delPath))
-        //            {
-        //                deleteTasks.Add(Task.Run(() => File.Delete(delPath)));
-        //            }
-        //            _dbContext.TB_DocumentFile.Remove(item);
-        //        }
-
-        //        // ลบไฟล์ในแบบขนาน
-        //        await Task.WhenAll(deleteTasks);
-        //        await _dbContext.SaveChangesAsync();
-        //    }
-
-        //    // สร้างไฟล์ใหม่
-        //    if (reqFile != null && reqFile.Count > 0)
-        //    {
-        //        bool exists = Directory.Exists(part);
-        //        if (!exists)
-        //        {
-        //            Directory.CreateDirectory(part);
-        //        }
-
-        //        List<TB_DocumentFile> newFiles = new List<TB_DocumentFile>();
-        //        List<TB_Log> logs = new List<TB_Log>();
-
-        //        foreach (var item in reqFile)
-        //        {
-        //            string fullPath = Path.Combine(part, item.filename);
-        //            byte[] fileBytes = Convert.FromBase64String(item.base64);
-
-        //            // เขียนไฟล์แบบ async
-        //            await File.WriteAllBytesAsync(fullPath, fileBytes);
-
-        //            var subpart = fullPath.Replace(PathConfig, string.Empty);
-        //            var newFile = new TB_DocumentFile
-        //            {
-        //                Extension = item.extension,
-        //                CreateBy = userId.ToString(),
-        //                CreateDate = DateTime.Now,
-        //                ContentType = item.ContentType,
-        //                SequenceID = SequenceID,
-        //                FileName = item.filename,
-        //                FileParth = subpart
-        //            };
-
-        //            newFiles.Add(newFile);
-        //            logs.Add(new TB_Log
-        //            {
-        //                LogDateTime = DateTime.Now,
-        //                TableName = "TB_DocumentFile",
-        //                OldValue = JsonConvert.SerializeObject(newFile)
-        //            });
-        //        }
-
-        //        // เพิ่มข้อมูล batch
-        //        await _dbContext.TB_DocumentFile.AddRangeAsync(newFiles);
-        //        await _dbContext.SaveChangesAsync();
-
-        //        // เพิ่ม log batch
-        //        await _dbContext2.TB_Log.AddRangeAsync(logs);
-        //        await _dbContext2.SaveChangesAsync();
-        //    }
-        //}
 
         public void AddOrUpdateFile(string SequenceID)
         {
