@@ -18,7 +18,7 @@ namespace SmootE_Shipment_Web.Data.Repository.SQLServer
             modelBuilder.Entity<PRResult>().HasNoKey();
         }
 
-        public DbSet<TB_Users> TB_Users { get; set; }
+        public DbSet<TB_User> TB_User { get; set; }
         public DbSet<TB_Customers> TB_Customers { get; set; }        
         public DbSet<TB_WeightData> TB_WeightData { get; set; }
         public DbSet<TB_QualityTransaction> TB_QualityTransaction { get; set; }

@@ -105,8 +105,6 @@ namespace SmootE_Shipment_Web.Data.BusinessUnit
                 find.ModifyDate = DateTime.Now;
                 find.ModifyBy = name;
 
-                _dbContext2.TB_Log.Add(new TB_Log() { LogDateTime = DateTime.Now, TableName = "TB_QualityTransaction", OldValue = JsonConvert.SerializeObject(find) });
-                _dbContext2.SaveChanges();
                 _dbContext.TB_QualityTransaction.Update(find);
                 _dbContext.SaveChanges();
                 AddOrUpdateFile(find.SequenceID);
@@ -150,8 +148,7 @@ namespace SmootE_Shipment_Web.Data.BusinessUnit
                 data.Inactive = false;
                 data.CreateDate = DateTime.Now;
                 data.CreateBy = name;
-                _dbContext2.TB_Log.Add(new TB_Log() { LogDateTime = DateTime.Now, TableName = "TB_QualityTransaction", OldValue = JsonConvert.SerializeObject(data) });
-                _dbContext2.SaveChanges();
+
                 _dbContext.TB_QualityTransaction.Add(data);
                 _dbContext.SaveChanges();
                 AddOrUpdateFile(data.SequenceID);
@@ -171,8 +168,6 @@ namespace SmootE_Shipment_Web.Data.BusinessUnit
             _risoServices.updateWeightData(SequenceID, wd.QualityState.Value, wd.QualityByName);
 
 
-            _dbContext2.TB_Log.Add(new TB_Log() { LogDateTime = DateTime.Now, TableName = "TB_WeightData", OldValue = JsonConvert.SerializeObject(wd) });
-            _dbContext2.SaveChanges();
 
 
 
@@ -368,9 +363,6 @@ namespace SmootE_Shipment_Web.Data.BusinessUnit
                     _dbContext.TB_DocumentFile.Add(file);
                     _dbContext.SaveChanges();
 
-
-                    _dbContext2.TB_Log.Add(new TB_Log() { LogDateTime = DateTime.Now, TableName = "TB_DocumentFile", OldValue = JsonConvert.SerializeObject(file) });
-                    _dbContext2.SaveChanges();
                 }
             }
         }
