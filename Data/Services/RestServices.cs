@@ -1,9 +1,9 @@
-﻿using QuickVisualWebWood.Core.serviceModels;
+﻿using SmootE_Shipment_Web.Core.serviceModels;
 using Newtonsoft.Json;
 using System.Globalization;
 using System.Text;
 
-namespace QuickVisualWebWood.Data.Services
+namespace SmootE_Shipment_Web.Data.Services
 {
 	public class RestServices
 	{

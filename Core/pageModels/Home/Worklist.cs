@@ -1,4 +1,4 @@
-﻿namespace QuickVisualWebWood.Core.pageModels.Home
+﻿namespace SmootE_Shipment_Web.Core.pageModels.Home
 {
 	public class Worklist
 	{

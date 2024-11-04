@@ -1,7 +1,7 @@
-﻿using QuickVisualWebWood.Core.dbModels;
+﻿using SmootE_Shipment_Web.Core.dbModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace QuickVisualWebWood.Core.pageModels.ManageDivision
+namespace SmootE_Shipment_Web.Core.pageModels.ManageDivision
 {
     public class PageManageDivision
     {

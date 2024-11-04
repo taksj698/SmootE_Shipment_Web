@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace QuickVisualWebWood.Core.pageModels.UserProfile
+namespace SmootE_Shipment_Web.Core.pageModels.UserProfile
 {
 	public class UserProfileModel
 	{

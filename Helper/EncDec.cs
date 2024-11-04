@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace QuickVisualWebWood.Helper
+namespace SmootE_Shipment_Web.Helper
 {
 	public static class EncDec
 	{

@@ -1,6 +1,6 @@
-﻿using QuickVisualWebWood.Data.Repository.SQLServer;
+﻿using SmootE_Shipment_Web.Data.Repository.SQLServer;
 
-namespace QuickVisualWebWood.Data.Repository
+namespace SmootE_Shipment_Web.Data.Repository
 {
 	public class WrapperRepository
 	{

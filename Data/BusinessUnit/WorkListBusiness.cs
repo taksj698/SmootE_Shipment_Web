@@ -1,15 +1,15 @@
 ﻿using System.Linq;
 using System.Security.Claims;
-using QuickVisualWebWood.Core.pageModels.Home;
-using QuickVisualWebWood.Data.Repository;
-using QuickVisualWebWood.Data.Repository.SQLServer;
+using SmootE_Shipment_Web.Core.pageModels.Home;
+using SmootE_Shipment_Web.Data.Repository;
+using SmootE_Shipment_Web.Data.Repository.SQLServer;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using QuickVisualWebWood.Data.Services;
+using SmootE_Shipment_Web.Data.Services;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace QuickVisualWebWood.Data.BusinessUnit
+namespace SmootE_Shipment_Web.Data.BusinessUnit
 {
     public class WorkListBusiness
     {

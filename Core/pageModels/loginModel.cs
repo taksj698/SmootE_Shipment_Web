@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace QuickVisualWebWood.Core.pageModels
+namespace SmootE_Shipment_Web.Core.pageModels
 {
 	public class loginModel
 	{

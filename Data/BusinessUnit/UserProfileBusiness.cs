@@ -1,14 +1,14 @@
-﻿using QuickVisualWebWood.Data.Repository.SQLServer;
-using QuickVisualWebWood.Data.Repository;
+﻿using SmootE_Shipment_Web.Data.Repository.SQLServer;
+using SmootE_Shipment_Web.Data.Repository;
 using System.Security.Claims;
-using QuickVisualWebWood.Core.pageModels.PurchaseRequisition;
-using QuickVisualWebWood.Core.pageModels.UserProfile;
-using QuickVisualWebWood.Data.Services;
-using QuickVisualWebWood.Core.serviceModels;
+using SmootE_Shipment_Web.Core.pageModels.PurchaseRequisition;
+using SmootE_Shipment_Web.Core.pageModels.UserProfile;
+using SmootE_Shipment_Web.Data.Services;
+using SmootE_Shipment_Web.Core.serviceModels;
 using Azure.Core;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace QuickVisualWebWood.Data.BusinessUnit
+namespace SmootE_Shipment_Web.Data.BusinessUnit
 {
     public class UserProfileBusiness
     {

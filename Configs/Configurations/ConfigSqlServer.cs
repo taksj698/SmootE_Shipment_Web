@@ -1,9 +1,9 @@
-﻿using QuickVisualWebWood.Configs.Options;
-using QuickVisualWebWood.Data.Repository.SQLServer;
+﻿using SmootE_Shipment_Web.Configs.Options;
+using SmootE_Shipment_Web.Data.Repository.SQLServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace QuickVisualWebWood.Configs.Configurations
+namespace SmootE_Shipment_Web.Configs.Configurations
 {
     public static class ConfigSqlServer
     {

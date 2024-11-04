@@ -1,6 +1,6 @@
 ﻿using Microsoft.Identity.Client;
 
-namespace QuickVisualWebWood.Core.comModels
+namespace SmootE_Shipment_Web.Core.comModels
 {
 	public class SidebarMenuModel
 	{

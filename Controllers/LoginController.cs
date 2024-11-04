@@ -1,16 +1,16 @@
-﻿using QuickVisualWebWood.Data.Repository;
+﻿using SmootE_Shipment_Web.Data.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using QuickVisualWebWood.Core.pageModels;
-using QuickVisualWebWood.Data.Repository.SQLServer;
+using SmootE_Shipment_Web.Core.pageModels;
+using SmootE_Shipment_Web.Data.Repository.SQLServer;
 using Microsoft.AspNetCore.Authorization;
-using QuickVisualWebWood.Data.Services;
-using QuickVisualWebWood.Helper;
+using SmootE_Shipment_Web.Data.Services;
+using SmootE_Shipment_Web.Helper;
 
-namespace QuickVisualWebWood.Controllers
+namespace SmootE_Shipment_Web.Controllers
 {
 	public class LoginController : Controller
 	{

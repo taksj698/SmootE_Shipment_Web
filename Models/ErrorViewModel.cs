@@ -1,4 +1,4 @@
-namespace QuickVisualWebWood.Models
+namespace SmootE_Shipment_Web.Models
 {
     public class ErrorViewModel
     {

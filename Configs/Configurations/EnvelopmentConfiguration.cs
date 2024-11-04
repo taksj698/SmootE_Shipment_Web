@@ -1,4 +1,4 @@
-﻿namespace QuickVisualWebWood.Configs.Configurations
+﻿namespace SmootE_Shipment_Web.Configs.Configurations
 {
     public static class EnvelopmentConfiguration
     {

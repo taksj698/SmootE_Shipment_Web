@@ -1,4 +1,4 @@
-﻿namespace QuickVisualWebWood.Core.dbStored
+﻿namespace SmootE_Shipment_Web.Core.dbStored
 {
 	public class PRResult
 	{

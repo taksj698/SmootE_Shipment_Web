@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace QuickVisualWebWood.Data.Services
+namespace SmootE_Shipment_Web.Data.Services
 {
     public class CryptographyServices
     {

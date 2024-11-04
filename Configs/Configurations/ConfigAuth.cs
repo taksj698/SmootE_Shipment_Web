@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace QuickVisualWebWood.Configs.Configurations
+namespace SmootE_Shipment_Web.Configs.Configurations
 {
     public static class ConfigAuth
     {

@@ -1,4 +1,4 @@
-﻿namespace QuickVisualWebWood.Configs.Options
+﻿namespace SmootE_Shipment_Web.Configs.Options
 {
     public class ApiOption
     {

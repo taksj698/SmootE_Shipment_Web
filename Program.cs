@@ -1,5 +1,5 @@
-using QuickVisualWebWood.Configs.Autofacs;
-using QuickVisualWebWood.Configs.Configurations;
+using SmootE_Shipment_Web.Configs.Autofacs;
+using SmootE_Shipment_Web.Configs.Configurations;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +20,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = "QuickVisualWebWood";
+    options.Cookie.Name = "SmootE_Shipment_Web";
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.IsEssential = true;
 });

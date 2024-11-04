@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using QuickVisualWebWood.Configs.Options;
-using QuickVisualWebWood.Core.dbModels;
-using QuickVisualWebWood.Core.pageModels.PurchaseRequisition;
-using QuickVisualWebWood.Core.serviceModels;
+using SmootE_Shipment_Web.Configs.Options;
+using SmootE_Shipment_Web.Core.dbModels;
+using SmootE_Shipment_Web.Core.pageModels.PurchaseRequisition;
+using SmootE_Shipment_Web.Core.serviceModels;
 using System.IO;
 using System.Security.Claims;
 
-namespace QuickVisualWebWood.Data.Services
+namespace SmootE_Shipment_Web.Data.Services
 {
     public class RisoServices
     {

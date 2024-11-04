@@ -1,13 +1,13 @@
 ﻿
-using QuickVisualWebWood.Core.pageModels;
-using QuickVisualWebWood.Core.pageModels.PurchaseRequisition;
-using QuickVisualWebWood.Data.BusinessUnit;
+using SmootE_Shipment_Web.Core.pageModels;
+using SmootE_Shipment_Web.Core.pageModels.PurchaseRequisition;
+using SmootE_Shipment_Web.Data.BusinessUnit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Threading.Tasks;
 
-namespace QuickVisualWebWood.Controllers
+namespace SmootE_Shipment_Web.Controllers
 {
     [Authorize]
     public class EstimateController : Controller

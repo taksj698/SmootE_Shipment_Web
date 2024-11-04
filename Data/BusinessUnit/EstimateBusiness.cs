@@ -2,17 +2,17 @@
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
-using QuickVisualWebWood.Core.dbModels;
-using QuickVisualWebWood.Core.pageModels.PurchaseRequisition;
-using QuickVisualWebWood.Data.Repository;
-using QuickVisualWebWood.Data.Repository.SQLServer;
-using QuickVisualWebWood.Data.Services;
+using SmootE_Shipment_Web.Core.dbModels;
+using SmootE_Shipment_Web.Core.pageModels.PurchaseRequisition;
+using SmootE_Shipment_Web.Data.Repository;
+using SmootE_Shipment_Web.Data.Repository.SQLServer;
+using SmootE_Shipment_Web.Data.Services;
 using Newtonsoft.Json;
-using QuickVisualWebWood.Core.serviceModels;
+using SmootE_Shipment_Web.Core.serviceModels;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
-namespace QuickVisualWebWood.Data.BusinessUnit
+namespace SmootE_Shipment_Web.Data.BusinessUnit
 {
     public class EstimateBusiness
     {

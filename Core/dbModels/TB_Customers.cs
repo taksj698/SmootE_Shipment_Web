@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace QuickVisualWebWood.Core.dbModels
+namespace SmootE_Shipment_Web.Core.dbModels
 {
     [Table(nameof(TB_Customers))]
     public class TB_Customers

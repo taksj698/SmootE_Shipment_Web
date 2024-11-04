@@ -1,9 +1,9 @@
-﻿using QuickVisualWebWood.Core.pageModels.UserProfile;
-using QuickVisualWebWood.Data.BusinessUnit;
+﻿using SmootE_Shipment_Web.Core.pageModels.UserProfile;
+using SmootE_Shipment_Web.Data.BusinessUnit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace QuickVisualWebWood.Controllers
+namespace SmootE_Shipment_Web.Controllers
 {
 	//[Authorize(Roles = "user, admin")]
 	public class UserProfileController : Controller

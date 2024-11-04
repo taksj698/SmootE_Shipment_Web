@@ -1,9 +1,9 @@
-﻿using QuickVisualWebWood.Core.dbModels;
-using QuickVisualWebWood.Core.pageModels.ManageDivision;
+﻿using SmootE_Shipment_Web.Core.dbModels;
+using SmootE_Shipment_Web.Core.pageModels.ManageDivision;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
-namespace QuickVisualWebWood.Core.pageModels.ManageApproval
+namespace SmootE_Shipment_Web.Core.pageModels.ManageApproval
 {
     public class PageManageApproval
     {

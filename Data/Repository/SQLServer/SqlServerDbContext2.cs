@@ -1,10 +1,10 @@
-﻿using QuickVisualWebWood.Core.dbModels;
-using QuickVisualWebWood.Core.dbStored;
+﻿using SmootE_Shipment_Web.Core.dbModels;
+using SmootE_Shipment_Web.Core.dbStored;
 using Microsoft.Ajax.Utilities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace QuickVisualWebWood.Data.Repository.SQLServer
+namespace SmootE_Shipment_Web.Data.Repository.SQLServer
 {
     public class SqlServerDbContext2 : DbContext
     {

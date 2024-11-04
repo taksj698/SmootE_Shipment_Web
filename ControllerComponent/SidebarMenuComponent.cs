@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
-using QuickVisualWebWood.Core.comModels;
+using SmootE_Shipment_Web.Core.comModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace QuickVisualWebWood.ControllerComponent
+namespace SmootE_Shipment_Web.ControllerComponent
 {
 	public class SidebarMenuComponent : ViewComponent
 	{

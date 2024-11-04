@@ -1,10 +1,10 @@
-﻿using QuickVisualWebWood.Core.dbModels;
-using QuickVisualWebWood.Core.pageModels.ManagePosition;
+﻿using SmootE_Shipment_Web.Core.dbModels;
+using SmootE_Shipment_Web.Core.pageModels.ManagePosition;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 
-namespace QuickVisualWebWood.Core.pageModels.ManageUser
+namespace SmootE_Shipment_Web.Core.pageModels.ManageUser
 {
     public class PageManageUser
     {

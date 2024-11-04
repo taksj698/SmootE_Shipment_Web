@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
 using Autofac;
-using QuickVisualWebWood.Configs.Extensions;
-using QuickVisualWebWood.Configs.Options;
+using SmootE_Shipment_Web.Configs.Extensions;
+using SmootE_Shipment_Web.Configs.Options;
 
-namespace QuickVisualWebWood.Configs.Configurations
+namespace SmootE_Shipment_Web.Configs.Configurations
 {
     public class RegisterInstant : Autofac.Module
     {

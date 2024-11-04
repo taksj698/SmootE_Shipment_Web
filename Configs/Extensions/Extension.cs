@@ -1,4 +1,4 @@
-﻿namespace QuickVisualWebWood.Configs.Extensions
+﻿namespace SmootE_Shipment_Web.Configs.Extensions
 {
 	public static class Extension
 	{

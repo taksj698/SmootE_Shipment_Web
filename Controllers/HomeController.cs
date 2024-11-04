@@ -1,10 +1,10 @@
-using QuickVisualWebWood.Data.BusinessUnit;
-using QuickVisualWebWood.Models;
+using SmootE_Shipment_Web.Data.BusinessUnit;
+using SmootE_Shipment_Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace QuickVisualWebWood.Controllers
+namespace SmootE_Shipment_Web.Controllers
 {
 	[Authorize]
 	public class HomeController : Controller

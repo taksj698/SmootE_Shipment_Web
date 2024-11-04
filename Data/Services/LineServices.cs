@@ -1,9 +1,9 @@
-﻿using QuickVisualWebWood.Data.Repository.SQLServer;
-using QuickVisualWebWood.Data.Repository;
-using QuickVisualWebWood.Core.serviceModels;
+﻿using SmootE_Shipment_Web.Data.Repository.SQLServer;
+using SmootE_Shipment_Web.Data.Repository;
+using SmootE_Shipment_Web.Core.serviceModels;
 using RestSharp;
 
-namespace QuickVisualWebWood.Data.Services
+namespace SmootE_Shipment_Web.Data.Services
 {
     public class LineServices
     {

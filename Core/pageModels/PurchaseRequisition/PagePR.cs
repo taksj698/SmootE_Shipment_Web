@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace QuickVisualWebWood.Core.pageModels.PurchaseRequisition
+namespace SmootE_Shipment_Web.Core.pageModels.PurchaseRequisition
 {
     public class PagePR
     {

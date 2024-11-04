@@ -1,13 +1,13 @@
-﻿using QuickVisualWebWood.Core.comModels;
-using QuickVisualWebWood.Core.dbModels;
-using QuickVisualWebWood.Data.Repository.SQLServer;
-using QuickVisualWebWood.Data.Repository;
+﻿using SmootE_Shipment_Web.Core.comModels;
+using SmootE_Shipment_Web.Core.dbModels;
+using SmootE_Shipment_Web.Data.Repository.SQLServer;
+using SmootE_Shipment_Web.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using QuickVisualWebWood.Core.pageModels.PurchaseRequisition;
-using QuickVisualWebWood.Core.pageModels.Home;
+using SmootE_Shipment_Web.Core.pageModels.PurchaseRequisition;
+using SmootE_Shipment_Web.Core.pageModels.Home;
 
-namespace QuickVisualWebWood.ControllerComponent.Home
+namespace SmootE_Shipment_Web.ControllerComponent.Home
 {
 	public class WorkListTableComponent : ViewComponent
 	{

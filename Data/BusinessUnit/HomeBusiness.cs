@@ -7,13 +7,13 @@ using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
 using AutoMapper.Features;
-using QuickVisualWebWood.Configs.Extensions;
-using QuickVisualWebWood.Core.comModels;
-using QuickVisualWebWood.Core.dbModels;
-using QuickVisualWebWood.Core.pageModels.PurchaseRequisition;
-using QuickVisualWebWood.Data.Repository;
-using QuickVisualWebWood.Data.Repository.SQLServer;
-using QuickVisualWebWood.Data.Services;
+using SmootE_Shipment_Web.Configs.Extensions;
+using SmootE_Shipment_Web.Core.comModels;
+using SmootE_Shipment_Web.Core.dbModels;
+using SmootE_Shipment_Web.Core.pageModels.PurchaseRequisition;
+using SmootE_Shipment_Web.Data.Repository;
+using SmootE_Shipment_Web.Data.Repository.SQLServer;
+using SmootE_Shipment_Web.Data.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,12 +23,12 @@ using Newtonsoft.Json;
 using WebGrease.Activities;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using QuickVisualWebWood.Core.pageModels.Home;
+using SmootE_Shipment_Web.Core.pageModels.Home;
 using Microsoft.IdentityModel.Tokens;
-using QuickVisualWebWood.Core.serviceModels;
+using SmootE_Shipment_Web.Core.serviceModels;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace QuickVisualWebWood.Data.BusinessUnit
+namespace SmootE_Shipment_Web.Data.BusinessUnit
 {
 	public class HomeBusiness
 	{

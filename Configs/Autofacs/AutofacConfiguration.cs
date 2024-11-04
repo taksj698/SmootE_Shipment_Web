@@ -1,8 +1,8 @@
 ﻿using Autofac.Extensions.DependencyInjection;
 using Autofac;
-using QuickVisualWebWood.Configs.Configurations;
+using SmootE_Shipment_Web.Configs.Configurations;
 
-namespace QuickVisualWebWood.Configs.Autofacs
+namespace SmootE_Shipment_Web.Configs.Autofacs
 {
 	public static class AutofacConfiguration
 	{
