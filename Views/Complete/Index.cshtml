@@ -1,0 +1,149 @@
+﻿@{
+    ViewData["Title"] = "Complete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Complete</h1>
+    </div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">รายการ</h5>
+            <table class="table datatable ">
+                <thead>
+                    <tr>
+
+                        <th class="text-center" scope="col">ลำดับ</th>
+                        <th class="text-center">EFX.NO.</th>
+                        <th class="text-center">วันที่</th>
+                        <th class="text-center">REF.NO.</th>
+                        <th class="text-left">ชื่อลูกค้า</th>
+                        <th class="text-left">ประเทศ</th>
+                        <th class="text-center">สถานะ</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">a</td>
+                        <td class="text-center">a</td>
+                        <td class="text-center">a</td>
+                        <td class="text-center">a</td>
+                        <td class="text-left">a</td>
+                        <td class="text-left">a</td>
+                        <td class="text-center">a</td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-secondary">
+                                <i class="ri ri-file-copy-2-line"></i>
+                            </button>
+                        </td>
+                    </tr>
+ @*                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-center"><a href="@Url.Action("Index", "Estimate")/@item.SequenceID"><span class="badge bg-info me-1">@item.Plate</span></a></td>
+                                <td class="text-center">@item.WeightTypeName</td>
+                                <td>@item.CustomerName</td>
+                                <td class="text-center">@item.TransctionDate</td>
+                                <td class="text-left">@item.Branch</td>
+                                <td class="text-center">@item.QualityByName</td>
+                                <td class="text-center">@item.UpdateDate</td>
+                                <td class="text-center">@item.EvaluationResults</td>
+                                <td class="text-center">@item.Status</td>
+                                <td>@item.Remark</td>
+                                @if (item.IsCancel)
+                                {
+                                    <td><input type="button" class="btn btn-sm btn-danger" value="ยกเลิก" onclick="controller.oncancel('@item.SequenceID')" /></td>
+                                }
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center">ไม่พบข้อมูล</td>
+                        </tr>
+                    } *@
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            // controller.save = function () {
+            //     services.ConfirmAlert("", "", "", "", "", function (result) {
+            //         if (result.isConfirmed) {
+            //             var data = new FormData($('#formdata').get(0));
+            //             services.AjaxPostForm("@Url.Action("save", "Estimate")", data, function (response) {
+            //                 services.CustomAlert1(response);
+            //             });
+            //         }
+            //     });
+            // }
+            // controller.draft = function () {
+            //     services.ConfirmAlert("", "", "", "", "", function (result) {
+            //         if (result.isConfirmed) {
+            //             var data = new FormData($('#formdata').get(0));
+            //             services.AjaxPostForm("@Url.Action("draft", "Estimate")", data, function (response) {
+            //                 services.CustomAlert1(response);
+            //             });
+            //         }
+            //     });
+            // }
+            // controller.upload = function () {
+            //     var file = $("#fileInput")[0].files[0];
+            //     var formData = new FormData();
+            //     formData.append('file', file);
+            //     services.AjaxPostForm("@Url.Action("upload", "Estimate")", formData, function (response) {
+            //         $("#fileInput").val('');
+            //         services.CustomAlert1(response);
+            //         loadComponentDocFile();
+            //     });
+            // }
+            // controller.deletefile = function (id) {
+            //     services.ConfirmAlert("", "", "", "", "", function (result) {
+            //         if (result.isConfirmed) {
+            //             $.ajax({
+            //                 url: '@Url.Action("deletefile", "Estimate")',
+            //                 type: 'POST',
+            //                 data: { id: id },
+            //                 success: function (data) {
+            //                     services.CustomAlert1(data);
+            //                     loadComponentDocFile();
+            //                 }
+            //             });
+            //         }
+            //     });
+            // }
+        });
+
+
+        // function loadComponentDocFile() {
+        //     $.ajax({
+        //         url: '@Url.Action("LoadComponentDocFile", "Estimate")',
+        //         type: 'GET',
+        //         success: function (data) {
+        //             $('#componentDocfile').html(data);
+        //         }
+        //     });
+        // }
+
+
+        // function viewImage(item) {
+        //     console.log(item);
+        //     const imageUrl = `data:${item.ContentType};base64,${item.base64}`;
+        //     const modalImage = document.getElementById('modalImage');
+        //     modalImage.src = imageUrl; Set the image source
+        //     $('#imageModal').modal('show'); Show the modal
+        // }
+    </script>
+}

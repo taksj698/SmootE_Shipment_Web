@@ -44,61 +44,61 @@ namespace SmootE_Shipment_Web.Data.BusinessUnit
         {
 
             Worklist obj = new Worklist();
-            obj.data = (from weightData in _dbContext.TB_WeightData
-                        join weightType in _dbContext.TB_WeightType on weightData.WeightTypeID equals weightType.WeightTypeID
-                        join qu in _dbContext.TB_QualityTransaction on weightData.SequenceID equals qu.SequenceID into quGroup
-                        from qu in quGroup.DefaultIfEmpty()
-                        let customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == weightData.CustomerID)
-                        let branch = _dbContext.TB_Branch.FirstOrDefault(x => x.BranchID == weightData.BranchID)
-                        where (weightData.WeightState != null && !weightData.WeightState.Value) &&
-                        (weightData.CancelState != null && weightData.CancelState.Value == 0) &&
-                        (string.IsNullOrEmpty(qu.Status) || (!string.IsNullOrEmpty(qu.Status)) && qu.Status == "บันทึกร่าง")
-                        select new WorklistData
-                        {
-                            WeighNumber = weightData.TicketCodeIn,
-                            SequenceID = weightData.SequenceID,
-                            Plate = weightData.Plate1,
-                            WeightTypeName = weightType.WeightTypeName,
-                            CustomerName = (customer != null && !string.IsNullOrEmpty(customer.CustomerName)) ? customer.CustomerName : "-",
-                            TransctionDate = (qu != null && qu.QualityDate != null) ? qu.QualityDate.Value.ToString("dd/MM/yyyy") : "-",
-                            EvaluationResults = (qu != null && !string.IsNullOrEmpty(qu.ResultText)) ? qu.ResultText : "-",
-                            Status = (qu != null && !string.IsNullOrEmpty(qu.Status)) ? qu.Status : "-",
-                            Remark = (qu != null && !string.IsNullOrEmpty(qu.Description)) ? qu.Description : "-",
-                            Branch = (branch != null) ? branch.BranchName : "-",
-                            QualityByName = (!string.IsNullOrEmpty(weightData.QualityByName)) ? weightData.QualityByName : "-",
-                            UpdateDate = (qu.ModifyDate != null) ? qu.ModifyDate.Value.ToString("dd/MM/yyyy HH:mm") : (qu.CreateDate != null) ? qu.CreateDate.Value.ToString("dd/MM/yyyy HH:mm") : "-"
-                        }).ToList();
+            //obj.data = (from weightData in _dbContext.TB_WeightData
+            //            join weightType in _dbContext.TB_WeightType on weightData.WeightTypeID equals weightType.WeightTypeID
+            //            join qu in _dbContext.TB_QualityTransaction on weightData.SequenceID equals qu.SequenceID into quGroup
+            //            from qu in quGroup.DefaultIfEmpty()
+            //            let customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == weightData.CustomerID)
+            //            let branch = _dbContext.TB_Branch.FirstOrDefault(x => x.BranchID == weightData.BranchID)
+            //            where (weightData.WeightState != null && !weightData.WeightState.Value) &&
+            //            (weightData.CancelState != null && weightData.CancelState.Value == 0) &&
+            //            (string.IsNullOrEmpty(qu.Status) || (!string.IsNullOrEmpty(qu.Status)) && qu.Status == "บันทึกร่าง")
+            //            select new WorklistData
+            //            {
+            //                WeighNumber = weightData.TicketCodeIn,
+            //                SequenceID = weightData.SequenceID,
+            //                Plate = weightData.Plate1,
+            //                WeightTypeName = weightType.WeightTypeName,
+            //                CustomerName = (customer != null && !string.IsNullOrEmpty(customer.CustomerName)) ? customer.CustomerName : "-",
+            //                TransctionDate = (qu != null && qu.QualityDate != null) ? qu.QualityDate.Value.ToString("dd/MM/yyyy") : "-",
+            //                EvaluationResults = (qu != null && !string.IsNullOrEmpty(qu.ResultText)) ? qu.ResultText : "-",
+            //                Status = (qu != null && !string.IsNullOrEmpty(qu.Status)) ? qu.Status : "-",
+            //                Remark = (qu != null && !string.IsNullOrEmpty(qu.Description)) ? qu.Description : "-",
+            //                Branch = (branch != null) ? branch.BranchName : "-",
+            //                QualityByName = (!string.IsNullOrEmpty(weightData.QualityByName)) ? weightData.QualityByName : "-",
+            //                UpdateDate = (qu.ModifyDate != null) ? qu.ModifyDate.Value.ToString("dd/MM/yyyy HH:mm") : (qu.CreateDate != null) ? qu.CreateDate.Value.ToString("dd/MM/yyyy HH:mm") : "-"
+            //            }).ToList();
             return obj;
         }
         public Worklist Complete()
         {
 
             Worklist obj = new Worklist();
-            obj.data = (from weightData in _dbContext.TB_WeightData
-                        join weightType in _dbContext.TB_WeightType on weightData.WeightTypeID equals weightType.WeightTypeID
-                        join qu in _dbContext.TB_QualityTransaction on weightData.SequenceID equals qu.SequenceID into quGroup
-                        from qu in quGroup.DefaultIfEmpty()
-                        let customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == weightData.CustomerID)
-                        let branch = _dbContext.TB_Branch.FirstOrDefault(x => x.BranchID == weightData.BranchID)
-                        where (weightData.WeightState != null && !weightData.WeightState.Value) &&
-                        (weightData.CancelState != null && weightData.CancelState.Value == 0) &&
-                        ((!string.IsNullOrEmpty(qu.Status)) && qu.Status == "บันทึก")
-                        select new WorklistData
-                        {
-                            WeighNumber = weightData.TicketCodeIn,
-                            SequenceID = weightData.SequenceID,
-                            Plate = weightData.Plate1,
-                            WeightTypeName = weightType.WeightTypeName,
-                            CustomerName = (customer != null && !string.IsNullOrEmpty(customer.CustomerName)) ? customer.CustomerName : "-",
-                            TransctionDate = (qu != null && qu.QualityDate != null) ? qu.QualityDate.Value.ToString("dd/MM/yyyy") : "-",
-                            EvaluationResults = (qu != null && !string.IsNullOrEmpty(qu.ResultText)) ? qu.ResultText : "-",
-                            Status = (qu != null && !string.IsNullOrEmpty(qu.Status)) ? qu.Status : "-",
-                            Remark = (qu != null && !string.IsNullOrEmpty(qu.Description)) ? qu.Description : "-",
-                            Branch = (branch != null) ? branch.BranchName : "-",
-                            QualityByName = (!string.IsNullOrEmpty(weightData.QualityByName)) ? weightData.QualityByName : "-",
-                            UpdateDate = (qu.ModifyDate != null) ? qu.ModifyDate.Value.ToString("dd/MM/yyyy HH:mm") : (qu.CreateDate != null) ? qu.CreateDate.Value.ToString("dd/MM/yyyy HH:mm") : "-",
-                            IsCancel = true
-                        }).ToList();
+            //obj.data = (from weightData in _dbContext.TB_WeightData
+            //            join weightType in _dbContext.TB_WeightType on weightData.WeightTypeID equals weightType.WeightTypeID
+            //            join qu in _dbContext.TB_QualityTransaction on weightData.SequenceID equals qu.SequenceID into quGroup
+            //            from qu in quGroup.DefaultIfEmpty()
+            //            let customer = _dbContext.TB_Customers.FirstOrDefault(x => x.CustomerID == weightData.CustomerID)
+            //            let branch = _dbContext.TB_Branch.FirstOrDefault(x => x.BranchID == weightData.BranchID)
+            //            where (weightData.WeightState != null && !weightData.WeightState.Value) &&
+            //            (weightData.CancelState != null && weightData.CancelState.Value == 0) &&
+            //            ((!string.IsNullOrEmpty(qu.Status)) && qu.Status == "บันทึก")
+            //            select new WorklistData
+            //            {
+            //                WeighNumber = weightData.TicketCodeIn,
+            //                SequenceID = weightData.SequenceID,
+            //                Plate = weightData.Plate1,
+            //                WeightTypeName = weightType.WeightTypeName,
+            //                CustomerName = (customer != null && !string.IsNullOrEmpty(customer.CustomerName)) ? customer.CustomerName : "-",
+            //                TransctionDate = (qu != null && qu.QualityDate != null) ? qu.QualityDate.Value.ToString("dd/MM/yyyy") : "-",
+            //                EvaluationResults = (qu != null && !string.IsNullOrEmpty(qu.ResultText)) ? qu.ResultText : "-",
+            //                Status = (qu != null && !string.IsNullOrEmpty(qu.Status)) ? qu.Status : "-",
+            //                Remark = (qu != null && !string.IsNullOrEmpty(qu.Description)) ? qu.Description : "-",
+            //                Branch = (branch != null) ? branch.BranchName : "-",
+            //                QualityByName = (!string.IsNullOrEmpty(weightData.QualityByName)) ? weightData.QualityByName : "-",
+            //                UpdateDate = (qu.ModifyDate != null) ? qu.ModifyDate.Value.ToString("dd/MM/yyyy HH:mm") : (qu.CreateDate != null) ? qu.CreateDate.Value.ToString("dd/MM/yyyy HH:mm") : "-",
+            //                IsCancel = true
+            //            }).ToList();
             return obj;
         }
 
@@ -106,35 +106,35 @@ namespace SmootE_Shipment_Web.Data.BusinessUnit
         {
             var context = _wrapper._dbContext;
 
-            // Combine queries to minimize roundtrips
-            var findData = await context.TB_WeightData
-                .Where(x => x.SequenceID == id)
-                .Select(x => new
-                {
-                    WeightData = x,
-                    DocumentFiles = context.TB_DocumentFile.Where(d => d.SequenceID == id).ToList(),
-                    QualityTransactions = context.TB_QualityTransaction.Where(q => q.SequenceID == id).ToList()
-                }).FirstOrDefaultAsync();
+          
+            //var findData = await context.TB_WeightData
+            //    .Where(x => x.SequenceID == id)
+            //    .Select(x => new
+            //    {
+            //        WeightData = x,
+            //        DocumentFiles = context.TB_DocumentFile.Where(d => d.SequenceID == id).ToList(),
+            //        QualityTransactions = context.TB_QualityTransaction.Where(q => q.SequenceID == id).ToList()
+            //    }).FirstOrDefaultAsync();
 
-            if (findData?.WeightData != null)
-            {
-                // Update WeightData properties
-                findData.WeightData.WeightState = false;
-                findData.WeightData.QualityState = false;
-                findData.WeightData.QualityByName = null;
+            //if (findData?.WeightData != null)
+            //{
+             
+            //    findData.WeightData.WeightState = false;
+            //    findData.WeightData.QualityState = false;
+            //    findData.WeightData.QualityByName = null;
 
-                // Perform batch updates and deletions
-                context.TB_WeightData.Update(findData.WeightData);
-                context.TB_DocumentFile.RemoveRange(findData.DocumentFiles);
-                context.TB_QualityTransaction.RemoveRange(findData.QualityTransactions);
+            //    // Perform batch updates and deletions
+            //    context.TB_WeightData.Update(findData.WeightData);
+            //    context.TB_DocumentFile.RemoveRange(findData.DocumentFiles);
+            //    context.TB_QualityTransaction.RemoveRange(findData.QualityTransactions);
 
-                await context.SaveChangesAsync();
-            }
+            //    await context.SaveChangesAsync();
+            //}
 
-            // External service calls
-            var resQty = _risoServices.DeleteTbQualityTransaction(id);
-            var rsDoc = _risoServices.DeleteTbDocumentFile(id);
-            var res = _risoServices.updateWeightData(id, findData?.WeightData.QualityState ?? false, string.Empty);
+            //// External service calls
+            //var resQty = _risoServices.DeleteTbQualityTransaction(id);
+            //var rsDoc = _risoServices.DeleteTbDocumentFile(id);
+            //var res = _risoServices.updateWeightData(id, findData?.WeightData.QualityState ?? false, string.Empty);
 
             return new { result = true, type = "success", message = "ยกเลิกรายการสำเร็จ", url = "Home/Complete" };
         }

@@ -1,28 +1,23 @@
 ﻿@model SmootE_Shipment_Web.Core.comModels.SidebarMenuModel
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
+
+
+
+
         <li class="nav-item">
-            <a class="nav-link @((ViewBag.CurrentController == "Home") ? "" : "collapsed")" data-bs-target="#list-nav" data-bs-toggle="collapse" href="#">
-                <i class="ri-folders-fill icon-size"></i>
-                <span class="menu-head">บันทึกงาน</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link @(ViewBag.CurrentController == "CheckLoad"  ? "" : "collapsed")" href="@Url.Action("", "CheckLoad")">
+                <i class="bi bi-person"></i>
+                <span>Check Load</span>
             </a>
-            <ul id="list-nav" class="nav-content collapse @((ViewBag.CurrentController == "Home") ? "show" : "")" data-bs-parent="#sidebar-nav">
-                <li>
-                    <a class="@((ViewBag.CurrentController == "Home" && ViewBag.CurrentAction == "MyTask") ? "active" : "")" href="@Url.Action("MyTask", "Home")">
-                        <i class="ri-folder-received-fill icon-size"></i>
-                        <span class="menu-item">งานที่ต้องทำ</span>
-                    </a>
-                </li>
-            </ul>
-            <ul id="list-nav" class="nav-content collapse @((ViewBag.CurrentController == "Home") ? "show" : "")" data-bs-parent="#sidebar-nav">
-                <li>
-                    <a class="@((ViewBag.CurrentController == "Home" && ViewBag.CurrentAction == "Complete") ? "active" : "")" href="@Url.Action("Complete", "Home")">
-                        <i class="ri-folder-shared-fill icon-size"></i>
-                        <span class="menu-item">งานที่เสร็จแล้ว</span>
-                    </a>
-                </li>
-            </ul>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link @(ViewBag.CurrentController == "Complete"  ? "" : "collapsed")" href="@Url.Action("", "Complete")">
+                <i class="bi bi-person"></i>
+                <span>Complete</span>
+            </a>
         </li>
     </ul>
 </aside>
