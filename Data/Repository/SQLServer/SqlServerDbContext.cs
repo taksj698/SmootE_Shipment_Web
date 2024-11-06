@@ -19,6 +19,9 @@ namespace SmootE_Shipment_Web.Data.Repository.SQLServer
         }
 
         public DbSet<TB_User> TB_User { get; set; }
+        public DbSet<TB_Package> TB_Package { get; set; }
+        public DbSet<TB_PackingHeader> TB_PackingHeader { get; set; }
+        public DbSet<TB_PackingDetails> TB_PackingDetails { get; set; }
 
     }
 }
