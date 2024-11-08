@@ -1,4 +1,5 @@
-﻿@{
+﻿@model SmootE_Shipment_Web.Core.pageModels.CheckLoad.PageCheckLoad
+@{
     ViewData["Title"] = "Complete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -22,93 +23,110 @@
                             <div class="row">
                                 <div class="col-6 mb-3">
                                     <label class="form-label">EFX.No.</label>
-                                    <input type="text" class="form-control">
+                                    @Html.TextBoxFor(x => x.pageCheckLoadTop.efxNo, new { @class = "form-control" })
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label class="form-label">REF.No.</label>
-                                    <input type="text" class="form-control">
+                                    @Html.TextBoxFor(x => x.pageCheckLoadTop.refNo, new { @class = "form-control" })
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label class="form-label">ลูกค้า</label>
-                                    <input type="text" class="form-control">
+                                    @Html.TextBoxFor(x => x.pageCheckLoadTop.customer, new { @class = "form-control" })
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label class="form-label">ประเทศ</label>
-                                    <input type="text" class="form-control">
+                                    @Html.TextBoxFor(x => x.pageCheckLoadTop.country, new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    @if (Model.pageCheckLoadData != null)
+                    {
+                        int index = 0;
+                        foreach (var item in Model.pageCheckLoadData)
+                        {
+                            var accordionId = $"accordionItem{index}";
+                            var collapseId = $"collapse{index}";
+
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item border-0 shadow-sm mb-3">
+                                    <h2 class="accordion-header d-flex justify-content-between align-items-center p-3 bg-light rounded" id="@(accordionId)">
+                                        <button class="accordion-button collapsed border-0 bg-transparent text-dark"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#@(collapseId)"
+                                                aria-expanded="false" aria-controls="@(collapseId)" style="box-shadow: none;">
+                                            <strong>@item.ctnNo</strong>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm ms-2 d-flex align-items-center">
+                                            <i class="ri ri-save-line me-1"></i> บันทึก
+                                        </button>
+                                    </h2>
+                                    <div id="@(collapseId)" class="accordion-collapse collapse" aria-labelledby="@(accordionId)" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body bg-white p-4 rounded-bottom">
+                                            <!-- Header with 4 columns -->
+                                            <div class="row mb-2">
+                                                <div class="col-3"><strong>CTN.NO.</strong></div>
+                                                <div class="col-3"><strong>Dimension</strong></div>
+                                                <div class="col-3"><strong>CasePack</strong></div>
+                                                <div class="col-3"><strong>Cartons</strong></div>
+                                            </div>
+
+                                            <!-- Data Row with 4 columns -->
+                                            <div class="row mb-3">
+                                                <div class="col-3">@item.ctnNo</div>
+                                                <div class="col-3">@item.dimension</div>
+                                                <div class="col-3">@item.casePack</div>
+                                                <div class="col-3">@item.cartons</div>
+                                            </div>
+
+                                            <!-- Subtable with 6 rows -->
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-hover table-sm text-center">
+                                                    <thead class="table-primary">
+                                                        <tr>
+                                                            <th>No.</th>
+                                                            <th>Description</th>
+                                                            <th>Barcode</th>
+                                                            <th>LOT</th>
+                                                            <th>Date/Time</th>
+                                                            <th>สถานะ</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (item.pageCheckLoadItems != null)
+                                                        {
+                                                            int rowNumber = 1; // Row counter
+                                                            foreach (var itemCheckLoad in item.pageCheckLoadItems)
+                                                            {
+                                                                <tr class="table-light">
+                                                                    <td>@rowNumber</td>
+                                                                    <td>@itemCheckLoad.description</td>
+                                                                    <td>@itemCheckLoad.barcode</td>
+                                                                    <td>@itemCheckLoad.lot</td>
+                                                                    <td>@itemCheckLoad.dateTime</td>
+                                                                    <td>
+                                                                        <span class="badge @(itemCheckLoad.status == "Completed" ? "bg-success" : "bg-warning")">
+                                                                            @itemCheckLoad.status
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                                rowNumber++; // Increment row counter
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
 
-
-
-
-
-
-
-
-
-
-
-                    <div class="accordion" id="accordionExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                    T160/145-No.01-No.604
-                                </button>
-
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-
-                                    <!-- Header with 4 columns -->
-                                    <div class="row mb-2">
-                                        <div class="col-3"><strong>CTN.NO.</strong></div>
-                                        <div class="col-3"><strong>Dimension</strong></div>
-                                        <div class="col-3"><strong>CasePack</strong></div>
-                                        <div class="col-3"><strong>Cartons</strong></div>
+                                        </div>
                                     </div>
-
-                                    <!-- Data Row with 4 columns -->
-                                    <div class="row mb-3">
-                                        <div class="col-3">T160/145-No.01-No.604</div>
-                                        <div class="col-3">34.5x43x23</div>
-                                        <div class="col-3">72</div>
-                                        <div class="col-3">Data 4</div>
-                                    </div>
-
-                                    <!-- Subtable with 6 rows -->
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>No.</th>
-                                                    <th>Description</th>
-                                                    <th>Barcode</th>
-                                                    <th>LOT</th>
-                                                    <th>Date/Time</th>
-                                                    <th>สถานะ</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Row 1 Data 1</td>
-                                                    <td>Row 1 Data 2</td>
-                                                    <td>Row 1 Data 3</td>
-                                                    <td>Row 1 Data 4</td>
-                                                    <td>Row 1 Data 5</td>
-                                                    <td>Row 1 Data 6</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
                                 </div>
                             </div>
-                        </div>
-                    </div>
+
+                            index++;
+                        }
+                    }
+
 
 
 

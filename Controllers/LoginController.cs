@@ -40,17 +40,17 @@ namespace SmootE_Shipment_Web.Controllers
             }
 
 
-            var user = EncDec.Encrypt(obj.userName, "").Trim();
+           // var user = EncDec.Encrypt(obj.userName, "").Trim();
             var pass = EncDec.Encrypt(obj.passWord, "").Trim();
 
 
 
-            var find = await _wrapperRepository._dbContext.TB_User.FirstOrDefaultAsync(x => x.UserName == user && x.Password == pass);
+            var find = await _wrapperRepository._dbContext.TB_User.FirstOrDefaultAsync(x => x.UserName == obj.userName && x.Password == pass);
             if (find == null)
             {
                 return Json(new { result = false, type = "error", message = "ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง" });
             }
-            else if (find.Active != null && find.Active.Value)
+            else if (find.Active != null && !find.Active.Value)
             {
                 return Json(new { result = false, type = "error", message = "ชื่อผู้ใช้งานยังไม่ได้เปิดใช้งาน" });
             }
