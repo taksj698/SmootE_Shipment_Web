@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SmootE_Shipment_Web.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class CompleteController : Controller
     {
 

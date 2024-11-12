@@ -4,7 +4,7 @@ using SmootE_Shipment_Web.Data.BusinessUnit;
 
 namespace SmootE_Shipment_Web.Controllers
 {
-    [Authorize]
+    //[Authorize]
 
     public class CheckLoadController : Controller
     {
