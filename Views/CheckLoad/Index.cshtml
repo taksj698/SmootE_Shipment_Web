@@ -19,25 +19,25 @@
                                     <i class="ri ri-barcode-box-line me-1"></i> แสกน
                                 </button>
                             </div>
-
                             <div class="row">
                                 <div class="col-6 mb-3">
                                     <label class="form-label">EFX.No.</label>
-                                    @Html.TextBoxFor(x => x.pageCheckLoadTop.efxNo, new { @class = "form-control" })
+                                    @Html.TextBoxFor(x => x.pageCheckLoadTop.efxNo, new { @class = "form-control", @readonly = "readonly" })
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label class="form-label">REF.No.</label>
-                                    @Html.TextBoxFor(x => x.pageCheckLoadTop.refNo, new { @class = "form-control" })
+                                    @Html.TextBoxFor(x => x.pageCheckLoadTop.refNo, new { @class = "form-control", @readonly = "readonly" })
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label class="form-label">ลูกค้า</label>
-                                    @Html.TextBoxFor(x => x.pageCheckLoadTop.customer, new { @class = "form-control" })
+                                    @Html.TextBoxFor(x => x.pageCheckLoadTop.customer, new { @class = "form-control", @readonly = "readonly" })
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label class="form-label">ประเทศ</label>
-                                    @Html.TextBoxFor(x => x.pageCheckLoadTop.country, new { @class = "form-control" })
+                                    @Html.TextBoxFor(x => x.pageCheckLoadTop.country, new { @class = "form-control", @readonly = "readonly" })
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
