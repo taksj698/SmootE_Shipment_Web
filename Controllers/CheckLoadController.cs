@@ -14,12 +14,14 @@ namespace SmootE_Shipment_Web.Controllers
             _checkLoadBusiness = checkLoadBusiness;
         }
 
-        [HttpGet("CheckLoad")]
-        public IActionResult Index(int Id)
+        [HttpGet("CheckLoad/{invNo}")]
+        public IActionResult Index(string invNo)
         {
             ViewBag.CurrentController = "CheckLoad";
             ViewBag.CurrentAction = "Index";
-            return View(_checkLoadBusiness.GetDataById(Id));
+            return View(_checkLoadBusiness.GetDataById(invNo));
         }
+
+
     }
 }

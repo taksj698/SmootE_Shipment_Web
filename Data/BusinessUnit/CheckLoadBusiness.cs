@@ -62,12 +62,12 @@ namespace SmootE_Shipment_Web.Data.BusinessUnit
 
 
 
-        public PageCheckLoad GetDataById(int Id)
+        public PageCheckLoad GetDataById(string invNo)
         {
             PageCheckLoad data = new PageCheckLoad();
 
             data.pageCheckLoadTop = new PageCheckLoadTop();
-            //data.pageCheckLoadData = new List<PageCheckLoadData>();
+         
 
             data.pageCheckLoadData = _wrapper._dbContext.TB_PackingDetails
                 .GroupBy(g => new
